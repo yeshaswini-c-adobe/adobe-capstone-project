@@ -499,21 +499,55 @@
 <!-- EFFORT -->
 <section id="effort">
   <h2><span class="n">24</span>Effort Estimation</h2>
+  <p class="lead">Estimate assumes a <strong>two-person team</strong> — one front-end/blocks developer (<strong>Dev A</strong>) and one content/migration engineer (<strong>Dev B</strong>) — each at ~35 productive hours/week. Work is split into parallel lanes that converge on shared QA.</p>
+  <div class="cards">
+    <div class="card"><div class="k">~100–170h</div><div class="l">Total engineering effort</div></div>
+    <div class="card"><div class="k">2</div><div class="l">People (Dev A + Dev B)</div></div>
+    <div class="card"><div class="k">~4 weeks</div><div class="l">Calendar duration (parallelized)</div></div>
+    <div class="card"><div class="k">~70h/wk</div><div class="l">Combined team throughput</div></div>
+  </div>
   <table>
-    <tr><th>Workstream</th><th>Estimate</th><th>Basis</th></tr>
-    <tr><td>Project setup (repo, EDS boilerplate, DA/content source, fstab)</td><td>4–8h</td><td>Standard</td></tr>
-    <tr><td>Standard blocks (hero, cards, carousel, tabs, accordion, quote, breadcrumbs)</td><td>16–28h</td><td>~7 blocks × styling to match</td></tr>
-    <tr><td>Custom / "unknown" blocks (1–2 net-new)</td><td>8–16h</td><td>Simple compositions</td></tr>
-    <tr><td>Header / navigation</td><td>16–32h</td><td>Analyzer: advanced, very-high</td></tr>
-    <tr><td>Footer</td><td>~1–2h</td><td>Analyzer: simple, low</td></tr>
-    <tr><td>Content import — US-EN + CA-EN (55 pages)</td><td>16–24h</td><td>Template-based bulk import + QA</td></tr>
-    <tr><td>Locale landing pages (9)</td><td>4–8h</td><td>Single pages</td></tr>
-    <tr><td>DAM / asset migration</td><td>8–12h</td><td>~77+ shared assets</td></tr>
-    <tr><td>SEO: redirects, metadata, hreflang, sitemap</td><td>8–16h</td><td>301 map + validation</td></tr>
-    <tr><td>QA, visual parity, performance (target 100 PSI)</td><td>16–24h</td><td>Across templates</td></tr>
-    <tr><th>Total (indicative)</th><th>~100–170h</th><th>≈ 3–5 weeks, 1–2 devs</th></tr>
+    <tr><th>Workstream</th><th>Owner</th><th>Estimate</th><th>Basis</th></tr>
+    <tr><td>Project setup (repo, EDS boilerplate, DA/content source, fstab)</td><td>Dev A</td><td>4–8h</td><td>Standard</td></tr>
+    <tr><td>Standard blocks (hero, cards, carousel, tabs, accordion, quote, breadcrumbs)</td><td>Dev A</td><td>16–28h</td><td>~7 blocks × styling to match</td></tr>
+    <tr><td>Custom / "unknown" blocks (1–2 net-new)</td><td>Dev A</td><td>8–16h</td><td>Simple compositions</td></tr>
+    <tr><td>Header / navigation</td><td>Dev A</td><td>16–32h</td><td>Analyzer: advanced, very-high</td></tr>
+    <tr><td>Footer</td><td>Dev A</td><td>~1–2h</td><td>Analyzer: simple, low</td></tr>
+    <tr><td>Content import — US-EN + CA-EN (55 pages)</td><td>Dev B</td><td>16–24h</td><td>Template-based bulk import + QA</td></tr>
+    <tr><td>Locale landing pages (9)</td><td>Dev B</td><td>4–8h</td><td>Single pages</td></tr>
+    <tr><td>DAM / asset migration</td><td>Dev B</td><td>8–12h</td><td>~77+ shared assets</td></tr>
+    <tr><td>SEO: redirects, metadata, hreflang, sitemap</td><td>Dev B</td><td>8–16h</td><td>301 map + validation</td></tr>
+    <tr><td>QA, visual parity, performance (target 100 PSI)</td><td>Dev A + Dev B</td><td>16–24h</td><td>Across templates</td></tr>
+    <tr><th>Total effort</th><th>—</th><th>~100–170h</th><th>Dev A ≈ 45–86h · Dev B ≈ 36–60h · shared QA 16–24h</th></tr>
   </table>
-  <p class="legend">Estimates assume US-EN + CA-EN full build and the other 9 locales migrated as single landing pages. Expanding all locales to full parity would multiply the content-import line accordingly.</p>
+
+  <h3>Calendar timeline (two-person team)</h3>
+  <p class="legend">Lanes run in parallel; Dev A owns code/chrome, Dev B owns content/SEO. Both converge on QA in Week 4. Dependency: content import (Dev B, Wk 2) needs standard blocks (Dev A, Wk 1–2) available first.</p>
+  <table>
+    <tr><th>Lane</th><th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th></tr>
+    <tr>
+      <td><strong>Dev A</strong><br>code &amp; chrome</td>
+      <td>Setup + standard blocks</td>
+      <td>Finish blocks + start header/nav</td>
+      <td>Header/nav + custom blocks + footer</td>
+      <td>Shared QA &amp; PSI tuning</td>
+    </tr>
+    <tr>
+      <td><strong>Dev B</strong><br>content &amp; SEO</td>
+      <td>DAM migration + import infra prep</td>
+      <td>Bulk import US-EN + CA-EN</td>
+      <td>Locale landings + SEO (redirects, hreflang, sitemap)</td>
+      <td>Shared QA &amp; accessibility</td>
+    </tr>
+    <tr>
+      <td><strong>Milestone</strong></td>
+      <td>Environment live; blocks previewing</td>
+      <td>Core templates rendering with real content</td>
+      <td>Feature-complete; all pages migrated</td>
+      <td><span class="pill ok">Go-live ready</span></td>
+    </tr>
+  </table>
+  <p class="legend">Duration reflects dependencies and review/iteration cycles, not just raw hours: ~133h midpoint effort ÷ ~70h/week ≈ 2 weeks of pure work, stretched to ~4 calendar weeks by the content-after-blocks dependency, PR review, and PageSpeed iteration. A best case (low end, few surprises) lands near <strong>3 weeks</strong>; a conservative case (header complexity, locale expansion) near <strong>5 weeks</strong>. Assumes US-EN + CA-EN full build with the other 9 locales as single landing pages — full locale parity would extend Dev B's content lane.</p>
 </section>
 
 <!-- PLAN -->
