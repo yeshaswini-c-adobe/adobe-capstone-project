@@ -289,6 +289,35 @@ function decorateAuthorByline(main) {
 
     byline.append(info, social);
     socialParas.forEach((p) => p.remove()); // drop the now-empty paragraphs
+
+    // group the byline with the following "Share this story" section into a
+    // two-column footer: byline on the left, share + related list on the right
+    const footer = document.createElement('div');
+    footer.className = 'article-footer';
+    byline.replaceWith(footer);
+    footer.append(byline);
+
+    let shareHeading = footer.nextElementSibling;
+    while (shareHeading && !(shareHeading.tagName === 'H5' && /share this story/i.test(shareHeading.textContent))) {
+      shareHeading = shareHeading.nextElementSibling;
+    }
+    if (shareHeading) {
+      // collect from the share heading through the related-articles list
+      const nodes = [];
+      let n = shareHeading;
+      let reachedRelated = false;
+      while (n) {
+        nodes.push(n);
+        if (n.classList && n.classList.contains('related-articles')) { reachedRelated = true; break; }
+        n = n.nextElementSibling;
+      }
+      if (reachedRelated) {
+        const share = document.createElement('div');
+        share.className = 'article-share';
+        nodes.forEach((node) => share.append(node));
+        footer.append(share);
+      }
+    }
   });
 }
 

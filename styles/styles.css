@@ -340,3 +340,128 @@ main .default-content-wrapper > ol:has(> li > a) a:focus-visible {
     line-height: 1.2;
   }
 }
+
+/* article footer: author byline + "share this story" section.
+   These sizing rules live in the eager stylesheet so the avatar is a small
+   circle on first paint (avoids a full-width flash while lazy CSS loads). */
+main .default-content-wrapper .article-footer {
+  margin-top: 40px;
+  padding-top: 40px;
+  border-top: 1px solid var(--light-color, #e8e8e8);
+}
+
+/* author byline — avatar + name/role on the left, social icons in a dark box */
+main .default-content-wrapper .author-byline {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+main .default-content-wrapper .author-byline-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+main .default-content-wrapper .author-byline-avatar {
+  display: block;
+  flex: 0 0 auto;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+main .default-content-wrapper .author-byline-avatar img {
+  width: 90px;
+  height: 90px;
+  max-width: 90px;
+  object-fit: cover;
+  display: block;
+}
+
+main .default-content-wrapper .author-byline-text h2 {
+  margin: 0;
+  font-size: var(--heading-font-size-l);
+}
+
+main .default-content-wrapper .author-byline-text p {
+  margin: 6px 0 0;
+  color: #696969;
+  font-size: var(--body-font-size-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* social icons boxed in the WKND dark panel */
+main .default-content-wrapper .author-byline-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  align-self: flex-start;
+  padding: 16px 24px;
+  background-color: var(--dark-color);
+}
+
+main .default-content-wrapper .author-byline-social a[href]:any-link {
+  display: inline-flex;
+  color: #fff;
+  line-height: 0;
+  transition: color 0.15s ease;
+}
+
+main .default-content-wrapper .author-byline-social a[href]:hover,
+main .default-content-wrapper .author-byline-social a[href]:focus-visible {
+  color: var(--brand-color);
+}
+
+/* render icons via CSS mask so they inherit the link color (white -> brand) */
+main .default-content-wrapper .author-byline-social .icon {
+  width: 22px;
+  height: 22px;
+  background-color: currentcolor;
+  mask: center / contain no-repeat;
+  mask-image: var(--byline-icon);
+}
+
+main .default-content-wrapper .author-byline-social .icon img {
+  display: none;
+}
+
+main .default-content-wrapper .author-byline-social .icon-facebook {
+  --byline-icon: url("/icons/facebook.svg");
+}
+
+main .default-content-wrapper .author-byline-social .icon-twitter {
+  --byline-icon: url("/icons/twitter.svg");
+}
+
+main .default-content-wrapper .author-byline-social .icon-instagram {
+  --byline-icon: url("/icons/instagram.svg");
+}
+
+/* "share this story" heading + related list */
+main .default-content-wrapper .article-share h5 {
+  margin: 0 0 16px;
+}
+
+@media (width >= 900px) {
+  /* two columns: byline fills the left, share sits on the right */
+  main .default-content-wrapper .article-footer {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 320px);
+    gap: 48px;
+    align-items: start;
+  }
+
+  main .default-content-wrapper .author-byline {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  main .default-content-wrapper .article-share {
+    margin-top: 0;
+  }
+}
