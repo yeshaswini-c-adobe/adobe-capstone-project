@@ -85,7 +85,8 @@ main .default-content-wrapper ul.adventure-panel > li p:first-child img {
   object-fit: cover;
 }
 
-/* the title link + description (second paragraph, holds both) */
+/* the title link + description (second paragraph, holds both) — the description
+   text is clamped to a single line with an ellipsis, matching the original */
 main .default-content-wrapper ul.adventure-panel > li p:last-child {
   margin-top: 12px;
   overflow: hidden;
@@ -93,6 +94,8 @@ main .default-content-wrapper ul.adventure-panel > li p:last-child {
   line-height: 1.5;
   text-transform: uppercase;
   color: var(--muted-text-color, #696969);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 main .default-content-wrapper ul.adventure-panel > li p:last-child a {
