@@ -75,3 +75,95 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/*
+ * "Members Only" locked-card variant: the title is a heading (not a link) with
+ * a lock badge, followed by a description and a "Read More" button. The body
+ * comes first, image below — matching the original WKND members grid.
+ */
+.cards-teaser.cards-teaser-locked > ul {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (width >= 600px) {
+  .cards-teaser.cards-teaser-locked > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 40px 32px;
+  }
+}
+
+.cards-teaser .cards-teaser-card-locked {
+  display: flex;
+  flex-direction: column;
+}
+
+/* body (title / desc / button) sits above the image on locked cards */
+.cards-teaser .cards-teaser-card-locked .cards-teaser-card-image {
+  order: 2;
+  margin-top: 16px;
+}
+
+.cards-teaser .cards-teaser-card-locked .cards-teaser-card-body {
+  order: 1;
+  margin-top: 0;
+}
+
+/* the heading title, styled like the regular uppercase card title */
+.cards-teaser .cards-teaser-card-title {
+  position: relative;
+  display: block;
+  margin: 0 0 12px;
+  padding-left: 44px; /* room for the lock badge */
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--muted-text-color, #6d6d6d);
+  min-height: 32px;
+}
+
+/* lock badge — a brand-yellow corner square with a dark lock glyph */
+.cards-teaser .cards-teaser-card-lock {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--brand-color);
+  clip-path: polygon(0 0, 100% 0, 0 100%); /* triangle, like the original */
+}
+
+.cards-teaser .cards-teaser-card-lock .icon,
+.cards-teaser .cards-teaser-card-lock svg,
+.cards-teaser .cards-teaser-card-lock img {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  color: var(--dark-color);
+}
+
+.cards-teaser .cards-teaser-card-locked .cards-teaser-card-description {
+  margin-bottom: 20px;
+  color: var(--muted-text-color, #6d6d6d);
+}
+
+/* non-navigating "Read More" button, styled as a muted secondary button */
+.cards-teaser .cards-teaser-card-readmore {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 12px 24px;
+  background-color: var(--light-color, #f0f0f0);
+  color: var(--muted-text-color, #6d6d6d);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: default;
+}
