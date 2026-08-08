@@ -1,0 +1,131 @@
+/*
+ * Hero banner block -- WKND standalone "imagebottom" teaser.
+ *
+ * Full-bleed image with a white content panel that overlaps the lower part of
+ * the image on desktop, mirroring the sibling carousel-hero slide treatment for
+ * a consistent page. Asar-serif heading, Source Sans Pro description, and a
+ * yellow uppercase CTA. The CTA is a plain <a> -- this boilerplate's
+ * decorateButtons only buttonizes strong/em-wrapped links, so it is styled here
+ * directly rather than via the global .button classes.
+ *
+ * Values (image height, 44px panel gutters, -180px overlap, 0 28px padding,
+ * type sizes and CTA colors) were extracted from wknd.site computed styles.
+ *
+ * Degrades gracefully -- the SAME block is reused as an image-only hero
+ * (adventure detail) and an image+heading stub (minor-locale "coming soon").
+ * The content panel targets the text row, and the desktop overlap only applies
+ * to a text row that follows the image (:not(:first-child)), so image-only and
+ * text-only variants render without a broken negative-margin overlap.
+ *
+ * All selectors are scoped to .hero-banner and target the post-decorate DOM.
+ */
+
+/* Full-bleed: break the banner out of the section's 1200px max-width.
+   Scoped to the hero-banner's own wrapper (2 classes beats `main > .section > div`);
+   the shared section also carries .cards-teaser-container, unaffected here. */
+.hero-banner-container .hero-banner-wrapper {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+.hero-banner {
+  position: relative;
+  color: var(--text-color);
+}
+
+/* --- Full-bleed image --- */
+.hero-banner picture {
+  display: block;
+  line-height: 0;
+}
+
+.hero-banner img {
+  display: block;
+  width: 100%;
+  height: 56vw;            /* image band on mobile */
+  max-height: 460px;
+  object-fit: cover;
+}
+
+/* --- White content panel (the text row) --- */
+.hero-banner > div:has(h2, h3, p) {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  background-color: var(--background-color);
+  padding: 24px 24px 28px;
+}
+
+.hero-banner > div:has(h2, h3, p) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero-banner h2,
+.hero-banner h3 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 36px;         /* WKND hero heading is 36px at all widths */
+  line-height: 1.5;        /* 54px / 36px */
+  color: var(--text-color);
+  text-transform: none;
+}
+
+.hero-banner p {
+  margin: 12px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);    /* 18px */
+  line-height: 1.75;                     /* 31.5px / 18px */
+  color: var(--text-color);
+}
+
+/* CTA paragraph + plain link styled as the yellow WKND button */
+.hero-banner p:last-child {
+  margin-top: 20px;
+}
+
+.hero-banner a:any-link {
+  display: inline-block;
+  margin: 0;
+  border: 2px solid var(--brand-color);
+  padding: 14px 35px;
+  background-color: var(--brand-color);
+  color: var(--brand-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);   /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.hero-banner a:hover,
+.hero-banner a:focus-visible {
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--brand-color);
+  text-decoration: none;
+}
+
+/* --- Desktop: taller image + overlapping, inset panel --- */
+@media (width >= 900px) {
+  .hero-banner img {
+    height: min(50vw, 640px);   /* 640px @1280 == 2:1, matches WKND */
+    max-height: none;
+  }
+
+  .hero-banner > div:has(h2, h3, p):not(:first-child) {
+    width: calc(100% - 88px);   /* 44px gutter each side (WKND) */
+    margin: -180px auto 0;      /* overlaps lower part of the image */
+    padding: 0 28px 24px;
+  }
+
+  .hero-banner > div:has(h2, h3, p):not(:first-child) h2,
+  .hero-banner > div:has(h2, h3, p):not(:first-child) h3 {
+    margin-top: 18px;
+  }
+}

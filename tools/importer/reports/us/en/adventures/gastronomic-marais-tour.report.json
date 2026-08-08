@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/adventures/gastronomic-marais-tour.html",
+  "path": "us/en/adventures/gastronomic-marais-tour",
+  "timestamp": "2026-08-07T09:57:12.676Z",
+  "title": "Gastronomic Marais Tour",
+  "template": "adventure-detail",
+  "blocks": [
+    "hero-banner",
+    "table-facts"
+  ]
+}

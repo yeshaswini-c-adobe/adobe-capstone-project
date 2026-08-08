@@ -1,0 +1,40 @@
+{
+  "variantName": "carousel-hero",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-08-07T07:42:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (locale landing page)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + CTA (per slide)",
+    "buttonCount": 1,
+    "imageCount": 3
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage / locale landing hero banners",
+      "rotating full-bleed image banners with overlaid text and CTA",
+      "top-of-page promotional slideshows"
+    ],
+    "notSuitableFor": [
+      "single static banner (use hero-banner)",
+      "grids of repeating cards (use cards-teaser)",
+      "side-by-side image + text (use columns-featured)"
+    ]
+  },
+  "notes": "Adapted from Block Collection carousel for this project's older boilerplate: removed fetchPlaceholders and moveInstrumentation imports (not exported by this project's aem.js/scripts.js). DA project, so no _carousel-hero.json model file.",
+  "usage": {
+    "pagesUsing": ["/us/en"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T07:42:00Z"
+  }
+}

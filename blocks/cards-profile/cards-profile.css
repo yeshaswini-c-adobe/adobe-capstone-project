@@ -1,0 +1,90 @@
+/*
+ * Block: cards-profile — WKND contributor / guide profile grid
+ * Design extracted from computed styles on
+ * https://wknd.site/us/en/about-us.html
+ * (the "Our Contributors" 4-up and "WKND Guides" 3-up grids share this style).
+ *
+ * WKND profile cards are clean and borderless, centered: a circular avatar on
+ * top, an Asar serif name (h3), then a smaller uppercase Source Sans role (h5).
+ * Responsive CSS Grid matching the sibling cards-teaser rhythm:
+ * 1 column (mobile) -> 2 (>=600px) -> 4 (>=900px), gap 32px 14px.
+ * Both grids reuse this file, so 4-up and 3-up cards render identically; the
+ * 3-up guides grid fills the first three tracks and stays left-aligned,
+ * exactly like the source.
+ */
+
+.cards-profile > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px; /* same rhythm as cards-teaser */
+}
+
+.cards-profile > ul > li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Circular avatar. Source renders a 164px coreimg; the design system uses a
+ * 160px fixed circle. object-fit: cover keeps the crop when the optimized
+ * picture is wider than the frame. */
+.cards-profile .cards-profile-card-image {
+  line-height: 0;
+}
+
+.cards-profile .cards-profile-card-image img {
+  display: block;
+  width: 160px;
+  height: 160px;
+  margin: 7px 0; /* WKND coreimg vertical rhythm */
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cards-profile .cards-profile-card-body {
+  margin: 0;
+}
+
+/* Name: Asar serif, 24px, weight 400 (the WKND h3 tier). Reset the global
+ * heading top/bottom margins that would otherwise loosen the card spacing. */
+.cards-profile .cards-profile-card-body h3 {
+  margin: 0 0 6px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l); /* 24px desktop */
+  font-weight: 400;
+  line-height: 1.3;
+  text-transform: none;
+  color: var(--text-color);
+}
+
+/* Role: uppercase Source Sans label, 14px weight 600 (the WKND h5 tier). */
+.cards-profile .cards-profile-card-body h5 {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* Defensive: neutralize any EDS-injected paragraph margins inside the body. */
+.cards-profile .cards-profile-card-body p {
+  margin: 0;
+}
+
+@media (width >= 600px) {
+  .cards-profile > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  .cards-profile > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

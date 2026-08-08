@@ -1,0 +1,45 @@
+{
+  "variantName": "cards-teaser",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-07T07:42:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (locale landing page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + linked title + description (per card)",
+    "buttonCount": 0,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "4-up article/adventure teaser grids (image + linked title + short description)",
+      "magazine or catalog listing grids",
+      "any grid of repeating, self-contained items with a photo",
+      "magazine index 'All Articles' teaser grid (image + linked title + short description)"
+    ],
+    "notSuitableFor": [
+      "single feature with side-by-side layout (use columns-featured)",
+      "full-bleed hero banners (use hero-banner / carousel-hero)",
+      "text-only cards (use the cards 'no images' variant instead)"
+    ]
+  },
+  "notes": "Based on the project's local cards block (no moveInstrumentation dependency). Classes scoped to cards-teaser. Reused for both homepage grids (Recent Articles and adventures). DA project, so no _cards-teaser.json model file.",
+  "usage": {
+    "pagesUsing": [
+      "/us/en",
+      "/us/en/magazine",
+      "/us/en/adventures"
+    ],
+    "reuseCount": 3,
+    "lastUsed": "2026-08-07T10:56:00Z"
+  }
+}

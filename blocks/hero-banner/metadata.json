@@ -1,0 +1,47 @@
+{
+  "variantName": "hero-banner",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-08-07T07:42:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (locale landing page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "background image + heading + optional description + optional CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "single full-bleed banner with overlaid heading/description/CTA (e.g. 'Climbing New Zealand' adventure teaser)",
+      "minor-locale 'coming soon' stub hero (heading over a background image; description/CTA omitted)",
+      "adventure-detail / article-detail full-bleed LEAD image at top of page (image only; heading/description/CTA omitted so it renders as a pure image band, title sits below on white)",
+      "in-page prominent single banners"
+    ],
+    "notSuitableFor": [
+      "rotating multi-slide banners (use carousel-hero)",
+      "grids of repeating items (use cards-teaser)",
+      "side-by-side image + text feature (use columns-featured)"
+    ]
+  },
+  "notes": "Fetched from Block Collection hero (the project's local hero.js was empty). JS adds a 'no-image' class when no background image is present, so the coming-soon stub (heading only) renders correctly. DA project, so no _hero-banner.json model file. Serves the homepage in-page banner + GAP1 de/de coming-soon stub, the adventure-detail full-bleed lead image, and now the article-detail (magazine) full-bleed lead image (image-only, no overlaid text).",
+  "usage": {
+    "pagesUsing": [
+      "/us/en",
+      "/de/de",
+      "/us/en/adventures/bali-surf-camp",
+      "/us/en/magazine/arctic-surfing",
+      "/us/en/adventures"
+    ],
+    "reuseCount": 5,
+    "lastUsed": "2026-08-07T10:56:00Z"
+  }
+}

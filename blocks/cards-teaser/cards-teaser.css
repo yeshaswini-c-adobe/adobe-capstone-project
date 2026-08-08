@@ -1,0 +1,77 @@
+/*
+ * Block: cards-teaser — WKND article / adventure teaser grid
+ * Design extracted from computed styles on https://wknd.site/us/en.html
+ * (the "Recent Articles" and "Where do you want to go?" grids share this card style).
+ *
+ * WKND cards are clean and borderless: image on top, an uppercase title link,
+ * then a smaller uppercase grey description. Responsive CSS Grid:
+ * 1 column (mobile) → 2 (>=600px) → 4 (>=900px).
+ */
+
+.cards-teaser > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px; /* 32px between rows (WKND li margin-bottom), 14px between columns */
+}
+
+.cards-teaser .cards-teaser-card-image {
+  line-height: 0;
+}
+
+.cards-teaser .cards-teaser-card-image img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 10; /* WKND crops teaser images to 260x200 */
+  object-fit: cover;
+}
+
+/* The card body holds the title link followed by a description span. */
+.cards-teaser .cards-teaser-card-body {
+  margin-top: 12px;
+}
+
+.cards-teaser .cards-teaser-card-body a {
+  display: block;
+  margin-bottom: 16px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px */
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.cards-teaser .cards-teaser-card-body a:hover {
+  color: var(--link-hover-color);
+  text-decoration: none;
+}
+
+/* Description: single line, clipped with an ellipsis (WKND card style). */
+.cards-teaser .cards-teaser-card-description {
+  display: block;
+  overflow: hidden;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 400;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--muted-text-color);
+}
+
+@media (width >= 600px) {
+  .cards-teaser > ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  .cards-teaser > ul {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

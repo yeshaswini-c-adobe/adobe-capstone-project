@@ -1,0 +1,75 @@
+/*
+ * Table Facts block (variant of table) -- WKND adventure "fact sheet".
+ *
+ * Values grounded in the WKND source (contentfragment element list):
+ *   label 12-14px uppercase muted (#696969), value larger/darker,
+ *   ~18px left indent, per-row left accent border, ~22px vertical rhythm.
+ * Refined to the established design system: the single WKND yellow
+ * (--brand-color) replaces the source's gray accent border, labels use
+ * the Source Sans 600 uppercase treatment shared by the header/footer,
+ * square corners, generous whitespace.
+ *
+ * Decorated DOM (from table-facts.js):
+ *   .table-facts > dl.table-facts-list
+ *     > div.table-facts-pair
+ *       > dt.table-facts-label
+ *       > dd.table-facts-value
+ */
+
+.table-facts .table-facts-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.table-facts .table-facts-pair {
+  margin: 0;
+  padding-left: 18px;
+  border-left: 4px solid var(--brand-color);
+}
+
+.table-facts .table-facts-label {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs); /* 14px */
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-text-color); /* WKND muted label gray, shared with cards-teaser */
+}
+
+.table-facts .table-facts-value {
+  margin: 6px 0 0; /* also resets the browser default dd margin-inline-start */
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m); /* 18px -- larger than the label */
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color); /* #202020 -- darker than the label */
+}
+
+/* EDS wraps each cell's text in a <p>; strip the global paragraph margins */
+.table-facts .table-facts-label p,
+.table-facts .table-facts-value p {
+  margin: 0;
+}
+
+/* tablet: two-up fact grid */
+@media (width >= 600px) {
+  .table-facts .table-facts-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+  }
+}
+
+/* desktop: three-up fact grid */
+@media (width >= 900px) {
+  .table-facts .table-facts-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 40px;
+  }
+}

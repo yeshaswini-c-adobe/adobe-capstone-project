@@ -1,0 +1,42 @@
+{
+  "variantName": "columns-featured",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-08-07T07:42:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en.html",
+    "originPage": "WKND homepage (locale landing page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "grey",
+    "density": "spacious",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image | eyebrow + heading + description + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "featured-article teasers (large image beside a text column)",
+      "single side-by-side image + text feature blocks",
+      "editorial highlights with an eyebrow label and CTA"
+    ],
+    "notSuitableFor": [
+      "grids of multiple repeating items (use cards-teaser)",
+      "full-bleed banners with overlaid text (use hero-banner or carousel-hero)"
+    ]
+  },
+  "notes": "Based on the project's local columns block (no moveInstrumentation dependency). Classes scoped to columns-featured. DA project, so no _columns-featured.json model file.",
+  "usage": {
+    "pagesUsing": [
+      "/us/en",
+      "/us/en/magazine"
+    ],
+    "reuseCount": 2,
+    "lastUsed": "2026-08-07T10:20:00Z"
+  }
+}

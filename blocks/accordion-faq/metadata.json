@@ -1,0 +1,42 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-08-07T11:11:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/faqs.html",
+    "originPage": "WKND FAQ page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "question (title) + answer (rich text) per item; expandable via native details/summary",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ pages (stacked expandable question/answer pairs)",
+      "any expand/collapse Q&A or 'learn more' toggled sections",
+      "compact stacks of related topics the reader selectively reveals"
+    ],
+    "notSuitableFor": [
+      "content that must be fully visible at once (use default content)",
+      "tabbed content switchers (use a tabs block)",
+      "grids of repeating cards (use cards-teaser)"
+    ]
+  },
+  "notes": "NEW block for this project (no local base accordion block existed). Based on the AEM Block Collection accordion, adapted for this OLDER boilerplate: the moveInstrumentation import was REMOVED (scripts.js does not export it — DA project, not Universal Editor/xwalk), and no fetchPlaceholders is used. Implementation uses only standard DOM APIs — native <details>/<summary> for accessible, JS-free toggling. CSS classes scoped to accordion-faq; relies on --light-color and --background-color, both defined in styles/styles.css. DA project, so no _accordion-faq.json model file. Block table content model: 2 columns, one row per FAQ item (cell1 = question title, cell2 = answer rich text). Source DOM was a genuine AEM Accordion component (div.cmp-accordion) with 7 items.",
+  "usage": {
+    "pagesUsing": [
+      "/us/en/faqs"
+    ],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T11:11:00Z"
+  }
+}

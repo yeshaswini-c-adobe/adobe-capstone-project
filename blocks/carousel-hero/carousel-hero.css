@@ -1,0 +1,245 @@
+/*
+ * Carousel (hero) block -- WKND full-bleed rotating banner.
+ *
+ * Layout matches wknd.site/us/en: a full-width background image with a white
+ * content panel that overlaps the lower part of the image (desktop). Each slide
+ * carries an Asar-serif heading, a Source Sans Pro description, and a yellow
+ * uppercase CTA. Prev/next arrows sit bottom-right; slide-indicator dots are
+ * centered along the bottom.
+ *
+ * Values (image height, panel gutters/overlap, type sizes, CTA colors) were
+ * extracted from the source computed styles; see
+ * migration-work/carousel-hero-extracted.css.
+ *
+ * All selectors are scoped to .carousel-hero and target the post-decorate DOM.
+ */
+
+/* Full-bleed: break the carousel out of the section's 1200px max-width.
+   Scoped to the carousel's own wrapper (not sibling block wrappers) with
+   specificity high enough to beat the global `main > .section > div` rule. */
+.carousel-hero-container > .carousel-hero-wrapper {
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+.carousel-hero.block {
+  position: relative;
+  color: var(--text-color);
+}
+
+.carousel-hero .carousel-hero-slides-container {
+  position: relative;
+}
+
+.carousel-hero .carousel-hero-slides,
+.carousel-hero .carousel-hero-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-hero .carousel-hero-slides {
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: scroll clip;
+}
+
+.carousel-hero .carousel-hero-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-hero .carousel-hero-slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  scroll-snap-align: start;
+}
+
+/* --- Slide image (full-bleed background/foreground) --- */
+.carousel-hero .carousel-hero-slide-image {
+  line-height: 0;
+}
+
+.carousel-hero .carousel-hero-slide-image picture {
+  display: block;
+}
+
+.carousel-hero .carousel-hero-slide-image img {
+  display: block;
+  width: 100%;
+  height: 56vw;            /* ~211px @375 on WKND */
+  max-height: 460px;
+  object-fit: cover;
+}
+
+/* --- White content panel --- */
+.carousel-hero .carousel-hero-slide-content {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: var(--background-color);
+  padding: 24px 24px 28px;
+}
+
+.carousel-hero .carousel-hero-slide-content h2 {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  font-size: 36px;         /* WKND hero heading is 36px at all widths */
+  line-height: 1.5;        /* 54px / 36px */
+  color: var(--text-color);
+  text-transform: none;
+}
+
+.carousel-hero .carousel-hero-slide-content p {
+  margin: 12px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);   /* 18px */
+  line-height: 1.75;                     /* 31.5px / 18px */
+  color: var(--text-color);
+}
+
+/* CTA paragraph + link (plain <a>, not EDS button-decorated) */
+.carousel-hero .carousel-hero-slide-content p:last-child {
+  margin-top: 20px;
+}
+
+.carousel-hero .carousel-hero-slide-content a:any-link {
+  display: inline-block;
+  margin: 0;
+  border: 2px solid var(--brand-color);
+  padding: 14px 35px;
+  background-color: var(--brand-color);
+  color: var(--brand-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);   /* 14px */
+  font-weight: 600;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.carousel-hero .carousel-hero-slide-content a:hover,
+.carousel-hero .carousel-hero-slide-content a:focus-visible {
+  border-color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--brand-color);
+  text-decoration: none;
+}
+
+/* --- Prev/next arrows (bottom-right) --- */
+.carousel-hero .carousel-hero-navigation-buttons {
+  position: absolute;
+  inset: auto 20px 12px auto; /* top right bottom left */
+  transform: none;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  z-index: 3;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-hero-navigation-buttons button {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button::after {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentcolor;
+  border-bottom: 0;
+  border-left: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button.slide-prev::after {
+  transform: translate(-35%, -50%) rotate(-135deg);
+}
+
+.carousel-hero .carousel-hero-navigation-buttons button.slide-next::after {
+  transform: translate(-65%, -50%) rotate(45deg);
+}
+
+/* --- Slide indicator dots (centered, bottom) --- */
+.carousel-hero > nav {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  z-index: 3;
+}
+
+.carousel-hero .carousel-hero-slide-indicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+
+.carousel-hero .carousel-hero-slide-indicator {
+  line-height: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.carousel-hero .carousel-hero-slide-indicator button {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(32 32 32 / 35%);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.carousel-hero .carousel-hero-slide-indicator button:hover,
+.carousel-hero .carousel-hero-slide-indicator button:focus-visible {
+  background-color: rgb(32 32 32 / 60%);
+}
+
+/* JS sets [disabled] on the active indicator */
+.carousel-hero .carousel-hero-slide-indicator button[disabled] {
+  background-color: var(--text-color);
+}
+
+/* --- Desktop: taller image + overlapping, centered panel --- */
+@media (width >= 900px) {
+  .carousel-hero .carousel-hero-slide-image img {
+    height: min(50vw, 640px);
+    max-height: none;
+  }
+
+  .carousel-hero .carousel-hero-slide-content {
+    width: calc(100% - 88px);   /* 44px gutter each side (WKND) */
+    margin: -180px auto 0;       /* overlaps lower part of the image */
+    padding: 0 28px 24px;
+  }
+
+  .carousel-hero .carousel-hero-slide-content h2 {
+    margin-top: 18px;
+  }
+
+  .carousel-hero .carousel-hero-navigation-buttons {
+    right: 32px;
+  }
+}

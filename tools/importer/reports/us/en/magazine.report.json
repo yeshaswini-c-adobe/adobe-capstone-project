@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/magazine.html",
+  "path": "us/en/magazine",
+  "timestamp": "2026-08-07T10:53:43.869Z",
+  "title": "Magazine",
+  "template": "section-landing",
+  "blocks": [
+    "columns-featured",
+    "cards-teaser",
+    "cards-teaser",
+    "cards-teaser"
+  ]
+}

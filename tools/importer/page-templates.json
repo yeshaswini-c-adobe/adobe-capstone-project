@@ -1,0 +1,193 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://wknd.site/us/en.html",
+        "https://wknd.site/ca/en.html",
+        "https://wknd.site/ca/fr.html",
+        "https://wknd.site/ch/de.html",
+        "https://wknd.site/ch/fr.html",
+        "https://wknd.site/ch/it.html",
+        "https://wknd.site/de/de.html",
+        "https://wknd.site/es/es.html",
+        "https://wknd.site/fr/fr.html",
+        "https://wknd.site/it/it.html",
+        "https://wknd.site/us/es.html"
+      ],
+      "coverageGaps": [
+        {
+          "url": "https://wknd.site/de/de.html",
+          "sections": [
+            {
+              "sectionSignature": "s(s(sB,s),s)",
+              "nodeMapId": "coming-soon-teaser"
+            }
+          ]
+        }
+      ],
+      "description": "Locale landing page with full-width hero image, headline, and a grid of featured teasers linking into adventures and magazine content. Full variant (us/en, ca/en) has a hero carousel, featured-article teaser, recent-articles cards grid, adventure teaser, and adventures cards grid. Minor locales (ch/*, de/de, es/es, fr/fr, it/it, ca/fr, us/es) are 'coming soon' stubs with a single hero teaser (heading + image).",
+      "blocks": [
+        {
+          "name": "carousel-hero",
+          "instances": [
+            "div.carousel.cmp-carousel--hero",
+            ".carousel.panelcontainer.cmp-carousel--hero"
+          ]
+        },
+        {
+          "name": "columns-featured",
+          "instances": [
+            "div.teaser.cmp-teaser--featured",
+            ".teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-teaser",
+          "instances": [
+            "div.image-list.list",
+            ".image-list.list"
+          ]
+        },
+        {
+          "name": "hero-banner",
+          "instances": [
+            "div.teaser.cmp-teaser--hero.cmp-teaser--imagebottom",
+            "main.container.responsivegrid > div.cmp-container > div.teaser.cmp-teaser--hero"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "adventure-detail",
+      "urls": [
+        "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+        "https://wknd.site/us/en/adventures/beervana-portland.html",
+        "https://wknd.site/us/en/adventures/climbing-new-zealand.html",
+        "https://wknd.site/us/en/adventures/colorado-rock-climbing.html",
+        "https://wknd.site/us/en/adventures/cycling-southern-utah.html",
+        "https://wknd.site/us/en/adventures/cycling-tuscany.html",
+        "https://wknd.site/us/en/adventures/downhill-skiing-wyoming.html",
+        "https://wknd.site/us/en/adventures/gastronomic-marais-tour.html",
+        "https://wknd.site/us/en/adventures/napa-wine-tasting.html",
+        "https://wknd.site/us/en/adventures/riverside-camping-australia.html",
+        "https://wknd.site/us/en/adventures/ski-touring-mont-blanc.html",
+        "https://wknd.site/us/en/adventures/surf-camp-costa-rica.html",
+        "https://wknd.site/us/en/adventures/tahoe-skiing.html",
+        "https://wknd.site/us/en/adventures/west-coast-cycling.html",
+        "https://wknd.site/us/en/adventures/whistler-mountain-biking.html",
+        "https://wknd.site/us/en/adventures/yosemite-backpacking.html"
+      ],
+      "description": "Adventure detail page — full-bleed hero image, adventure title (H1), a structured fact sheet (Activity, Adventure Type, Trip Length, Group Size, Difficulty, Price) sourced from an AEM Content Fragment, a 'Share this Adventure' block, and long-form body copy authored in Tabs (Overview / Itinerary / What to Bring) flattened to headed default content.",
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            "div.carousel.panelcontainer.cmp-carousel--mini",
+            "main div.carousel.cmp-carousel--mini"
+          ]
+        },
+        {
+          "name": "table-facts",
+          "instances": [
+            "div.contentfragment.cmp-contentfragment--elements",
+            ".contentfragment.cmp-contentfragment--elements"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "article-detail",
+      "urls": [
+        "https://wknd.site/us/en/magazine/arctic-surfing.html",
+        "https://wknd.site/us/en/magazine/guide-la-skateparks.html",
+        "https://wknd.site/us/en/magazine/san-diego-surf.html",
+        "https://wknd.site/us/en/magazine/ski-touring.html",
+        "https://wknd.site/us/en/magazine/western-australia.html"
+      ],
+      "description": "Magazine article detail page — a full-bleed lead hero image, article title (H1) + author byline (h4), long-form rich-text body (headings, paragraphs, native blockquote pull-quote, interleaved full-width inline images), an author-bio attribution row, and a text-only 'Up Next' related-reading list. Only the lead hero is a block (hero-banner); everything else is default content.",
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            "main.cmp-layout-container--fixed > div.cmp-container > div.aem-Grid > div.image"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "section-landing",
+      "urls": [
+        "https://wknd.site/us/en/magazine.html",
+        "https://wknd.site/us/en/about-us.html"
+      ],
+      "description": "Section landing page. Magazine index: title + featured-article teaser (columns-featured) + 'All Articles' article grid (cards-teaser) + 'Members Only' secure teaser grid (cards-teaser). About-us: title + intro + two contributor profile grids ('Our Contributors' 4-up, 'WKND Guides' 3-up) rendered as cards-profile. Section titles and intro text are default content.",
+      "blocks": [
+        {
+          "name": "columns-featured",
+          "instances": [
+            "div.teaser.cmp-teaser--featured",
+            ".teaser.cmp-teaser--featured"
+          ]
+        },
+        {
+          "name": "cards-teaser",
+          "instances": [
+            "div.image-list.list",
+            ".image-list.list",
+            "div.teaser.cmp-teaser--list.cmp-teaser--secure",
+            ".teaser.cmp-teaser--secure"
+          ]
+        },
+        {
+          "name": "cards-profile",
+          "instances": [
+            "section.experiencefragment.cmp-experience-fragment--contributor",
+            ".experiencefragment.cmp-experience-fragment--contributor"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "adventures-listing",
+      "urls": [
+        "https://wknd.site/us/en/adventures.html"
+      ],
+      "description": "Adventures listing page — H1 title, a full-bleed hero teaser (heading + intro over background image), and a 'Current Adventures' grid of 16 adventure teaser cards. An AEM Tabs activity filter renders 6 sibling image-list grids; only the active/All panel (16 cards) is mapped to avoid duplication. Reuses hero-banner + cards-teaser; no new blocks.",
+      "blocks": [
+        {
+          "name": "hero-banner",
+          "instances": [
+            "main div.teaser.cmp-teaser--hero"
+          ]
+        },
+        {
+          "name": "cards-teaser",
+          "instances": [
+            ".cmp-tabs__tabpanel--active div.image-list.list",
+            ".cmp-tabs__tabpanel:first-of-type div.image-list.list"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "faq-page",
+      "urls": [
+        "https://wknd.site/us/en/faqs.html"
+      ],
+      "description": "FAQ page — H1 'FAQs', an inline intro image + paragraph (default content), a 7-item expandable Q/A accordion (accordion-faq block), and a 'Need more help?' contact aside (default content).",
+      "blocks": [
+        {
+          "name": "accordion-faq",
+          "instances": [
+            "main div.accordion.panelcontainer",
+            "div.accordion.panelcontainer"
+          ]
+        }
+      ]
+    }
+  ]
+}

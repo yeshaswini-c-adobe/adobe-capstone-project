@@ -1,0 +1,12 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/en/adventures/cycling-southern-utah.html",
+  "path": "us/en/adventures/cycling-southern-utah",
+  "timestamp": "2026-08-07T09:56:55.575Z",
+  "title": "Cycling Southern Utah",
+  "template": "adventure-detail",
+  "blocks": [
+    "hero-banner",
+    "table-facts"
+  ]
+}

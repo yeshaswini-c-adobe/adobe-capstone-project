@@ -1,0 +1,11 @@
+{
+  "status": "success",
+  "url": "https://wknd.site/us/es.html",
+  "path": "us/es",
+  "timestamp": "2026-08-07T08:21:33.486Z",
+  "title": "Español",
+  "template": "homepage",
+  "blocks": [
+    "hero-banner"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-profile",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-07T10:20:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/about-us.html",
+    "originPage": "WKND about-us page (section-landing template)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "team",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "circular avatar image + name (h3) + role/title + social links (per card)",
+    "buttonCount": 0,
+    "imageCount": 4
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "team / contributor / author profile grids (round avatar + name + role)",
+      "'Our Contributors' and 'WKND Guides' style people grids",
+      "any centered grid of people with a circular photo and short caption"
+    ],
+    "notSuitableFor": [
+      "article/adventure teaser grids with rectangular images (use cards-teaser)",
+      "single side-by-side image + text feature (use columns-featured)",
+      "full-bleed hero banners (use hero-banner / carousel-hero)"
+    ]
+  },
+  "notes": "NEW variant created for the section-landing template (about-us page). Based on the project's LOCAL cards block (does NOT import moveInstrumentation or fetchPlaceholders - compatible with this project's older aem.js/scripts.js). Renders each row as a centered card: a circular avatar image on top, then a body with name (h3) + role + optional social links. Classes scoped to cards-profile. Source cards are AEM 'contributor' experience-fragment components; the wknd-cleanup transformer flattens each to an image + name + role. DA project, so NO _cards-profile.json model file. Used for both the 'Our Contributors' (4-up) and 'WKND Guides' (3-up) grids on about-us.",
+  "usage": {
+    "pagesUsing": ["/us/en/about-us"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T10:20:00Z"
+  }
+}

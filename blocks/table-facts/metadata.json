@@ -1,0 +1,41 @@
+{
+  "variantName": "table-facts",
+  "baseBlock": "table",
+  "version": "1.0.0",
+  "created": "2026-08-07T09:45:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/adventures/bali-surf-camp.html",
+    "originPage": "WKND adventure-detail page (Bali Surf Camp)",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "fact-sheet",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "repeating label/value pairs (definition list)",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "pairCount": 6
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "adventure / trip fact sheets (Activity, Adventure Type, Trip Length, Group Size, Difficulty, Price)",
+      "product spec / metadata panels rendered as key/value pairs",
+      "any structured label-above-value summary panel with a left accent border"
+    ],
+    "notSuitableFor": [
+      "true tabular data with a header row and multiple data columns (use the base 'table' block / striped / bordered variants)",
+      "grids of cards with images (use cards-teaser)",
+      "side-by-side image + text features (use columns-featured)"
+    ]
+  },
+  "notes": "NEW variant created for the adventure-detail template. Based on the project's LOCAL table block (does NOT import moveInstrumentation or fetchPlaceholders - compatible with this project's older aem.js/scripts.js). Authoring model is the standard 2-column table (label | value per row); JS renders each row as a stacked <dt>/<dd> definition pair with a left yellow (#ffea00 WKND brand) accent border, replacing the vanilla gridlined <table> rendering. DA project, so NO _table-facts.json model file. Reused across all 16 adventure-detail pages (us/en + ca/en).",
+  "usage": {
+    "pagesUsing": ["/us/en/adventures/bali-surf-camp"],
+    "reuseCount": 1,
+    "lastUsed": "2026-08-07T09:45:00Z"
+  }
+}
