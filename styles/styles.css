@@ -262,10 +262,10 @@ main img {
 /* Cap the whole main content at a page max-width and centre it, so full-bleed
    blocks (carousel-hero, hero-banner) stop bleeding to the viewport edge on
    wide screens and share the same centre axis as the constrained content
-   column — matching the original WKND layout. Below this width nothing changes
-   (heroes remain edge-to-edge). Applies to every page pattern. */
+   column — matching the original WKND layout (hero band ~1680px). Below this
+   width nothing changes (heroes remain edge-to-edge). Applies to every page. */
 main {
-  max-width: 1600px;
+  max-width: 1680px;
   margin-inline: auto;
 }
 
@@ -275,7 +275,7 @@ main > .section {
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: 1164px; /* WKND content column width */
   margin: auto;
   padding: 0 24px;
 }
