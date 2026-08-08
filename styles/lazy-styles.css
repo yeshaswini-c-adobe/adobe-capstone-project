@@ -1,31 +1,31 @@
 /* add global styles that can be loaded post LCP here */
 
 /* "You may also be interested in" related-article list on article pages:
-   an authored list of pure links following a heading (e.g. "Share this story").
+   a list of links ending in a date, tagged .related-articles during decoration.
    Styled as stacked teasers with a grey left-accent bar, matching the original. */
-main .default-content-wrapper h5 + ul {
+main .default-content-wrapper ul.related-articles {
   margin: 24px 0 0;
   padding: 0;
   list-style: none;
 }
 
-main .default-content-wrapper h5 + ul > li {
+main .default-content-wrapper ul.related-articles > li {
   padding: 4px 0 4px 24px;
   border-left: 4px solid var(--light-color, #e8e8e8);
 }
 
-main .default-content-wrapper h5 + ul > li:not(:last-child) {
+main .default-content-wrapper ul.related-articles > li:not(:last-child) {
   margin-bottom: 24px;
 }
 
-main .default-content-wrapper h5 + ul > li a:any-link {
+main .default-content-wrapper ul.related-articles > li a:any-link {
   display: block;
   color: var(--text-color);
   text-decoration: none;
 }
 
 /* title line — uppercase body font, matching the original teaser */
-main .default-content-wrapper h5 + ul > li a .teaser-title {
+main .default-content-wrapper ul.related-articles > li a .teaser-title {
   display: block;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-m);
@@ -36,7 +36,7 @@ main .default-content-wrapper h5 + ul > li a .teaser-title {
 }
 
 /* date line — smaller, uppercase, muted grey */
-main .default-content-wrapper h5 + ul > li a .teaser-date {
+main .default-content-wrapper ul.related-articles > li a .teaser-date {
   display: block;
   margin-top: 8px;
   color: #696969;
@@ -45,8 +45,8 @@ main .default-content-wrapper h5 + ul > li a .teaser-date {
   text-transform: uppercase;
 }
 
-main .default-content-wrapper h5 + ul > li a:hover .teaser-title,
-main .default-content-wrapper h5 + ul > li a:focus-visible .teaser-title {
+main .default-content-wrapper ul.related-articles > li a:hover .teaser-title,
+main .default-content-wrapper ul.related-articles > li a:focus-visible .teaser-title {
   color: var(--link-color);
   text-decoration: underline;
 }

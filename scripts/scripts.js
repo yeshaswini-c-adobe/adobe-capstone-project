@@ -166,27 +166,40 @@ function decorateLinks(main) {
 
 /**
  * Splits the trailing "<Weekday>, DD Mon YYYY" date out of related-article
- * links (the "you may also be interested in" list under a heading) into a
- * separate line, so the title and date can be styled independently — matching
- * the original two-line teaser layout.
+ * links (the "you may also be interested in" list) into a separate line, so
+ * the title and date can be styled independently — matching the original
+ * two-line teaser layout. Detection is content-based (a list whose items are
+ * links ending in a weekday date) rather than positional, so it works even
+ * when other blocks sit between the heading and the list.
  * @param {Element} main The container element
  */
 function decorateArticleTeasers(main) {
   const weekday = /\s+((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+.+)$/;
-  main.querySelectorAll('.default-content-wrapper h5 + ul > li > a:only-child').forEach((a) => {
-    if (a.querySelector('*') || a.children.length) return; // already decorated / not plain text
-    const match = a.textContent.match(weekday);
-    if (!match) return;
-    const title = a.textContent.slice(0, match.index).trim();
-    const date = match[1].trim();
-    a.textContent = '';
-    const titleEl = document.createElement('span');
-    titleEl.className = 'teaser-title';
-    titleEl.textContent = title;
-    const dateEl = document.createElement('span');
-    dateEl.className = 'teaser-date';
-    dateEl.textContent = date;
-    a.append(titleEl, dateEl);
+  main.querySelectorAll('.default-content-wrapper ul').forEach((ul) => {
+    const items = [...ul.children].filter((li) => li.tagName === 'LI');
+    if (!items.length) return;
+    // every item must be a single plain-text link ending in a weekday date
+    const teasers = items.map((li) => {
+      const a = li.firstElementChild;
+      if (!a || a.tagName !== 'A' || li.children.length !== 1 || a.children.length) return null;
+      const match = a.textContent.match(weekday);
+      return match ? { a, match } : null;
+    });
+    if (teasers.some((t) => t === null)) return;
+
+    ul.classList.add('related-articles');
+    teasers.forEach(({ a, match }) => {
+      const title = a.textContent.slice(0, match.index).trim();
+      const date = match[1].trim();
+      a.textContent = '';
+      const titleEl = document.createElement('span');
+      titleEl.className = 'teaser-title';
+      titleEl.textContent = title;
+      const dateEl = document.createElement('span');
+      dateEl.className = 'teaser-date';
+      dateEl.textContent = date;
+      a.append(titleEl, dateEl);
+    });
   });
 }
 
