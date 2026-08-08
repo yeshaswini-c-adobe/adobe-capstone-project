@@ -322,6 +322,63 @@ function decorateAuthorByline(main) {
 }
 
 /**
+ * Wires the "Current Adventures" category filter: a tab list (All, Climbing,
+ * Cycling, …) followed by the full card grid and one list per category. Builds
+ * a styled tab bar and shows a single panel at a time, matching the original.
+ *
+ * Content shape (per section wrappers):
+ *   <h2>Current Adventures</h2><ol> tab labels </ol>   ← first tab = "All"
+ *   <div class="cards-teaser"> … </div>                ← the "All" panel
+ *   <ul>…</ul> × N                                     ← one per remaining tab
+ * @param {Element} main The container element
+ */
+function decorateAdventureTabs(main) {
+  main.querySelectorAll('.default-content-wrapper > ol').forEach((tabList) => {
+    // must be a bare list of text labels (no links) directly after a heading
+    const labels = [...tabList.children].filter((li) => li.tagName === 'LI');
+    if (labels.length < 2 || labels.some((li) => li.querySelector('a') || li.children.length)) return;
+    if (!/^all$/i.test(labels[0].textContent.trim())) return; // adventure filter starts with "All"
+
+    const section = tabList.closest('.section');
+    if (!section) return;
+
+    // panels, in document order: the cards-teaser grid ("All") + each category <ul>
+    const grid = section.querySelector('.cards-teaser');
+    const catLists = [...section.querySelectorAll('.default-content-wrapper > ul')];
+    const panels = [grid, ...catLists].filter(Boolean);
+    if (panels.length < 2) return;
+
+    // build the styled tab bar
+    const tabs = document.createElement('div');
+    tabs.className = 'adventure-tabs';
+    tabs.setAttribute('role', 'tablist');
+    const buttons = labels.map((li, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'adventure-tab';
+      btn.textContent = li.textContent.trim();
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      tabs.append(btn);
+      return btn;
+    });
+
+    const show = (index) => {
+      buttons.forEach((b, i) => b.setAttribute('aria-selected', i === index ? 'true' : 'false'));
+      panels.forEach((p, i) => {
+        if (!p) return;
+        p.classList.toggle('adventure-panel-hidden', i !== index);
+        p.classList.add('adventure-panel');
+      });
+    };
+    buttons.forEach((btn, i) => btn.addEventListener('click', () => show(i)));
+
+    tabList.replaceWith(tabs);
+    show(0); // default to "All"
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -335,6 +392,7 @@ export function decorateMain(main) {
   decorateLinks(main);
   decorateArticleTeasers(main);
   decorateAuthorByline(main);
+  decorateAdventureTabs(main);
 }
 
 /**

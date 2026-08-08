@@ -50,3 +50,75 @@ main .default-content-wrapper ul.related-articles > li a:focus-visible .teaser-t
   color: var(--link-color);
   text-decoration: underline;
 }
+
+/* Category panels for the "Current Adventures" filter: each <ul> is a grid of
+   image cards (image link, then title link + description), matching the
+   original filtered view. */
+main .default-content-wrapper ul.adventure-panel {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .default-content-wrapper ul.adventure-panel > li {
+  margin: 0;
+}
+
+main .default-content-wrapper ul.adventure-panel > li p {
+  margin: 0;
+}
+
+/* the image link (first paragraph in the item) */
+main .default-content-wrapper ul.adventure-panel > li p:first-child a {
+  display: block;
+  line-height: 0;
+}
+
+main .default-content-wrapper ul.adventure-panel > li p:first-child img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  object-fit: cover;
+}
+
+/* the title link + description (second paragraph, holds both) */
+main .default-content-wrapper ul.adventure-panel > li p:last-child {
+  margin-top: 12px;
+  overflow: hidden;
+  font-size: var(--body-font-size-xs);
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--muted-text-color, #696969);
+}
+
+main .default-content-wrapper ul.adventure-panel > li p:last-child a {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-m);
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+main .default-content-wrapper ul.adventure-panel > li p:last-child a:hover {
+  color: var(--link-hover-color);
+}
+
+@media (width >= 600px) {
+  main .default-content-wrapper ul.adventure-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width >= 900px) {
+  main .default-content-wrapper ul.adventure-panel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

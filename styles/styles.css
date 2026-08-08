@@ -465,3 +465,46 @@ main .default-content-wrapper .article-share h5 {
     margin-top: 0;
   }
 }
+
+/* "Current Adventures" category filter — a horizontal tab bar (dark active
+   pill) that shows one adventure panel at a time. Panel hiding lives in the
+   eager stylesheet so the non-active category lists never flash on load. */
+main .adventure-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 32px;
+}
+
+main .adventure-tab {
+  border: 0;
+  margin: 0;
+  padding: 14px 20px;
+  background: transparent;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+main .adventure-tab:hover {
+  color: var(--link-hover-color);
+}
+
+main .adventure-tab[aria-selected="true"] {
+  background-color: var(--dark-color);
+  color: #fff;
+}
+
+/* hidden panels must beat the grid/display rules on .cards-teaser and
+   ul.adventure-panel (which live in lazy CSS loaded later), so use a compound
+   class selector for higher specificity that wins regardless of load order */
+main .default-content-wrapper ul.adventure-panel.adventure-panel-hidden,
+main .adventure-panel.adventure-panel-hidden,
+main .adventure-panel-hidden {
+  display: none;
+}
