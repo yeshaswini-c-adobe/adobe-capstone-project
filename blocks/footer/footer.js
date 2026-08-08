@@ -47,13 +47,13 @@ export default async function decorate(block) {
   const logo = content.querySelector('p:first-child');
   const nav = content.querySelector('nav, ul');
   const heading = [...content.querySelectorAll('h4')].find((h) => /follow us/i.test(h.textContent));
-  const copyright = content.querySelector('p:last-child');
+  const socialRow = heading?.nextElementSibling;
 
   // convert "Follow Us" text links into brand icons
-  decorateSocialLinks(heading?.nextElementSibling);
+  decorateSocialLinks(socialRow);
 
   // group logo, nav and "follow us" into a single horizontal row (top),
-  // leaving the copyright blurb as a full-width row below
+  // leaving any copyright paragraph(s) as a full-width row below
   const topRow = document.createElement('div');
   topRow.className = 'footer-top';
   if (logo) {
@@ -67,16 +67,20 @@ export default async function decorate(block) {
   if (heading) {
     const social = document.createElement('div');
     social.className = 'footer-social';
-    let el = heading;
-    while (el && el !== copyright) {
-      const next = el.nextElementSibling;
-      social.append(el);
-      el = next;
-    }
+    social.append(heading);
+    if (socialRow) social.append(socialRow);
     topRow.append(social);
   }
   content.prepend(topRow);
-  if (copyright) copyright.classList.add('footer-copyright');
+
+  // everything left after the top row is copyright / legal content
+  const bottom = [...content.children].filter((el) => el !== topRow);
+  if (bottom.length) {
+    const copyright = document.createElement('div');
+    copyright.className = 'footer-copyright';
+    bottom.forEach((el) => copyright.append(el));
+    content.append(copyright);
+  }
 
   await decorateIcons(footer);
   block.append(footer);

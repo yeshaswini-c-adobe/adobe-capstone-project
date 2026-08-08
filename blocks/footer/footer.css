@@ -136,6 +136,20 @@ footer .footer .footer-copyright {
   line-height: 1.6;
 }
 
+footer .footer .footer-copyright p + p {
+  margin-top: 12px;
+}
+
+footer .footer .footer-copyright a:any-link {
+  color: #fff;
+  text-decoration: underline;
+}
+
+footer .footer .footer-copyright a:hover,
+footer .footer .footer-copyright a:focus-visible {
+  color: var(--brand-color);
+}
+
 @media (width >= 900px) {
   footer .footer > div {
     padding: 56px 32px 40px;
