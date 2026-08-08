@@ -16,30 +16,38 @@ footer .footer p {
   margin: 0;
 }
 
+/* top row: logo | nav | follow-us (stacks on mobile, row on desktop) */
+footer .footer .footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 /* logo (first paragraph holds the icon) */
-footer .footer .default-content-wrapper > p:first-child .icon,
-footer .footer .default-content-wrapper > p:first-child img {
+footer .footer .footer-logo .icon,
+footer .footer .footer-logo img {
   width: 150px;
   height: auto;
 }
 
-footer .footer .default-content-wrapper > p:first-child .icon svg {
+footer .footer .footer-logo .icon svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-/* footer navigation (the flattened <ul>) */
-footer .footer .default-content-wrapper > ul {
+/* footer navigation (the .footer-nav class may sit on the <ul> or a wrapping <nav>) */
+footer .footer ul.footer-nav,
+footer .footer .footer-nav ul {
   list-style: none;
-  margin: 24px 0 0;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   gap: 16px 32px;
 }
 
-footer .footer .default-content-wrapper > ul a:any-link {
+footer .footer .footer-nav a:any-link {
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
@@ -48,14 +56,20 @@ footer .footer .default-content-wrapper > ul a:any-link {
   padding-bottom: 3px;
 }
 
-footer .footer .default-content-wrapper > ul a:hover,
-footer .footer .default-content-wrapper > ul a:focus-visible {
+footer .footer .footer-nav a:hover,
+footer .footer .footer-nav a:focus-visible {
   box-shadow: inset 0 -3px 0 0 var(--brand-color);
 }
 
-/* "Follow Us" heading */
-footer .footer h4 {
-  margin: 32px 0 12px;
+/* "Follow Us" group */
+footer .footer .footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer .footer .footer-social h4 {
+  margin: 0;
   color: var(--brand-color);
   font-family: var(--body-font-family);
   font-weight: 600;
@@ -64,28 +78,57 @@ footer .footer h4 {
   letter-spacing: 0.06em;
 }
 
-/* social links row (paragraph right after the Follow Us heading) */
-footer .footer .default-content-wrapper h4 + p {
-  display: flex;
-  flex-wrap: wrap;
+/* social icons row, boxed in a light panel like the original */
+footer .footer .footer-social-links {
+  display: inline-flex;
+  align-items: center;
   gap: 20px;
+  background-color: rgb(255 255 255 / 10%);
+  padding: 12px 20px;
+  border-radius: 2px;
+  width: fit-content;
 }
 
-footer .footer .default-content-wrapper h4 + p a:any-link {
+footer .footer .footer-social-links a:any-link {
   color: #fff;
-  text-decoration: none;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 2px;
+  display: inline-flex;
+  line-height: 0;
+  transition: color 0.15s ease;
 }
 
-footer .footer .default-content-wrapper h4 + p a:hover,
-footer .footer .default-content-wrapper h4 + p a:focus-visible {
-  border-bottom-color: var(--brand-color);
+footer .footer .footer-social-links a:hover,
+footer .footer .footer-social-links a:focus-visible {
   color: var(--brand-color);
 }
 
-/* copyright / brand blurb — last paragraph, separated by a divider */
-footer .footer .default-content-wrapper > p:last-child {
+/* render icons via CSS mask so they inherit the link color (white -> brand on hover) */
+footer .footer .footer-social-links .icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  background-color: currentcolor;
+  mask: center / contain no-repeat;
+  mask-image: var(--footer-icon);
+}
+
+footer .footer .footer-social-links .icon img {
+  display: none;
+}
+
+footer .footer .footer-social-links .icon-facebook {
+  --footer-icon: url("/icons/facebook.svg");
+}
+
+footer .footer .footer-social-links .icon-twitter {
+  --footer-icon: url("/icons/twitter.svg");
+}
+
+footer .footer .footer-social-links .icon-instagram {
+  --footer-icon: url("/icons/instagram.svg");
+}
+
+/* copyright / brand blurb — full-width row separated by a divider */
+footer .footer .footer-copyright {
   margin-top: 28px;
   padding-top: 24px;
   border-top: 1px solid rgb(255 255 255 / 20%);
@@ -95,6 +138,28 @@ footer .footer .default-content-wrapper > p:last-child {
 
 @media (width >= 900px) {
   footer .footer > div {
-    padding: 56px 32px 32px;
+    padding: 56px 32px 40px;
+  }
+
+  /* horizontal row: logo left, nav center, follow-us right */
+  footer .footer .footer-top {
+    flex-direction: row;
+    align-items: center;
+    gap: 40px;
+  }
+
+  footer .footer .footer-logo {
+    flex: 0 0 auto;
+  }
+
+  footer .footer .footer-nav {
+    flex: 1 1 auto;
+  }
+
+  footer .footer .footer-social {
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
   }
 }
