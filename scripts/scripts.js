@@ -165,6 +165,32 @@ function decorateLinks(main) {
 }
 
 /**
+ * Splits the trailing "<Weekday>, DD Mon YYYY" date out of related-article
+ * links (the "you may also be interested in" list under a heading) into a
+ * separate line, so the title and date can be styled independently — matching
+ * the original two-line teaser layout.
+ * @param {Element} main The container element
+ */
+function decorateArticleTeasers(main) {
+  const weekday = /\s+((?:Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day,\s+.+)$/;
+  main.querySelectorAll('.default-content-wrapper h5 + ul > li > a:only-child').forEach((a) => {
+    if (a.querySelector('*') || a.children.length) return; // already decorated / not plain text
+    const match = a.textContent.match(weekday);
+    if (!match) return;
+    const title = a.textContent.slice(0, match.index).trim();
+    const date = match[1].trim();
+    a.textContent = '';
+    const titleEl = document.createElement('span');
+    titleEl.className = 'teaser-title';
+    titleEl.textContent = title;
+    const dateEl = document.createElement('span');
+    dateEl.className = 'teaser-date';
+    dateEl.textContent = date;
+    a.append(titleEl, dateEl);
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -176,6 +202,7 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateLinks(main);
+  decorateArticleTeasers(main);
 }
 
 /**

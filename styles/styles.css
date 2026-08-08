@@ -330,3 +330,13 @@ main .default-content-wrapper > ol:has(> li > a) a:focus-visible {
   color: var(--link-color);
   text-decoration: underline;
 }
+
+/* article title — a bit smaller than the default xxl scale to match the
+   original (40px). Scoped to article/detail pages, whose title shares a
+   default-content wrapper with the breadcrumb <ol>. */
+@media (width >= 900px) {
+  main .default-content-wrapper:has(> ol) h1 {
+    font-size: 40px;
+    line-height: 1.2;
+  }
+}
