@@ -203,6 +203,95 @@ function decorateArticleTeasers(main) {
   });
 }
 
+// social networks recognised in the author byline, mapped to their icon name
+const BYLINE_SOCIALS = ['facebook', 'twitter', 'instagram'];
+
+/**
+ * Converts a name into an avatar file slug, e.g. "Sofia Sjöberg" -> "sofia-sjoberg".
+ * @param {string} name The author's display name
+ * @returns {string} kebab-case, diacritic-free slug
+ */
+function authorSlug(name) {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Restructures the author byline that WKND articles end with — an <h2> author
+ * name, a role paragraph, and single-link social paragraphs — into a horizontal
+ * card: avatar + name/role on the left, social icons in a dark box on the right.
+ * Detection is anchored on the run of social-link paragraphs, so it never picks
+ * up ordinary body headings.
+ * @param {Element} main The container element
+ */
+function decorateAuthorByline(main) {
+  const isSocialPara = (el) => {
+    if (!el || el.tagName !== 'P') return null;
+    const a = el.firstElementChild;
+    if (!a || a.tagName !== 'A' || el.children.length !== 1) return null;
+    const key = BYLINE_SOCIALS.find((s) => a.textContent.trim().toLowerCase() === s);
+    return key ? { a, key } : null;
+  };
+
+  main.querySelectorAll('.default-content-wrapper > h2').forEach((heading) => {
+    const role = heading.nextElementSibling;
+    if (!role || role.tagName !== 'P' || !role.textContent.trim()) return;
+
+    // collect the consecutive social-link paragraphs that follow the role
+    const socials = [];
+    let el = role.nextElementSibling;
+    while (isSocialPara(el)) {
+      socials.push(isSocialPara(el));
+      el = el.nextElementSibling;
+    }
+    if (!socials.length) return; // not an author byline
+
+    // remember the social-link paragraphs so they can be removed once emptied
+    const socialParas = socials.map(({ a }) => a.closest('p'));
+
+    // insert the byline container at the heading's position
+    const byline = document.createElement('div');
+    byline.className = 'author-byline';
+    heading.before(byline);
+
+    // left: avatar + name/role
+    const avatar = document.createElement('span');
+    avatar.className = 'author-byline-avatar';
+    const img = document.createElement('img');
+    img.src = `${window.hlx.codeBasePath}/icons/authors/${authorSlug(heading.textContent)}.jpg`;
+    img.alt = heading.textContent.trim();
+    img.loading = 'lazy';
+    img.width = 90;
+    img.height = 90;
+    avatar.append(img);
+    const text = document.createElement('div');
+    text.className = 'author-byline-text';
+    text.append(heading, role); // moves heading + role out of the flow
+    const info = document.createElement('div');
+    info.className = 'author-byline-info';
+    info.append(avatar, text);
+
+    // right: social icons in a dark box
+    const social = document.createElement('div');
+    social.className = 'author-byline-social';
+    socials.forEach(({ a, key }) => {
+      if (!a.getAttribute('aria-label')) a.setAttribute('aria-label', a.textContent.trim());
+      a.textContent = '';
+      const iconSpan = document.createElement('span');
+      iconSpan.className = `icon icon-${key}`;
+      a.append(iconSpan);
+      social.append(a);
+    });
+
+    byline.append(info, social);
+    socialParas.forEach((p) => p.remove()); // drop the now-empty paragraphs
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -216,6 +305,7 @@ export function decorateMain(main) {
   decorateButtons(main);
   decorateLinks(main);
   decorateArticleTeasers(main);
+  decorateAuthorByline(main);
 }
 
 /**
