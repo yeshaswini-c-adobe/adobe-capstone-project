@@ -143,6 +143,28 @@ function decorateButtons(main) {
 }
 
 /**
+ * Strips the `.html` extension from internal (same-origin) links so that
+ * imported content authored with `/path/page.html` links resolves to the
+ * extensionless URLs served by Edge Delivery.
+ * @param {Element} main The container element
+ */
+function decorateLinks(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    let url;
+    try {
+      url = new URL(a.href, window.location.href);
+    } catch {
+      return;
+    }
+    // only rewrite same-origin page links that carry a .html extension
+    if (url.origin === window.location.origin && url.pathname.endsWith('.html')) {
+      url.pathname = url.pathname.slice(0, -'.html'.length);
+      a.setAttribute('href', `${url.pathname}${url.search}${url.hash}`);
+    }
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -153,6 +175,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateLinks(main);
 }
 
 /**
