@@ -287,3 +287,46 @@ main .section.highlight {
   margin: 0;
   padding: 40px 0;
 }
+
+/* breadcrumb — an authored <ol> whose items are links (e.g. Magazine ▶ Article).
+   Rendered as a horizontal, uppercase trail with a brand-yellow arrow separator. */
+main .default-content-wrapper > ol:has(> li > a) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+main .default-content-wrapper > ol:has(> li > a) li {
+  display: inline-flex;
+  align-items: center;
+}
+
+main .default-content-wrapper > ol:has(> li > a) li:not(:first-child)::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 12px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 8px solid var(--brand-color);
+}
+
+main .default-content-wrapper > ol:has(> li > a) a:any-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+main .default-content-wrapper > ol:has(> li > a) a:hover,
+main .default-content-wrapper > ol:has(> li > a) a:focus-visible {
+  color: var(--link-color);
+  text-decoration: underline;
+}

@@ -1,1 +1,34 @@
 /* add global styles that can be loaded post LCP here */
+
+/* "You may also be interested in" related-article list on article pages:
+   an authored list of pure links following a heading (e.g. "Share this story").
+   Styled as stacked teasers with a grey left-accent bar, matching the original. */
+main .default-content-wrapper h5 + ul {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+main .default-content-wrapper h5 + ul > li {
+  padding: 4px 0 4px 24px;
+  border-left: 4px solid var(--light-color, #e8e8e8);
+}
+
+main .default-content-wrapper h5 + ul > li:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+main .default-content-wrapper h5 + ul > li a:any-link {
+  display: block;
+  color: var(--text-color);
+  text-decoration: none;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l);
+  line-height: 1.2;
+}
+
+main .default-content-wrapper h5 + ul > li a:hover,
+main .default-content-wrapper h5 + ul > li a:focus-visible {
+  color: var(--link-color);
+  text-decoration: underline;
+}
