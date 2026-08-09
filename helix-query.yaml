@@ -33,3 +33,5 @@ indices:
         select: main
         value: |
           textContent(el)
+
+# reindex trigger: 2026-08-09T15
