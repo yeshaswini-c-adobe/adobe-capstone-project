@@ -639,3 +639,19 @@ main .default-content-wrapper .adventure-detail-panel p strong {
     gap: 20px;
   }
 }
+
+/* --- FAQs: left-aligned narrow column ---
+   The source constrains the FAQ intro, accordion and closing CTA to a ~8/12
+   (66%) column LEFT-ALIGNED within the 12-col content grid, so answer text
+   wraps at the same measure as the original rather than running full-width.
+   The section wrappers keep their normal centered content-column position (so
+   the left edge matches every other page); we cap the inner content to a fixed
+   readable measure and pin it to the left (margin-right auto). Full width on
+   mobile. 768px ≈ 8/12 of the ~1164px content column. */
+@media (width >= 900px) {
+  main > .section.accordion-faq-container > .default-content-wrapper > *,
+  main > .section.accordion-faq-container > .accordion-faq-wrapper > .accordion-faq {
+    max-width: 768px;
+    margin-right: auto;
+  }
+}
