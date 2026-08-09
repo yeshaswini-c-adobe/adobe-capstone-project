@@ -168,13 +168,15 @@ button.button.primary {
   color: var(--brand-text-color);
 }
 
+/* WKND yellow CTAs do not change on hover — keep the brand fill (matches
+   the source; only a subtle pointer/opacity affordance). */
 a.button.primary:hover,
 a.button.primary:focus-visible,
 button.button.primary:hover,
 button.button.primary:focus-visible {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
-  color: var(--brand-color);
+  border-color: var(--brand-color);
+  background-color: var(--brand-color);
+  color: var(--brand-text-color);
 }
 
 a.button.primary[aria-disabled="true"],

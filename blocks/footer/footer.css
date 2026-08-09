@@ -70,7 +70,7 @@ footer .footer .footer-social {
 
 footer .footer .footer-social h4 {
   margin: 0;
-  color: var(--brand-color);
+  color: #fff; /* WKND footer "Follow Us" label is white, not brand-yellow */
   font-family: var(--body-font-family);
   font-weight: 600;
   font-size: var(--body-font-size-s);
@@ -78,14 +78,11 @@ footer .footer .footer-social h4 {
   letter-spacing: 0.06em;
 }
 
-/* social icons row, boxed in a light panel like the original */
+/* social icons sit directly on the dark footer (no boxed panel), matching the source */
 footer .footer .footer-social-links {
   display: inline-flex;
   align-items: center;
   gap: 20px;
-  background-color: rgb(255 255 255 / 10%);
-  padding: 12px 20px;
-  border-radius: 2px;
   width: fit-content;
 }
 
