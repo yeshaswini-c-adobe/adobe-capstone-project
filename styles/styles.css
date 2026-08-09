@@ -550,3 +550,92 @@ main .adventure-panel.adventure-panel-hidden,
 main .adventure-panel-hidden {
   display: none;
 }
+
+/* --- Adventure detail: two-column region (facts + share | tab widget) ---
+   Full-width head (breadcrumb + hero + title) is unchanged; below it the
+   facts sheet and "Share this Adventure" sit in a narrow left column and the
+   Overview / Itinerary / What to Bring content becomes a tab widget on the
+   right, matching the source's ~3/12 + ~9/12 grid. Single column on mobile. */
+main .default-content-wrapper .adventure-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* the facts sheet loses its own boxed wrapper once moved into the sidebar */
+main .default-content-wrapper .adventure-sidebar .table-facts {
+  margin: 0;
+}
+
+main .default-content-wrapper .adventure-sidebar h5 {
+  margin: 32px 0 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* tab bar: uppercase labels with a brand-yellow underline on the active tab */
+main .default-content-wrapper .adventure-detail-tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 0 0 24px;
+  border-bottom: 1px solid var(--light-color);
+}
+
+main .default-content-wrapper .adventure-detail-tab {
+  border: 0;
+  border-bottom: 3px solid transparent;
+  margin: 0 0 -1px;
+  padding: 0 0 12px;
+  background: transparent;
+  color: var(--muted-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+main .default-content-wrapper .adventure-detail-tab:hover,
+main .default-content-wrapper .adventure-detail-tab:focus-visible {
+  color: var(--text-color);
+}
+
+main .default-content-wrapper .adventure-detail-tab[aria-selected="true"] {
+  color: var(--text-color);
+  border-bottom-color: var(--brand-color);
+}
+
+main .default-content-wrapper .adventure-detail-panel[hidden] {
+  display: none;
+}
+
+/* strong lead-ins inside a panel (break names, gear) read as sub-headings */
+main .default-content-wrapper .adventure-detail-panel p strong {
+  display: block;
+  margin-top: 8px;
+  font-size: var(--body-font-size-m);
+}
+
+@media (width >= 900px) {
+  /* narrow sidebar (facts + share) | wide body (tab widget), both top-aligned */
+  main .default-content-wrapper .adventure-layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* in the narrow sidebar the facts sheet stacks single-column (overrides the
+     block's own 3-up desktop grid, which is meant for a full-width table) */
+  main .default-content-wrapper .adventure-sidebar .table-facts .table-facts-list {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

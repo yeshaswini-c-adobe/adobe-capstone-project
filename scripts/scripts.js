@@ -372,6 +372,114 @@ function decorateArticleLayout(main) {
 }
 
 /**
+ * Rebuilds an adventure-detail page into the source's two-column architecture:
+ * a full-width head (breadcrumb + hero + title) followed by a two-column region
+ * — left: the facts sheet + "Share this Adventure"; right: a real tab widget
+ * (Overview / Itinerary / What to Bring) that switches panels. The migrated
+ * content stacks everything flat, with a linkless <ol> of tab labels and three
+ * duplicate-title <h3>s that mark the panel boundaries; this regroups them.
+ * @param {Element} main The container element
+ */
+function decorateAdventureDetail(main) {
+  const facts = main.querySelector('.table-facts');
+  const shareHeading = [...main.querySelectorAll('.default-content-wrapper > h5')]
+    .find((h) => /share this adventure/i.test(h.textContent));
+  if (!facts || !shareHeading) return;
+
+  // the tab list is the linkless <ol> of labels immediately after the heading
+  const wrapper = shareHeading.parentElement;
+  const tabList = shareHeading.nextElementSibling;
+  if (!tabList || tabList.tagName !== 'OL') return;
+  const labels = [...tabList.children].filter((li) => li.tagName === 'LI');
+  if (labels.length < 2 || labels.some((li) => li.querySelector('a') || li.children.length)) return;
+
+  // everything after the tab list, split into one panel per divider <h3>. Each
+  // panel opens with an identical repeated <h3> (a migration artifact — usually
+  // the adventure name); we take the first <h3> after the tab list as the
+  // divider text and drop every <h3> matching it. Any *other* <h3> (e.g. a
+  // brewery name or a tagline) is genuine content and stays inside its panel.
+  const rest = [];
+  let n = tabList.nextElementSibling;
+  while (n) { rest.push(n); n = n.nextElementSibling; }
+  if (!rest.length || rest[0].tagName !== 'H3') return; // must open with a divider
+  const dividerText = rest[0].textContent.trim();
+  const isDivider = (el) => el.tagName === 'H3' && el.textContent.trim() === dividerText;
+
+  const groups = [];
+  let current = null;
+  rest.forEach((el) => {
+    if (isDivider(el)) {
+      current = [];
+      groups.push(current); // start a new panel; drop the divider heading itself
+    } else if (current) {
+      current.push(el);
+    }
+  });
+  if (groups.length !== labels.length) return; // structure mismatch — leave flat
+
+  // build the tab widget: a tablist + one panel per label
+  const tabs = document.createElement('div');
+  tabs.className = 'adventure-detail-tabs';
+  const tablist = document.createElement('div');
+  tablist.className = 'adventure-detail-tablist';
+  tablist.setAttribute('role', 'tablist');
+  const panelsWrap = document.createElement('div');
+  panelsWrap.className = 'adventure-detail-panels';
+
+  const buttons = [];
+  const panels = [];
+  labels.forEach((li, i) => {
+    const id = `adv-panel-${i}`;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = `${id}-tab`;
+    btn.className = 'adventure-detail-tab';
+    btn.textContent = li.textContent.trim();
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    btn.setAttribute('aria-controls', id);
+    tablist.append(btn);
+    buttons.push(btn);
+
+    const panel = document.createElement('div');
+    panel.className = 'adventure-detail-panel';
+    panel.id = id;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `${id}-tab`);
+    if (i !== 0) panel.hidden = true;
+    groups[i].forEach((el) => panel.append(el)); // moves nodes out of the wrapper
+    panelsWrap.append(panel);
+    panels.push(panel);
+  });
+  tabs.append(tablist, panelsWrap);
+
+  const show = (index) => {
+    buttons.forEach((b, i) => b.setAttribute('aria-selected', i === index ? 'true' : 'false'));
+    panels.forEach((p, i) => { p.hidden = i !== index; });
+  };
+  buttons.forEach((btn, i) => btn.addEventListener('click', () => show(i)));
+
+  // assemble two columns: sidebar (facts + share) | body (tab widget)
+  const factsWrapper = facts.parentElement;
+  const layout = document.createElement('div');
+  layout.className = 'adventure-layout';
+  const sidebar = document.createElement('div');
+  sidebar.className = 'adventure-sidebar';
+  const body = document.createElement('div');
+  body.className = 'adventure-body';
+  sidebar.append(facts, shareHeading); // moves both out of their wrappers
+  body.append(tabs);
+  layout.append(sidebar, body);
+
+  // mount the layout where the share content was; drop the emptied wrappers.
+  // replaceChildren clears the leftover tab list and <h3> dividers too.
+  wrapper.replaceChildren(layout);
+  if (factsWrapper && factsWrapper !== wrapper && !factsWrapper.children.length) {
+    factsWrapper.remove();
+  }
+}
+
+/**
  * Wires the "Current Adventures" category filter: a tab list (All, Climbing,
  * Cycling, …) followed by the full card grid and one list per category. Builds
  * a styled tab bar and shows a single panel at a time, matching the original.
@@ -443,6 +551,7 @@ export function decorateMain(main) {
   decorateArticleTeasers(main);
   decorateAuthorByline(main);
   decorateArticleLayout(main);
+  decorateAdventureDetail(main);
   decorateAdventureTabs(main);
 }
 
