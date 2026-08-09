@@ -146,8 +146,15 @@ export default async function decorate(block) {
     a.setAttribute('aria-disabled', 'true');
   });
 
+  // On "Coming Soon" locale stub pages the source shows no top-nav menu (the
+  // US-English sections would send locale visitors to the wrong locale). Drop
+  // the nav-sections links on those pages, keeping the logo, search and footer.
+  const isComingSoon = !!document.querySelector('main #wknd-adventures-and-travel---coming-soon');
   const navSections = nav.querySelector('.nav-sections');
-  if (navSections) {
+  if (isComingSoon && navSections) {
+    navSections.replaceChildren();
+  }
+  if (navSections && !isComingSoon) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
       navSection.addEventListener('click', () => {
