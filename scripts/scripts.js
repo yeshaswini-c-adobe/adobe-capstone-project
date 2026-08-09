@@ -252,6 +252,17 @@ function decorateAuthorByline(main) {
     }
     if (!socials.length) return; // not an author byline
 
+    // The migrated content precedes the author name with a large portrait photo
+    // (an image-only <p>), but the source only shows the author as the small
+    // avatar built below. Drop that redundant in-content portrait so it doesn't
+    // render as a big image before the byline card.
+    const prev = heading.previousElementSibling;
+    const isImageOnlyPara = (node) => node
+      && (node.tagName === 'P' || node.tagName === 'DIV')
+      && node.querySelector(':scope > picture, :scope > img')
+      && !node.textContent.trim();
+    if (isImageOnlyPara(prev)) prev.remove();
+
     // remember the social-link paragraphs so they can be removed once emptied
     const socialParas = socials.map(({ a }) => a.closest('p'));
 
