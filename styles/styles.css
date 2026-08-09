@@ -290,6 +290,20 @@ main > .section:first-of-type {
   }
 }
 
+/* WKND section-heading accent: a short brand-yellow underline beneath
+   standalone section titles (the h2/h3 that introduce a block or grid, e.g.
+   "Recent Articles", "All Articles", "Current Adventures", body article
+   headings). Scoped to default-content headings so card titles, page h1s and
+   in-panel headings are unaffected — matching the original across all pages. */
+main .default-content-wrapper > h2::after,
+main .default-content-wrapper > h3::after {
+  content: "";
+  display: block;
+  width: 84px;
+  margin-top: 12px;
+  border-bottom: 2px solid var(--brand-color);
+}
+
 /* section metadata */
 main .section.light,
 main .section.highlight {
