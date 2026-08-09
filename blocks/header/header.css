@@ -439,13 +439,16 @@ header nav .nav-sections ul > li > ul > li {
 /* tools */
 header nav .nav-tools {
   grid-area: tools;
+  position: relative;
   display: flex;
   align-items: center;
 }
 
-header nav .nav-tools a:any-link {
+header nav .nav-tools a:any-link,
+header nav .nav-tools a[role='button'] {
   display: inline-flex;
   align-items: center;
+  cursor: pointer;
 }
 
 header nav .nav-tools .icon {
@@ -456,4 +459,36 @@ header nav .nav-tools .icon {
 header nav .nav-tools .icon svg {
   width: 100%;
   height: 100%;
+}
+
+/* inline search box that expands from the search icon */
+header nav .nav-search {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: 5;
+  margin: 0;
+  padding: 8px;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+header nav .nav-search[hidden] {
+  display: none;
+}
+
+header nav .nav-search-input {
+  width: 240px;
+  max-width: 60vw;
+  padding: 8px 12px;
+  border: 2px solid var(--dark-color);
+  border-radius: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  color: var(--text-color);
+}
+
+header nav .nav-search-input:focus-visible {
+  outline: 2px solid var(--brand-color);
+  outline-offset: 1px;
 }

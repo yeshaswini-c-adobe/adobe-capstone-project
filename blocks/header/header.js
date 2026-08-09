@@ -254,13 +254,50 @@ export default async function decorate(block) {
     brandLink.closest('.button-container').className = '';
   }
 
-  // The search icon links to /search, which has no page in this site. Rather
-  // than let a business user hit a 404, neutralise it (visual affordance only),
-  // matching the original where search never navigates to a broken page.
+  // Wire the search icon: clicking it expands an inline input that submits to
+  // the current locale's /search results page (e.g. /us/en/search?q=...). The
+  // icon toggles the input open/closed; the input submits on Enter.
   nav.querySelectorAll('a[href$="/search"], a[href="/search"]').forEach((a) => {
+    const tools = a.closest('.nav-tools') || a.parentElement;
+    // derive the locale root from the page path: /us/en/... -> /us/en
+    const parts = window.location.pathname.split('/').filter(Boolean);
+    const localeRoot = parts.length >= 2 ? `/${parts[0]}/${parts[1]}` : '';
+    const searchPage = `${localeRoot}/search`;
+
+    const box = document.createElement('form');
+    box.className = 'nav-search';
+    box.setAttribute('role', 'search');
+    box.action = searchPage;
+    box.method = 'get';
+    box.hidden = true;
+    const field = document.createElement('input');
+    field.className = 'nav-search-input';
+    field.type = 'search';
+    field.name = 'q';
+    field.placeholder = 'Search';
+    field.setAttribute('aria-label', 'Search');
+    box.append(field);
+    tools.append(box);
+
     a.removeAttribute('href');
     a.setAttribute('role', 'button');
-    a.setAttribute('aria-disabled', 'true');
+    a.setAttribute('aria-label', 'Search');
+    a.setAttribute('aria-expanded', 'false');
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const open = a.getAttribute('aria-expanded') === 'true';
+      a.setAttribute('aria-expanded', open ? 'false' : 'true');
+      box.hidden = open;
+      if (!open) field.focus();
+    });
+    // close on Escape
+    field.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        box.hidden = true;
+        a.setAttribute('aria-expanded', 'false');
+        a.focus();
+      }
+    });
   });
 
   // On "Coming Soon" locale stub pages the source shows no top-nav menu (the
