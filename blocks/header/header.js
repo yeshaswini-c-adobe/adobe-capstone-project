@@ -137,6 +137,15 @@ export default async function decorate(block) {
     brandLink.closest('.button-container').className = '';
   }
 
+  // The search icon links to /search, which has no page in this site. Rather
+  // than let a business user hit a 404, neutralise it (visual affordance only),
+  // matching the original where search never navigates to a broken page.
+  nav.querySelectorAll('a[href$="/search"], a[href="/search"]').forEach((a) => {
+    a.removeAttribute('href');
+    a.setAttribute('role', 'button');
+    a.setAttribute('aria-disabled', 'true');
+  });
+
   const navSections = nav.querySelector('.nav-sections');
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
