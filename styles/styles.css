@@ -390,13 +390,17 @@ main .default-content-wrapper > ol:has(> li > a) a:focus-visible {
   text-decoration: underline;
 }
 
-/* article title — a bit smaller than the default xxl scale to match the
-   original (40px). Scoped to article/detail pages, whose title shares a
-   default-content wrapper with the breadcrumb <ol>. */
+/* Detail-page title — a bit smaller than the default xxl scale to match the
+   original (40px). Applies to magazine articles and adventure detail pages,
+   which lead with a breadcrumb <ol>; landing pages (no breadcrumb) keep the
+   larger title. Both cases: an <h1> inside a section that carries a breadcrumb.
+   The top margin is trimmed to the source's ~27px (default 0.8em on 40px). */
 @media (width >= 900px) {
-  main .default-content-wrapper:has(> ol) h1 {
+  main .default-content-wrapper:has(> ol) h1,
+  main .section:has(ol a) h1 {
     font-size: 40px;
     line-height: 1.2;
+    margin-top: 27px;
   }
 }
 
