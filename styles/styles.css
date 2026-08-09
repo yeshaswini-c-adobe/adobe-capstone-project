@@ -518,10 +518,19 @@ main .default-content-wrapper .author-byline-social .icon-instagram {
   --byline-icon: url("/icons/instagram.svg");
 }
 
+/* The H1 is the first element in the body column, sitting directly under the
+   breadcrumb (which carries its own 24px margin-bottom). Drop the heading's
+   default top margin so the two margins don't compound into a ~56px gap — the
+   source shows ~27px between breadcrumb and title. */
+main .default-content-wrapper .article-main > h1:first-child {
+  margin-top: 0;
+}
+
 /* Byline "By <author>" under the title. Rendered as a <p> (not a heading) for
-   a valid heading order, but styled as the source's small uppercase label. */
+   a valid heading order, but styled as the source's small uppercase label.
+   ~21px above and below to match the source rhythm (title→byline→content). */
 main .default-content-wrapper .article-main .article-byline {
-  margin: 0.8em 0 0.25em;
+  margin: 21px 0;
   font-family: var(--body-font-family);
   font-size: var(--heading-font-size-m);
   font-weight: 600;
