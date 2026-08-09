@@ -6,11 +6,12 @@
  *
  * WKND profile cards are clean and borderless, centered: a circular avatar on
  * top, an Asar serif name (h3), then a smaller uppercase Source Sans role (h5).
- * Responsive CSS Grid matching the sibling cards-teaser rhythm:
- * 1 column (mobile) -> 2 (>=600px) -> 4 (>=900px), gap 32px 14px.
- * Both grids reuse this file, so 4-up and 3-up cards render identically; the
- * 3-up guides grid fills the first three tracks and stays left-aligned,
- * exactly like the source.
+ * Responsive CSS Grid:
+ * 1 column (mobile) -> 2 (>=600px) -> 4 (>=900px), gap 40px 28px — the source
+ * spaces the profile cards ~28px apart horizontally (wider than the article
+ * card grid). Both grids reuse this file, so 4-up and 3-up cards render
+ * identically; the 3-up guides grid fills the first three tracks and stays
+ * left-aligned, exactly like the source.
  */
 
 .cards-profile > ul {
@@ -19,7 +20,7 @@
   padding: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 32px 14px; /* same rhythm as cards-teaser */
+  gap: 40px 28px; /* row 40px, column 28px — matches the source card spacing */
 }
 
 .cards-profile > ul > li {
