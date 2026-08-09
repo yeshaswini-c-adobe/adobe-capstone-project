@@ -381,6 +381,13 @@ main .default-content-wrapper .article-aside {
   border-top: 1px solid var(--light-color, #e8e8e8);
 }
 
+/* Article body copy uses the source's airy line-height (~2.5) for the long-form
+   read; scoped to the body column so card descriptions, captions, the sidebar
+   and other pages keep the tighter global rhythm. The byline text is excluded. */
+main .default-content-wrapper .article-main > p {
+  line-height: 2.2;
+}
+
 /* author byline sits at the end of the article body column */
 main .default-content-wrapper .article-main .author-byline {
   margin-top: 40px;

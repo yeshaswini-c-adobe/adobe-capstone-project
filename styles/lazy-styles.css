@@ -9,19 +9,26 @@ main .default-content-wrapper ul.related-articles {
   list-style: none;
 }
 
-main .default-content-wrapper ul.related-articles > li {
-  padding: 4px 0 4px 24px;
-  border-left: 4px solid var(--light-color, #e8e8e8);
-}
-
 main .default-content-wrapper ul.related-articles > li:not(:last-child) {
   margin-bottom: 24px;
 }
 
+/* each item is a padded box with a light left-accent bar; on hover the whole
+   box fills brand-yellow and the accent darkens — matching the source's
+   "Up Next" list interaction (not a mere title underline). */
 main .default-content-wrapper ul.related-articles > li a:any-link {
   display: block;
+  padding: 8px 16px;
+  border-left: 5px solid var(--light-color, #ebebeb);
   color: var(--text-color);
   text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+main .default-content-wrapper ul.related-articles > li a:hover,
+main .default-content-wrapper ul.related-articles > li a:focus-visible {
+  background-color: var(--brand-color);
+  border-left-color: var(--dark-color);
 }
 
 /* title line — uppercase body font, matching the original teaser */
@@ -45,10 +52,11 @@ main .default-content-wrapper ul.related-articles > li a .teaser-date {
   text-transform: uppercase;
 }
 
+/* the title/date keep their colours on hover — the yellow fill is the effect,
+   matching the source (which sets text-decoration:none on the hovered item) */
 main .default-content-wrapper ul.related-articles > li a:hover .teaser-title,
 main .default-content-wrapper ul.related-articles > li a:focus-visible .teaser-title {
-  color: var(--link-color);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* Category panels for the "Current Adventures" filter: each <ul> is a grid of
