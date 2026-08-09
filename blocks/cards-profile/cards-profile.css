@@ -77,6 +77,53 @@
   margin: 0;
 }
 
+/* Social row: a dark box with brand icons beneath the role, matching the
+   original About Us cards. Icons render via CSS mask so they're white. */
+.cards-profile .cards-profile-card-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 12px 18px;
+  background-color: var(--dark-color);
+}
+
+.cards-profile .cards-profile-card-social a:any-link {
+  display: inline-flex;
+  color: #fff;
+  line-height: 0;
+  transition: color 0.15s ease;
+}
+
+.cards-profile .cards-profile-card-social a:hover,
+.cards-profile .cards-profile-card-social a:focus-visible {
+  color: var(--brand-color);
+}
+
+.cards-profile .cards-profile-card-social .icon {
+  width: 18px;
+  height: 18px;
+  background-color: currentcolor;
+  mask: center / contain no-repeat;
+  mask-image: var(--profile-social-icon);
+}
+
+.cards-profile .cards-profile-card-social .icon img {
+  display: none;
+}
+
+.cards-profile .cards-profile-card-social .icon-facebook {
+  --profile-social-icon: url("/icons/facebook.svg");
+}
+
+.cards-profile .cards-profile-card-social .icon-twitter {
+  --profile-social-icon: url("/icons/twitter.svg");
+}
+
+.cards-profile .cards-profile-card-social .icon-instagram {
+  --profile-social-icon: url("/icons/instagram.svg");
+}
+
 @media (width >= 600px) {
   .cards-profile > ul {
     grid-template-columns: repeat(2, minmax(0, 1fr));
