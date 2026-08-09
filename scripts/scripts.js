@@ -309,14 +309,33 @@ function decorateArticleLayout(main) {
     .find((h) => /share this story/i.test(h.textContent));
   if (!breadcrumb || !shareHeading) return;
 
+  // a11y: the source authors the byline as an <h4> and the share label as an
+  // <h5>, which skip heading levels after the <h1>/section <h2>s. Heading level
+  // is invisible to sighted users (size is set in CSS), so normalise for a
+  // valid heading order without changing the look: byline -> styled <p>,
+  // share label -> <h2> tagged to keep the small-label treatment.
+  const h1 = main.querySelector('h1');
+  const bylineHeading = h1 && h1.nextElementSibling && h1.nextElementSibling.tagName === 'H4'
+    ? h1.nextElementSibling : null;
+  if (bylineHeading) {
+    const p = document.createElement('p');
+    p.className = 'article-byline';
+    while (bylineHeading.firstChild) p.append(bylineHeading.firstChild);
+    bylineHeading.replaceWith(p);
+  }
+  const shareH2 = document.createElement('h2');
+  shareH2.className = 'article-share-heading';
+  if (shareHeading.id) shareH2.id = shareHeading.id;
+  while (shareHeading.firstChild) shareH2.append(shareHeading.firstChild);
+  shareHeading.replaceWith(shareH2);
+
   // gather every content node across the article's sections, in document order
   const nodes = [];
   main.querySelectorAll(':scope > .section > .default-content-wrapper').forEach((wrapper) => {
     nodes.push(...wrapper.children);
   });
 
-  const h1 = main.querySelector('h1');
-  const relatedList = shareHeading.parentElement.querySelector('ul.related-articles')
+  const relatedList = shareH2.parentElement.querySelector('ul.related-articles')
     || [...main.querySelectorAll('ul.related-articles')][0];
 
   // classify: hero image + breadcrumb sit full-width on top; the share heading
@@ -324,7 +343,7 @@ function decorateArticleLayout(main) {
   const shareNodes = [];
   let collecting = false;
   nodes.forEach((n) => {
-    if (n === shareHeading) collecting = true;
+    if (n === shareH2) collecting = true;
     if (collecting) shareNodes.push(n);
     if (n === relatedList) collecting = false;
   });
@@ -506,6 +525,13 @@ function decorateAdventureTabs(main) {
     const panels = [grid, ...catLists].filter(Boolean);
     if (panels.length < 2) return;
 
+    // wire each panel with tabpanel semantics + a stable id for aria-controls
+    panels.forEach((p, i) => {
+      if (!p) return;
+      p.id = p.id || `adventure-panel-${i}`;
+      p.setAttribute('role', 'tabpanel');
+    });
+
     // build the styled tab bar
     const tabs = document.createElement('div');
     tabs.className = 'adventure-tabs';
@@ -517,6 +543,11 @@ function decorateAdventureTabs(main) {
       btn.textContent = li.textContent.trim();
       btn.setAttribute('role', 'tab');
       btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      if (panels[i]) {
+        btn.id = `adventure-tab-${i}`;
+        btn.setAttribute('aria-controls', panels[i].id);
+        panels[i].setAttribute('aria-labelledby', btn.id);
+      }
       tabs.append(btn);
       return btn;
     });
@@ -537,6 +568,54 @@ function decorateAdventureTabs(main) {
 }
 
 /**
+ * Fixes authored heading-level skips (e.g. an <h1> followed directly by an
+ * <h3>) that fail the WCAG "heading levels should only increase by one" rule.
+ * WKND authors small labels at deeper levels purely for their visual size; we
+ * control size via CSS, so we can raise a skipping heading to the correct level
+ * while preserving its original visual size by copying the source level onto a
+ * data attribute that CSS keys off. Runs last so it sees the final decorated
+ * heading structure. Never promotes above the running level, so genuine
+ * nesting (h2 → h3 → h4) is preserved.
+ * @param {Element} main The container element
+ */
+function normalizeHeadingOrder(main) {
+  const headings = [...main.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+  let prev = 0;
+  headings.forEach((h) => {
+    const level = Number(h.tagName[1]);
+    const target = prev === 0 ? level : Math.min(level, prev + 1);
+    if (target !== level) {
+      const repl = document.createElement(`h${target}`);
+      [...h.attributes].forEach((attr) => repl.setAttribute(attr.name, attr.value));
+      // keep the visual size of the original level (CSS: [data-heading-size])
+      repl.dataset.headingSize = String(level);
+      while (h.firstChild) repl.append(h.firstChild);
+      h.replaceWith(repl);
+      prev = target;
+    } else {
+      prev = level;
+    }
+  });
+}
+
+/**
+ * Ensures the page has exactly one top-level <h1> for assistive tech and the
+ * Lighthouse/axe "page-has-heading-one" check. The WKND home page leads with a
+ * hero carousel (no authored H1), so we inject a visually-hidden H1 from the
+ * document title — invisible to sighted users, keeping the design unchanged.
+ * @param {Element} main The container element
+ */
+function ensurePageHeading(main) {
+  if (main.querySelector('h1')) return;
+  const h1 = document.createElement('h1');
+  h1.className = 'sr-only';
+  const title = (document.title || '').split(/[|–-]/)[0].trim();
+  h1.textContent = title || 'WKND';
+  const firstSection = main.querySelector('.section') || main;
+  firstSection.prepend(h1);
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -553,6 +632,7 @@ export function decorateMain(main) {
   decorateArticleLayout(main);
   decorateAdventureDetail(main);
   decorateAdventureTabs(main);
+  normalizeHeadingOrder(main);
 }
 
 /**
@@ -565,6 +645,9 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    // guarantee a single page-level <h1> (scoped to the page main, not the
+    // header/footer fragments which run through decorateMain separately)
+    ensurePageHeading(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }

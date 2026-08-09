@@ -67,7 +67,15 @@ export default async function decorate(block) {
   if (heading) {
     const social = document.createElement('div');
     social.className = 'footer-social';
-    social.append(heading);
+    // promote the authored H4 to an H2 so the footer heading doesn't skip a
+    // level after the page's content H2s (WCAG heading-order). Styling is
+    // unchanged — footer.css targets .footer-social's heading regardless.
+    const h2 = document.createElement('h2');
+    h2.className = heading.className;
+    if (heading.id) h2.id = heading.id;
+    while (heading.firstChild) h2.append(heading.firstChild);
+    heading.remove(); // drop the now-empty original H4 so it isn't left behind
+    social.append(h2);
     if (socialRow) social.append(socialRow);
     topRow.append(social);
   }

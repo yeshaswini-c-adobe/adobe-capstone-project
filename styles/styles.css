@@ -81,6 +81,38 @@ h4 { font-size: var(--heading-font-size-m); }
 h5 { font-size: var(--heading-font-size-s); }
 h6 { font-size: var(--heading-font-size-xs); }
 
+/* When a heading's level is raised for a valid heading order (see
+   normalizeHeadingOrder), preserve the visual size of its original authored
+   level so the page looks unchanged. data-heading-size holds the source level. */
+[data-heading-size="2"] { font-size: var(--heading-font-size-xl); }
+[data-heading-size="3"] { font-size: var(--heading-font-size-l); }
+
+[data-heading-size="4"],
+[data-heading-size="5"],
+[data-heading-size="6"] {
+  font-family: var(--body-font-family);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+[data-heading-size="4"] { font-size: var(--heading-font-size-m); }
+[data-heading-size="5"] { font-size: var(--heading-font-size-s); }
+[data-heading-size="6"] { font-size: var(--heading-font-size-xs); }
+
+/* visually-hidden but available to screen readers (e.g. the home page's H1) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 p,
 dl,
 ol,
@@ -486,9 +518,30 @@ main .default-content-wrapper .author-byline-social .icon-instagram {
   --byline-icon: url("/icons/instagram.svg");
 }
 
-/* "share this story" heading in the sidebar */
-main .default-content-wrapper .article-aside h5 {
+/* Byline "By <author>" under the title. Rendered as a <p> (not a heading) for
+   a valid heading order, but styled as the source's small uppercase label. */
+main .default-content-wrapper .article-main .article-byline {
+  margin: 0.8em 0 0.25em;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-m);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+/* "SHARE THIS STORY" sidebar label — an <h2> (valid heading order) kept in the
+   small uppercase label tier so it looks like the source's h5, not a big serif. */
+main .default-content-wrapper .article-aside .article-share-heading {
   margin: 0 0 16px;
+  font-family: var(--body-font-family);
+  font-size: var(--heading-font-size-s);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-color);
 }
 
 @media (width >= 900px) {

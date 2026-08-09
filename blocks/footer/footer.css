@@ -68,7 +68,7 @@ footer .footer .footer-social {
   gap: 12px;
 }
 
-footer .footer .footer-social h4 {
+footer .footer .footer-social h2 {
   margin: 0;
   color: #fff; /* WKND footer "Follow Us" label is white, not brand-yellow */
   font-family: var(--body-font-family);
