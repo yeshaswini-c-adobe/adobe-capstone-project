@@ -368,16 +368,28 @@ main .default-content-wrapper > ol:has(> li > a) a:focus-visible {
   }
 }
 
-/* article footer: author byline + "share this story" section.
-   These sizing rules live in the eager stylesheet so the avatar is a small
-   circle on first paint (avoids a full-width flash while lazy CSS loads). */
-main .default-content-wrapper .article-footer {
+/* Article two-column layout: continuous body (left) + Share/related sidebar
+   (right), matching the source. Single column on mobile (body then sidebar). */
+main .default-content-wrapper .article-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+main .default-content-wrapper .article-aside {
+  padding-top: 24px;
+  border-top: 1px solid var(--light-color, #e8e8e8);
+}
+
+/* author byline sits at the end of the article body column */
+main .default-content-wrapper .article-main .author-byline {
   margin-top: 40px;
   padding-top: 40px;
   border-top: 1px solid var(--light-color, #e8e8e8);
 }
 
 /* author byline — avatar + name/role on the left, social icons in a dark box */
+/* stylelint-disable-next-line no-descending-specificity */
 main .default-content-wrapper .author-byline {
   display: flex;
   flex-direction: column;
@@ -467,29 +479,32 @@ main .default-content-wrapper .author-byline-social .icon-instagram {
   --byline-icon: url("/icons/instagram.svg");
 }
 
-/* "share this story" heading + related list */
-main .default-content-wrapper .article-share h5 {
+/* "share this story" heading in the sidebar */
+main .default-content-wrapper .article-aside h5 {
   margin: 0 0 16px;
 }
 
 @media (width >= 900px) {
-  /* two columns: byline fills the left, share sits on the right */
-  main .default-content-wrapper .article-footer {
+  /* two columns: article body (left) + share/related sidebar (right),
+     both starting at the top — matching the source article architecture */
+  main .default-content-wrapper .article-layout {
     display: grid;
-    grid-template-columns: 1fr minmax(260px, 320px);
+    grid-template-columns: 1fr minmax(260px, 300px);
     gap: 48px;
     align-items: start;
   }
 
-  main .default-content-wrapper .author-byline {
+  main .default-content-wrapper .article-aside {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  /* on desktop the byline stays a horizontal card at the foot of the body */
+  main .default-content-wrapper .article-main .author-byline {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 40px;
-  }
-
-  main .default-content-wrapper .article-share {
-    margin-top: 0;
   }
 }
 

@@ -291,36 +291,84 @@ function decorateAuthorByline(main) {
 
     byline.append(info, social);
     socialParas.forEach((p) => p.remove()); // drop the now-empty paragraphs
-
-    // group the byline with the following "Share this story" section into a
-    // two-column footer: byline on the left, share + related list on the right
-    const footer = document.createElement('div');
-    footer.className = 'article-footer';
-    byline.replaceWith(footer);
-    footer.append(byline);
-
-    let shareHeading = footer.nextElementSibling;
-    while (shareHeading && !(shareHeading.tagName === 'H5' && /share this story/i.test(shareHeading.textContent))) {
-      shareHeading = shareHeading.nextElementSibling;
-    }
-    if (shareHeading) {
-      // collect from the share heading through the related-articles list
-      const nodes = [];
-      let n = shareHeading;
-      let reachedRelated = false;
-      while (n) {
-        nodes.push(n);
-        if (n.classList && n.classList.contains('related-articles')) { reachedRelated = true; break; }
-        n = n.nextElementSibling;
-      }
-      if (reachedRelated) {
-        const share = document.createElement('div');
-        share.className = 'article-share';
-        nodes.forEach((node) => share.append(node));
-        footer.append(share);
-      }
-    }
   });
+}
+
+/**
+ * Rebuilds the magazine article into the source's two-column architecture:
+ * a continuous article body on the left and a "Share this story" + related
+ * sidebar on the right, both starting at the top. The migrated content splits
+ * the body across sections and repeats the title as an <h3>; this reassembles
+ * one body column and drops the duplicate, restoring structural parity.
+ * @param {Element} main The container element
+ */
+function decorateArticleLayout(main) {
+  // article marker: a breadcrumb <ol> of links + a "Share this story" heading
+  const breadcrumb = main.querySelector('.default-content-wrapper > ol:has(> li > a)');
+  const shareHeading = [...main.querySelectorAll('.default-content-wrapper > h5')]
+    .find((h) => /share this story/i.test(h.textContent));
+  if (!breadcrumb || !shareHeading) return;
+
+  // gather every content node across the article's sections, in document order
+  const nodes = [];
+  main.querySelectorAll(':scope > .section > .default-content-wrapper').forEach((wrapper) => {
+    nodes.push(...wrapper.children);
+  });
+
+  const h1 = main.querySelector('h1');
+  const relatedList = shareHeading.parentElement.querySelector('ul.related-articles')
+    || [...main.querySelectorAll('ul.related-articles')][0];
+
+  // classify: hero image + breadcrumb sit full-width on top; the share heading
+  // through the related list form the right sidebar; the rest is the body.
+  const shareNodes = [];
+  let collecting = false;
+  nodes.forEach((n) => {
+    if (n === shareHeading) collecting = true;
+    if (collecting) shareNodes.push(n);
+    if (n === relatedList) collecting = false;
+  });
+
+  const heroNodes = [];
+  const bodyNodes = [];
+  nodes.forEach((n) => {
+    if (shareNodes.includes(n)) return;
+    // drop the duplicate <h3> that repeats the H1 (migration artifact)
+    if (n.tagName === 'H3' && h1 && n.textContent.trim() === h1.textContent.trim()) {
+      n.remove();
+      return;
+    }
+    const isHeroImg = (n.tagName === 'P' || n.tagName === 'DIV') && n.querySelector(':scope > picture, :scope > img') && !n.textContent.trim();
+    const isBareImg = n.tagName === 'PICTURE' || n.tagName === 'IMG';
+    if ((isHeroImg || isBareImg) && bodyNodes.length === 0) heroNodes.push(n);
+    else if (n === breadcrumb) heroNodes.push(n);
+    else bodyNodes.push(n);
+  });
+
+  // build: head (hero + breadcrumb) + two-column layout (body | aside)
+  const layout = document.createElement('div');
+  layout.className = 'article-layout';
+  const bodyCol = document.createElement('div');
+  bodyCol.className = 'article-main';
+  const aside = document.createElement('aside');
+  aside.className = 'article-aside';
+  bodyNodes.forEach((n) => bodyCol.append(n));
+  shareNodes.forEach((n) => aside.append(n));
+  layout.append(bodyCol, aside);
+
+  // replace the article's sections with a single wrapper: head then layout
+  const host = breadcrumb.closest('.default-content-wrapper');
+  const oldSections = [...main.querySelectorAll(':scope > .section')];
+  const section = document.createElement('div');
+  section.className = 'section article-section';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'default-content-wrapper';
+  heroNodes.forEach((n) => wrapper.append(n));
+  wrapper.append(layout);
+  section.append(wrapper);
+  oldSections[0].replaceWith(section);
+  oldSections.slice(1).forEach((s) => s.remove());
+  if (host) { /* host consumed */ }
 }
 
 /**
@@ -394,6 +442,7 @@ export function decorateMain(main) {
   decorateLinks(main);
   decorateArticleTeasers(main);
   decorateAuthorByline(main);
+  decorateArticleLayout(main);
   decorateAdventureTabs(main);
 }
 
