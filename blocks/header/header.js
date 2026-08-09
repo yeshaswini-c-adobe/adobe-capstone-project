@@ -5,31 +5,49 @@ import { loadFragment } from '../fragment/fragment.js';
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 // Country/locale model for the language selector, mirroring the source WKND
-// header. Each locale maps its display code to the site path and an emoji flag.
+// header. Each country maps to its flag icon (icons/flags/<flag>.svg) and its
+// locales (display code + site path).
 const LOCALE_COUNTRIES = [
-  { country: 'United States', flag: '🇺🇸', locales: [{ code: 'EN-US', path: '/us/en' }, { code: 'ES-US', path: '/us/es' }] },
-  { country: 'Canada', flag: '🇨🇦', locales: [{ code: 'EN-CA', path: '/ca/en' }, { code: 'FR-CA', path: '/ca/fr' }] },
-  { country: 'Switzerland', flag: '🇨🇭', locales: [{ code: 'DE-CH', path: '/ch/de' }, { code: 'FR-CH', path: '/ch/fr' }, { code: 'IT-CH', path: '/ch/it' }] },
-  { country: 'Germany', flag: '🇩🇪', locales: [{ code: 'DE-DE', path: '/de/de' }] },
-  { country: 'France', flag: '🇫🇷', locales: [{ code: 'FR-FR', path: '/fr/fr' }] },
-  { country: 'Spain', flag: '🇪🇸', locales: [{ code: 'ES-ES', path: '/es/es' }] },
-  { country: 'Italy', flag: '🇮🇹', locales: [{ code: 'IT-IT', path: '/it/it' }] },
+  { country: 'United States', flag: 'us', locales: [{ code: 'EN-US', path: '/us/en' }, { code: 'ES-US', path: '/us/es' }] },
+  { country: 'Canada', flag: 'ca', locales: [{ code: 'EN-CA', path: '/ca/en' }, { code: 'FR-CA', path: '/ca/fr' }] },
+  { country: 'Switzerland', flag: 'ch', locales: [{ code: 'DE-CH', path: '/ch/de' }, { code: 'FR-CH', path: '/ch/fr' }, { code: 'IT-CH', path: '/ch/it' }] },
+  { country: 'Germany', flag: 'de', locales: [{ code: 'DE-DE', path: '/de/de' }] },
+  { country: 'France', flag: 'fr', locales: [{ code: 'FR-FR', path: '/fr/fr' }] },
+  { country: 'Spain', flag: 'es', locales: [{ code: 'ES-ES', path: '/es/es' }] },
+  { country: 'Italy', flag: 'it', locales: [{ code: 'IT-IT', path: '/it/it' }] },
 ];
+
+/**
+ * Builds a flag <img> for the given country flag code.
+ * @param {string} flag Country flag code (matches icons/flags/<flag>.svg)
+ * @param {string} country Country name, used for the alt text
+ * @returns {HTMLImageElement}
+ */
+function flagImg(flag, country) {
+  const img = document.createElement('img');
+  img.className = 'nav-lang-flag';
+  img.src = `${window.hlx.codeBasePath}/icons/flags/${flag}.svg`;
+  img.alt = country ? `${country} flag` : '';
+  img.width = 20;
+  img.height = 20;
+  img.loading = 'lazy';
+  return img;
+}
 
 /**
  * Finds the locale entry (and its country flag) that matches the current URL
  * path, defaulting to United States / EN-US.
- * @returns {{code:string, path:string, flag:string, current:boolean}}
+ * @returns {{code:string, path:string, flag:string, country:string}}
  */
 function currentLocale() {
   const { pathname } = window.location;
   let found = null;
   LOCALE_COUNTRIES.forEach((c) => {
     const match = c.locales.find((l) => pathname === l.path || pathname.startsWith(`${l.path}/`));
-    if (match && !found) found = { ...match, flag: c.flag };
+    if (match && !found) found = { ...match, flag: c.flag, country: c.country };
   });
-  const [firstCountry] = LOCALE_COUNTRIES;
-  return found || { ...firstCountry.locales[0], flag: firstCountry.flag };
+  const [c0] = LOCALE_COUNTRIES;
+  return found || { ...c0.locales[0], flag: c0.flag, country: c0.country };
 }
 
 /**
@@ -56,7 +74,14 @@ function buildTopBar() {
   toggle.className = 'nav-lang-toggle';
   toggle.setAttribute('aria-expanded', 'false');
   toggle.setAttribute('aria-haspopup', 'true');
-  toggle.innerHTML = `<span class="nav-lang-flag">${active.flag}</span><span class="nav-lang-code">${active.code}</span><span class="nav-lang-caret" aria-hidden="true"></span>`;
+  toggle.setAttribute('aria-label', `Change region — current: ${active.code}`);
+  const code = document.createElement('span');
+  code.className = 'nav-lang-code';
+  code.textContent = active.code;
+  const caret = document.createElement('span');
+  caret.className = 'nav-lang-caret';
+  caret.setAttribute('aria-hidden', 'true');
+  toggle.append(flagImg(active.flag, active.country), code, caret);
 
   const menu = document.createElement('div');
   menu.className = 'nav-lang-menu';
@@ -66,7 +91,7 @@ function buildTopBar() {
     group.className = 'nav-lang-group';
     const heading = document.createElement('span');
     heading.className = 'nav-lang-country';
-    heading.innerHTML = `<span class="nav-lang-flag">${c.flag}</span>${c.country}`;
+    heading.append(flagImg(c.flag, c.country), document.createTextNode(c.country));
     group.append(heading);
     const codes = document.createElement('div');
     codes.className = 'nav-lang-codes';

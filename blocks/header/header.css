@@ -65,8 +65,11 @@ header .nav-lang-toggle {
 }
 
 header .nav-lang-flag {
-  font-size: 16px;
-  line-height: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: 0 0 auto;
 }
 
 header .nav-lang-caret {
