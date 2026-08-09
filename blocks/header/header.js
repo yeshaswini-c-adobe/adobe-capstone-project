@@ -225,6 +225,132 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
+// cached site search index (fetched once on first search interaction)
+let searchIndexPromise = null;
+
+/**
+ * Fetches and caches the site's query-index.json (built by helix-query.yaml).
+ * @returns {Promise<Array>} the index rows, or [] on failure
+ */
+function loadSearchIndex() {
+  if (!searchIndexPromise) {
+    searchIndexPromise = fetch(`${window.hlx.codeBasePath}/query-index.json`)
+      .then((resp) => (resp.ok ? resp.json() : { data: [] }))
+      .then((json) => (Array.isArray(json.data) ? json.data : []))
+      .catch(() => []);
+  }
+  return searchIndexPromise;
+}
+
+/**
+ * Ranks a page against search terms: title matches weigh most, then
+ * description, then body content. Returns 0 when any term is absent.
+ * @param {object} row A query-index record
+ * @param {string[]} terms Lower-cased search terms
+ * @returns {number} relevance score
+ */
+function scoreRow(row, terms) {
+  const title = (row.title || '').toLowerCase();
+  const desc = (row.description || '').toLowerCase();
+  const content = (row.content || '').toLowerCase();
+  const has = (t) => title.includes(t) || desc.includes(t) || content.includes(t);
+  if (!terms.every(has)) return 0;
+  return terms.reduce((s, t) => s
+    + (title.includes(t) ? 10 : 0)
+    + (desc.includes(t) ? 4 : 0)
+    + (content.includes(t) ? 1 : 0), 0);
+}
+
+/**
+ * Turns the header search icon into an inline live-search control: an input
+ * plus a results dropdown that filters the site index as the user types.
+ * @param {HTMLAnchorElement} icon The search icon link
+ */
+function initHeaderSearch(icon) {
+  const tools = icon.closest('.nav-tools') || icon.parentElement;
+
+  const panel = document.createElement('div');
+  panel.className = 'nav-search';
+  panel.hidden = true;
+  panel.setAttribute('role', 'search');
+
+  const input = document.createElement('input');
+  input.className = 'nav-search-input';
+  input.type = 'search';
+  input.placeholder = 'Search';
+  input.setAttribute('aria-label', 'Search');
+
+  const results = document.createElement('ul');
+  results.className = 'nav-search-results';
+  results.setAttribute('role', 'listbox');
+
+  panel.append(input, results);
+  tools.append(panel);
+
+  icon.removeAttribute('href');
+  icon.setAttribute('role', 'button');
+  icon.setAttribute('aria-label', 'Search');
+  icon.setAttribute('aria-expanded', 'false');
+
+  const close = () => {
+    panel.hidden = true;
+    icon.setAttribute('aria-expanded', 'false');
+  };
+  const open = () => {
+    panel.hidden = false;
+    icon.setAttribute('aria-expanded', 'true');
+    input.focus();
+  };
+
+  const render = (rows, query) => {
+    results.replaceChildren();
+    if (!query) return;
+    if (!rows.length) {
+      const li = document.createElement('li');
+      li.className = 'nav-search-empty';
+      li.textContent = `No results for "${query}"`;
+      results.append(li);
+      return;
+    }
+    rows.slice(0, 8).forEach((row) => {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'option');
+      const a = document.createElement('a');
+      a.className = 'nav-search-result';
+      a.href = row.path;
+      a.textContent = row.title || row.path;
+      li.append(a);
+      results.append(li);
+    });
+  };
+
+  const runSearch = async () => {
+    const query = input.value.trim();
+    if (!query) { results.replaceChildren(); return; }
+    const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
+    const index = await loadSearchIndex();
+    const matches = index
+      .map((row) => ({ row, score: scoreRow(row, terms) }))
+      .filter((m) => m.score > 0)
+      .sort((x, y) => y.score - x.score)
+      .map((m) => m.row);
+    render(matches, query);
+  };
+
+  icon.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (panel.hidden) { open(); loadSearchIndex(); } else close();
+  });
+  input.addEventListener('input', runSearch);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { close(); icon.focus(); }
+  });
+  // close when focus/click leaves the search control
+  document.addEventListener('click', (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && e.target !== icon) close();
+  });
+}
+
 /**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
@@ -254,50 +380,11 @@ export default async function decorate(block) {
     brandLink.closest('.button-container').className = '';
   }
 
-  // Wire the search icon: clicking it expands an inline input that submits to
-  // the current locale's /search results page (e.g. /us/en/search?q=...). The
-  // icon toggles the input open/closed; the input submits on Enter.
+  // Wire the search icon into an inline live-search dropdown: clicking it opens
+  // an input; typing filters the site's query-index.json and shows matching
+  // pages in a popover beneath it (no separate results page).
   nav.querySelectorAll('a[href$="/search"], a[href="/search"]').forEach((a) => {
-    const tools = a.closest('.nav-tools') || a.parentElement;
-    // derive the locale root from the page path: /us/en/... -> /us/en
-    const parts = window.location.pathname.split('/').filter(Boolean);
-    const localeRoot = parts.length >= 2 ? `/${parts[0]}/${parts[1]}` : '';
-    const searchPage = `${localeRoot}/search`;
-
-    const box = document.createElement('form');
-    box.className = 'nav-search';
-    box.setAttribute('role', 'search');
-    box.action = searchPage;
-    box.method = 'get';
-    box.hidden = true;
-    const field = document.createElement('input');
-    field.className = 'nav-search-input';
-    field.type = 'search';
-    field.name = 'q';
-    field.placeholder = 'Search';
-    field.setAttribute('aria-label', 'Search');
-    box.append(field);
-    tools.append(box);
-
-    a.removeAttribute('href');
-    a.setAttribute('role', 'button');
-    a.setAttribute('aria-label', 'Search');
-    a.setAttribute('aria-expanded', 'false');
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      const open = a.getAttribute('aria-expanded') === 'true';
-      a.setAttribute('aria-expanded', open ? 'false' : 'true');
-      box.hidden = open;
-      if (!open) field.focus();
-    });
-    // close on Escape
-    field.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        box.hidden = true;
-        a.setAttribute('aria-expanded', 'false');
-        a.focus();
-      }
-    });
+    initHeaderSearch(a);
   });
 
   // On "Coming Soon" locale stub pages the source shows no top-nav menu (the
