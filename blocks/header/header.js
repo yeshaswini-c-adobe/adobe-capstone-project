@@ -4,6 +4,98 @@ import { loadFragment } from '../fragment/fragment.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// Country/locale model for the language selector, mirroring the source WKND
+// header. Each locale maps its display code to the site path and an emoji flag.
+const LOCALE_COUNTRIES = [
+  { country: 'United States', flag: '🇺🇸', locales: [{ code: 'EN-US', path: '/us/en' }, { code: 'ES-US', path: '/us/es' }] },
+  { country: 'Canada', flag: '🇨🇦', locales: [{ code: 'EN-CA', path: '/ca/en' }, { code: 'FR-CA', path: '/ca/fr' }] },
+  { country: 'Switzerland', flag: '🇨🇭', locales: [{ code: 'DE-CH', path: '/ch/de' }, { code: 'FR-CH', path: '/ch/fr' }, { code: 'IT-CH', path: '/ch/it' }] },
+  { country: 'Germany', flag: '🇩🇪', locales: [{ code: 'DE-DE', path: '/de/de' }] },
+  { country: 'France', flag: '🇫🇷', locales: [{ code: 'FR-FR', path: '/fr/fr' }] },
+  { country: 'Spain', flag: '🇪🇸', locales: [{ code: 'ES-ES', path: '/es/es' }] },
+  { country: 'Italy', flag: '🇮🇹', locales: [{ code: 'IT-IT', path: '/it/it' }] },
+];
+
+/**
+ * Finds the locale entry (and its country flag) that matches the current URL
+ * path, defaulting to United States / EN-US.
+ * @returns {{code:string, path:string, flag:string, current:boolean}}
+ */
+function currentLocale() {
+  const { pathname } = window.location;
+  let found = null;
+  LOCALE_COUNTRIES.forEach((c) => {
+    const match = c.locales.find((l) => pathname === l.path || pathname.startsWith(`${l.path}/`));
+    if (match && !found) found = { ...match, flag: c.flag };
+  });
+  const [firstCountry] = LOCALE_COUNTRIES;
+  return found || { ...firstCountry.locales[0], flag: firstCountry.flag };
+}
+
+/**
+ * Builds the header top bar: a non-navigating "Sign In" link and a country /
+ * language selector whose dropdown lists every locale grouped by country,
+ * matching the source WKND header.
+ * @returns {HTMLElement} the top-bar element
+ */
+function buildTopBar() {
+  const active = currentLocale();
+  const bar = document.createElement('div');
+  bar.className = 'nav-topbar';
+
+  const signIn = document.createElement('a');
+  signIn.className = 'nav-signin';
+  signIn.href = '#sign-in';
+  signIn.textContent = 'Sign In';
+
+  const lang = document.createElement('div');
+  lang.className = 'nav-lang';
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'nav-lang-toggle';
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-haspopup', 'true');
+  toggle.innerHTML = `<span class="nav-lang-flag">${active.flag}</span><span class="nav-lang-code">${active.code}</span><span class="nav-lang-caret" aria-hidden="true"></span>`;
+
+  const menu = document.createElement('div');
+  menu.className = 'nav-lang-menu';
+  menu.hidden = true;
+  LOCALE_COUNTRIES.forEach((c) => {
+    const group = document.createElement('div');
+    group.className = 'nav-lang-group';
+    const heading = document.createElement('span');
+    heading.className = 'nav-lang-country';
+    heading.innerHTML = `<span class="nav-lang-flag">${c.flag}</span>${c.country}`;
+    group.append(heading);
+    const codes = document.createElement('div');
+    codes.className = 'nav-lang-codes';
+    c.locales.forEach((l) => {
+      const a = document.createElement('a');
+      a.href = l.path;
+      a.textContent = l.code;
+      if (l.code === active.code) a.setAttribute('aria-current', 'true');
+      codes.append(a);
+    });
+    group.append(codes);
+    menu.append(group);
+  });
+
+  const closeMenu = () => { toggle.setAttribute('aria-expanded', 'false'); menu.hidden = true; };
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+    menu.hidden = open;
+  });
+  document.addEventListener('click', (e) => { if (!lang.contains(e.target)) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.code === 'Escape') closeMenu(); });
+
+  lang.append(toggle, menu);
+  bar.append(signIn, lang);
+  return bar;
+}
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -182,6 +274,6 @@ export default async function decorate(block) {
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
-  navWrapper.append(nav);
+  navWrapper.append(buildTopBar(), nav);
   block.append(navWrapper);
 }

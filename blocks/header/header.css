@@ -10,6 +10,136 @@ header .nav-wrapper {
   box-shadow: 0 1px 4px rgb(32 32 32 / 8%);
 }
 
+/* --- Top bar: dark strip with Sign In + country/language selector --- */
+header .nav-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 24px;
+  height: var(--topbar-height, 40px);
+  padding: 0 24px;
+  background-color: var(--dark-color);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs);
+}
+
+@media (width >= 900px) {
+  header .nav-topbar {
+    padding: 0 32px;
+  }
+}
+
+header .nav-signin,
+header .nav-signin:any-link {
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+header .nav-signin:hover,
+header .nav-signin:focus-visible {
+  color: var(--brand-color);
+}
+
+header .nav-lang {
+  position: relative;
+}
+
+header .nav-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+header .nav-lang-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+header .nav-lang-caret {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid currentcolor;
+  transition: transform 0.15s ease;
+}
+
+header .nav-lang-toggle[aria-expanded='true'] .nav-lang-caret {
+  transform: rotate(180deg);
+}
+
+/* dropdown panel */
+header .nav-lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 5;
+  min-width: 300px;
+  padding: 8px 0;
+  background-color: var(--dark-color);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 30%);
+}
+
+header .nav-lang-menu[hidden] {
+  display: none;
+}
+
+header .nav-lang-group {
+  padding: 14px 24px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+header .nav-lang-group:last-child {
+  border-bottom: 0;
+}
+
+header .nav-lang-country {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+header .nav-lang-codes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding-left: 26px; /* align under the country name, past the flag */
+}
+
+header .nav-lang-codes a,
+header .nav-lang-codes a:any-link {
+  color: rgb(255 255 255 / 75%);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+header .nav-lang-codes a:hover,
+header .nav-lang-codes a:focus-visible,
+header .nav-lang-codes a[aria-current='true'] {
+  color: #fff;
+  text-decoration: underline;
+}
+
 header nav {
   box-sizing: border-box;
   display: grid;
@@ -54,6 +184,7 @@ header nav p {
   line-height: 1;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 header nav a:any-link {
   color: currentcolor;
 }
@@ -148,6 +279,7 @@ header .nav-brand {
   line-height: 1;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 header nav .nav-brand a {
   display: inline-flex;
   align-items: center;

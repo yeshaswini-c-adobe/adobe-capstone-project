@@ -40,6 +40,9 @@
 
   /* nav height */
   --nav-height: 88px;
+
+  /* header top bar (Sign In + language selector) height */
+  --topbar-height: 40px;
 }
 
 @media (width >= 900px) {

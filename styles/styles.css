@@ -32,7 +32,8 @@ body.appear {
 }
 
 header {
-  height: var(--nav-height);
+  /* reserves space for the fixed header: top bar + nav */
+  height: calc(var(--nav-height) + var(--topbar-height, 0px));
 }
 
 header .header,
