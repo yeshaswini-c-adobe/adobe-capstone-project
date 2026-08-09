@@ -2,30 +2,34 @@ version: 1
 
 indices:
   # Site-wide search index. Code Sync regenerates query-index.json as pages are
-  # published; the /search page fetches it and filters client-side.
+  # published; the header search dropdown fetches it and filters client-side.
   default:
     include:
       - '/**'
     exclude:
-      - '/search'          # the results page itself
-      - '/nav'             # header fragment
-      - '/footer'          # footer fragment
-      - '/**/fragments/**' # any content fragments
+      - '/nav'
+      - '/footer'
+      - '/**/fragments/**'
     target: /query-index.json
     properties:
       title:
         select: head > meta[property="og:title"]
-        value: attribute(el, "content")
+        value: |
+          attribute(el, 'content')
       description:
         select: head > meta[name="description"]
-        value: attribute(el, "content")
+        value: |
+          attribute(el, 'content')
       image:
         select: head > meta[property="og:image"]
-        value: attribute(el, "content")
+        value: |
+          attribute(el, 'content')
       lastModified:
         select: none
-        value: parseTimestamp(headers("last-modified"), "ddd, DD MMM YYYY hh:mm:ss GMT")
+        value: |
+          parseTimestamp(headers('last-modified'), 'ddd, DD MMM YYYY hh:mm:ss GMT')
       # full page body text, so a search matches words inside articles
       content:
         select: main
-        value: textContent(el)
+        value: |
+          textContent(el)
