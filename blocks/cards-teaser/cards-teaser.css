@@ -21,6 +21,11 @@
   line-height: 0;
 }
 
+/* the whole image is a link to the card's destination (matches the source) */
+.cards-teaser .cards-teaser-card-image-link {
+  display: block;
+}
+
 .cards-teaser .cards-teaser-card-image img {
   display: block;
   width: 100%;

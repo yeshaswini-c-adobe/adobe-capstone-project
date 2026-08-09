@@ -7,15 +7,19 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     const li = document.createElement('li');
     while (row.firstElementChild) li.append(row.firstElementChild);
+    let imageDiv = null;
+    let titleHref = null;
     [...li.children].forEach((div) => {
       if (div.children.length === 1 && div.querySelector('picture')) {
         div.className = 'cards-teaser-card-image';
+        imageDiv = div;
       } else {
         div.className = 'cards-teaser-card-body';
         // The card title is either a link (regular article teaser) or a plain
         // heading (a "Members Only" locked card, which has no destination).
         const title = div.querySelector('a') || div.querySelector('h1,h2,h3,h4,h5,h6');
         const locked = !!title && title.tagName !== 'A';
+        if (title && title.tagName === 'A') titleHref = title.getAttribute('href');
         if (locked) {
           li.classList.add('cards-teaser-card-locked');
           hasLocked = true;
@@ -48,6 +52,20 @@ export default function decorate(block) {
         }
       }
     });
+    // Make the whole card image clickable (matching the source, where the image
+    // links to the same destination as the title). Locked cards have no href.
+    if (imageDiv && titleHref) {
+      const picture = imageDiv.querySelector('picture');
+      if (picture) {
+        const imageLink = document.createElement('a');
+        imageLink.className = 'cards-teaser-card-image-link';
+        imageLink.href = titleHref;
+        imageLink.setAttribute('aria-hidden', 'true');
+        imageLink.setAttribute('tabindex', '-1');
+        picture.replaceWith(imageLink);
+        imageLink.append(picture);
+      }
+    }
     ul.append(li);
   });
   ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
