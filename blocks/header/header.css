@@ -354,6 +354,12 @@ header nav .nav-sections ul > li > ul > li {
     display: block;
     visibility: visible;
     white-space: nowrap;
+
+    /* push the nav group to the right (next to search) rather than letting it
+       grow from the logo — matching the source, where the links sit adjacent
+       to the search with the empty space between logo and nav. */
+    flex: 0 1 auto;
+    margin-left: auto;
   }
 
   header nav[aria-expanded='true'] .nav-sections {
