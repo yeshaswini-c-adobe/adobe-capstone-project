@@ -28,7 +28,11 @@ let indexPromise = null;
  */
 function loadIndex() {
   if (!indexPromise) {
-    indexPromise = fetch(`${window.hlx.codeBasePath}/query-index.json`)
+    // Time-bucketed cache-buster (changes each minute): the CDN can still cache
+    // the index for up to a minute, but a newly published/removed page shows up
+    // promptly instead of waiting on a stale edge copy.
+    const bucket = Math.floor(Date.now() / 60000);
+    indexPromise = fetch(`${window.hlx.codeBasePath}/query-index.json?ts=${bucket}`)
       .then((resp) => (resp.ok ? resp.json() : { data: [] }))
       .then((json) => (Array.isArray(json.data) ? json.data : []))
       .catch(() => []);
