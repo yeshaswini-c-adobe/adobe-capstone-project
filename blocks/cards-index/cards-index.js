@@ -13,10 +13,15 @@ import decorateCardsTeaser from '../cards-teaser/cards-teaser.js';
  * only builds the initial cards-teaser DOM (image + linked title + description
  * per row) and delegates to cards-teaser's decorate().
  *
- * Content model (block table): a single optional cell holding the section path
- * prefix to list, e.g. `/us/en/magazine`. When empty, the block derives the
- * prefix from the current page's path (its own section), so the same block is
- * reusable on any section landing page without configuration.
+ * Content model (block table). All rows optional:
+ *   - a single-cell row with just a path       → the section prefix to list,
+ *     e.g. `/us/en/magazine` (back-compat shorthand)
+ *   - two-cell key/value rows for options:
+ *       | prefix | /us/en/magazine |   (alias: path, section)
+ *       | sort   | newest |            (or `title`; default title)
+ *       | limit  | 4 |                 (max cards; default all)
+ * When no prefix is given, the block derives it from the current page's path
+ * (its own section), so the same block is reusable on any section landing page.
  */
 
 // cached site index (fetched once, shared across blocks on the page)
@@ -41,9 +46,33 @@ function loadIndex() {
 }
 
 /**
+ * Reads the block's config from its table rows. Supports both the single-cell
+ * prefix shorthand and two-cell key/value option rows (prefix/sort/limit).
+ * @param {Element} block The cards-index block element
+ * @returns {{ prefix: string, sort: string, limit: number }} parsed config
+ */
+function readConfig(block) {
+  const cfg = { prefix: '', sort: 'title', limit: 0 };
+  [...block.children].forEach((row) => {
+    const cells = [...row.children];
+    if (cells.length >= 2) {
+      const key = cells[0].textContent.trim().toLowerCase();
+      const value = cells[1].textContent.trim();
+      if (['prefix', 'path', 'section'].includes(key)) cfg.prefix = value;
+      else if (key === 'sort') cfg.sort = value.toLowerCase();
+      else if (key === 'limit') cfg.limit = parseInt(value, 10) || 0;
+    } else if (cells.length === 1 && !cfg.prefix) {
+      // single-cell shorthand: the section prefix
+      cfg.prefix = cells[0].textContent.trim();
+    }
+  });
+  return cfg;
+}
+
+/**
  * Resolves the section prefix to list: an authored value if present, otherwise
  * the current page's own section path (`/{country}/{lang}/{section}`).
- * @param {string} authored The trimmed authored prefix (may be empty)
+ * @param {string} authored The authored prefix (may be empty)
  * @returns {string} the path prefix used to filter index rows
  */
 function resolvePrefix(authored) {
@@ -59,6 +88,19 @@ function resolvePrefix(authored) {
   // auto-detect: keep the first three segments (country/lang/section)
   const segments = window.location.pathname.split('/').filter(Boolean);
   return `/${segments.slice(0, 3).join('/')}`;
+}
+
+/**
+ * Builds the comparator for the requested sort order.
+ * @param {string} sort `newest` (by lastModified desc) or `title` (A→Z)
+ * @returns {(a: object, b: object) => number} a sort comparator
+ */
+function comparator(sort) {
+  if (sort === 'newest') {
+    // lastModified is a UNIX timestamp (seconds) from the index; newest first.
+    return (a, b) => (Number(b.lastModified) || 0) - (Number(a.lastModified) || 0);
+  }
+  return (a, b) => (a.title || '').localeCompare(b.title || '');
 }
 
 /**
@@ -98,17 +140,18 @@ export default async function decorate(block) {
   //    this block's own CSS, so pull in cards-teaser.css explicitly).
   loadCSS(`${window.hlx.codeBasePath}/blocks/cards-teaser/cards-teaser.css`);
 
-  // 2. Extract configuration (optional authored path prefix)
-  const authored = block.textContent.trim();
+  // 2. Extract configuration (prefix, sort, limit) from the block table
+  const { prefix: authored, sort, limit } = readConfig(block);
   const prefix = resolvePrefix(authored);
 
   // 3. Load the index and select this section's child pages, excluding the
   //    landing page itself (path === prefix) so it doesn't list itself.
   block.textContent = '';
   block.classList.add('cards-teaser'); // inherit cards-teaser styling
-  const rows = (await loadIndex())
+  let rows = (await loadIndex())
     .filter((r) => r.path && r.path.startsWith(`${prefix}/`) && r.path !== prefix)
-    .sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+    .sort(comparator(sort));
+  if (limit > 0) rows = rows.slice(0, limit);
 
   // 4. Empty state — nothing indexed under this prefix yet
   if (!rows.length) {
