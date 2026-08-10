@@ -167,12 +167,90 @@ function decorateLinks(main) {
 }
 
 /**
+ * Formats a query-index lastModified timestamp (UNIX seconds) as the source's
+ * "Weekday, DD Mon YYYY" teaser date. Returns '' when there is no usable date,
+ * so the date line is simply omitted rather than showing a bogus value.
+ * @param {string|number} lastModified UNIX timestamp in seconds
+ * @returns {string} formatted date, or ''
+ */
+function formatTeaserDate(lastModified) {
+  const secs = Number(lastModified);
+  if (!secs) return '';
+  const d = new Date(secs * 1000);
+  if (Number.isNaN(d.getTime())) return '';
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+/**
+ * Builds a single related-article <li> (a link with a title line and an
+ * optional date line), matching the decorated .related-articles item shape.
+ * @param {{path: string, title: string, date: string}} item The teaser data
+ * @returns {HTMLLIElement} the list item
+ */
+function buildTeaserItem({ path, title, date }) {
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = path;
+  const titleEl = document.createElement('span');
+  titleEl.className = 'teaser-title';
+  titleEl.textContent = title;
+  a.append(titleEl);
+  if (date) {
+    const dateEl = document.createElement('span');
+    dateEl.className = 'teaser-date';
+    dateEl.textContent = date;
+    a.append(dateEl);
+  }
+  li.append(a);
+  return li;
+}
+
+/**
+ * Replaces a related-articles list's items with a dynamic set drawn from the
+ * site's query-index.json: other pages in the same section as the current
+ * article, newest first (by lastModified, when present), capped at `limit`.
+ * The current page is excluded, fixing the source's self-linking lists, and
+ * new articles appear automatically as the index rebuilds. The authored list
+ * is left untouched if the index can't be loaded or has nothing to show.
+ * @param {HTMLUListElement} ul The decorated .related-articles list
+ */
+async function populateRelatedArticles(ul) {
+  const RELATED_LIMIT = 4;
+  const here = window.location.pathname.replace(/\.html$/, '');
+  // section prefix = /{country}/{lang}/{section}
+  const prefix = `/${here.split('/').filter(Boolean).slice(0, 3).join('/')}`;
+  try {
+    const resp = await fetch(`${window.hlx.codeBasePath}/query-index.json?ts=${Math.floor(Date.now() / 60000)}`);
+    if (!resp.ok) return;
+    const json = await resp.json();
+    const rows = (Array.isArray(json.data) ? json.data : [])
+      .filter((r) => r.path && r.path.startsWith(`${prefix}/`) && r.path.replace(/\.html$/, '') !== here)
+      .sort((a, b) => ((Number(b.lastModified) || 0) - (Number(a.lastModified) || 0))
+        || (a.title || '').localeCompare(b.title || ''))
+      .slice(0, RELATED_LIMIT);
+    if (!rows.length) return; // keep the authored list as a fallback
+    ul.replaceChildren(...rows.map((r) => buildTeaserItem({
+      path: r.path,
+      title: r.title || r.path,
+      date: formatTeaserDate(r.lastModified),
+    })));
+  } catch (e) {
+    // network/parse failure — leave the authored list in place
+  }
+}
+
+/**
  * Splits the trailing "<Weekday>, DD Mon YYYY" date out of related-article
  * links (the "you may also be interested in" list) into a separate line, so
  * the title and date can be styled independently — matching the original
  * two-line teaser layout. Detection is content-based (a list whose items are
  * links ending in a weekday date) rather than positional, so it works even
  * when other blocks sit between the heading and the list.
+ *
+ * Once detected, the list is repopulated dynamically from the query index
+ * (see populateRelatedArticles) so it stays current and never self-links.
  * @param {Element} main The container element
  */
 function decorateArticleTeasers(main) {
@@ -202,6 +280,9 @@ function decorateArticleTeasers(main) {
       dateEl.textContent = date;
       a.append(titleEl, dateEl);
     });
+
+    // swap the authored teasers for a live, self-excluding set from the index
+    populateRelatedArticles(ul);
   });
 }
 
