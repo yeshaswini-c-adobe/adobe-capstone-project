@@ -111,7 +111,10 @@ function comparator(sort) {
     // lastModified is a UNIX timestamp (seconds) from the index; newest first,
     // falling back to title order (so the grid is still deterministic when the
     // index has no dates yet — true newest-first kicks in once it populates).
-    return (a, b) => ((Number(b.lastModified) || 0) - (Number(a.lastModified) || 0)) || byTitle(a, b);
+    return (a, b) => {
+      const byDate = (Number(b.lastModified) || 0) - (Number(a.lastModified) || 0);
+      return byDate || byTitle(a, b);
+    };
   }
   return byTitle;
 }
