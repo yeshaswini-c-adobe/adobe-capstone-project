@@ -76,11 +76,19 @@ can't be loaded, and the existing `.related-articles` markup/styling is reused.
 - **About Us contributor bios** — static bios, not links to indexed pages.
 - **FAQs** — no lists of indexed pages.
 
-## Known limitation: dates
+## Dates & newest-first
 
-List "date" lines depend on the index's `lastModified` field, which currently
-comes back empty from the aem.live indexer (despite the `helix-query.yaml`
-format fix). The code handles this gracefully — the date line is omitted rather
-than showing a wrong value, and `sort=newest` falls back to alphabetical. Dates
-and true newest-first ordering appear automatically if/when `lastModified`
-starts populating.
+List "date" lines and `sort=newest` use the index's `lastModified` field.
+
+This is populated in [`helix-query.yaml`](../helix-query.yaml) via
+`parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")`.
+Note the **square-bracket** header accessor (`headers[...]`) — the
+function-call form `headers(...)` silently returns nothing and leaves the field
+empty. `lastModified` is the page's last **publish** time (from the
+`last-modified` response header), expressed as UNIX seconds.
+
+Because `last-modified` reflects publish time, pages published together share
+the same value; `sort=newest` tiebreaks to title order in that case, and spreads
+out as pages are edited/published individually. If `lastModified` is ever
+missing, the code degrades gracefully — the date line is omitted (not shown
+wrong) and sorting falls back to title.
