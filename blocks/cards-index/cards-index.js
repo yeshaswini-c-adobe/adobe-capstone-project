@@ -24,11 +24,13 @@ import decorateCardsTeaser from '../cards-teaser/cards-teaser.js';
  * (its own section), so the same block is reusable on any section landing page.
  */
 
-// cached site index (fetched once, shared across blocks on the page)
+// cached site index (fetched once, shared across blocks on the page). Only a
+// non-empty result is cached, so a transient empty/stale response is retried by
+// the next block rather than poisoning every grid on the page.
 let indexPromise = null;
 
 /**
- * Fetches and caches query-index.json.
+ * Fetches query-index.json, caching only non-empty results.
  * @returns {Promise<Array>} the index rows, or [] on failure
  */
 function loadIndex() {
@@ -40,7 +42,15 @@ function loadIndex() {
     indexPromise = fetch(`${window.hlx.codeBasePath}/query-index.json?ts=${bucket}`)
       .then((resp) => (resp.ok ? resp.json() : { data: [] }))
       .then((json) => (Array.isArray(json.data) ? json.data : []))
-      .catch(() => []);
+      .then((rows) => {
+        // don't cache an empty result — let the next block retry the fetch
+        if (!rows.length) indexPromise = null;
+        return rows;
+      })
+      .catch(() => {
+        indexPromise = null;
+        return [];
+      });
   }
   return indexPromise;
 }
@@ -96,11 +106,14 @@ function resolvePrefix(authored) {
  * @returns {(a: object, b: object) => number} a sort comparator
  */
 function comparator(sort) {
+  const byTitle = (a, b) => (a.title || '').localeCompare(b.title || '');
   if (sort === 'newest') {
-    // lastModified is a UNIX timestamp (seconds) from the index; newest first.
-    return (a, b) => (Number(b.lastModified) || 0) - (Number(a.lastModified) || 0);
+    // lastModified is a UNIX timestamp (seconds) from the index; newest first,
+    // falling back to title order (so the grid is still deterministic when the
+    // index has no dates yet — true newest-first kicks in once it populates).
+    return (a, b) => ((Number(b.lastModified) || 0) - (Number(a.lastModified) || 0)) || byTitle(a, b);
   }
-  return (a, b) => (a.title || '').localeCompare(b.title || '');
+  return byTitle;
 }
 
 /**
