@@ -242,6 +242,41 @@ function loadSearchIndex() {
   return searchIndexPromise;
 }
 
+// Sections that scope the header search to their own child pages. On a page
+// under one of these, search only returns results within that section; on the
+// home page (or any other page) search spans the whole site.
+const SCOPED_SECTIONS = ['magazine', 'adventures'];
+
+/**
+ * Determines the search scope for the current page based on its path.
+ * Paths are `/{country}/{lang}/{section}/{child}` (e.g. /us/en/magazine/...),
+ * so the section is the third path segment.
+ * @returns {{ prefix: string, label: string } | null} the section scope, or
+ *   null when the current page is not inside a scoped section (search all)
+ */
+function getSearchScope() {
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  const idx = segments.findIndex((s) => SCOPED_SECTIONS.includes(s));
+  if (idx === -1) return null;
+  const section = segments[idx];
+  return {
+    prefix: `/${segments.slice(0, idx + 1).join('/')}`,
+    label: section.charAt(0).toUpperCase() + section.slice(1),
+  };
+}
+
+/**
+ * Tests whether a query-index row falls within a search scope.
+ * @param {object} row A query-index record
+ * @param {{ prefix: string }} scope The active scope, or null for site-wide
+ * @returns {boolean} true when the row is in scope
+ */
+function rowInScope(row, scope) {
+  if (!scope) return true;
+  const path = row.path || '';
+  return path === scope.prefix || path.startsWith(`${scope.prefix}/`);
+}
+
 /**
  * Ranks a page against search terms: title matches weigh most, then
  * description, then body content. Returns 0 when any term is absent.
@@ -269,6 +304,11 @@ function scoreRow(row, terms) {
 function initHeaderSearch(icon) {
   const tools = icon.closest('.nav-tools') || icon.parentElement;
 
+  // Scope search to the current section (Magazine/Adventures) or the whole site
+  // on the home page. Computed once on load; the header re-decorates per page.
+  const scope = getSearchScope();
+  const placeholder = scope ? `Search ${scope.label}` : 'Search';
+
   const panel = document.createElement('div');
   panel.className = 'nav-search';
   panel.hidden = true;
@@ -277,8 +317,8 @@ function initHeaderSearch(icon) {
   const input = document.createElement('input');
   input.className = 'nav-search-input';
   input.type = 'search';
-  input.placeholder = 'Search';
-  input.setAttribute('aria-label', 'Search');
+  input.placeholder = placeholder;
+  input.setAttribute('aria-label', placeholder);
 
   const results = document.createElement('ul');
   results.className = 'nav-search-results';
@@ -330,6 +370,7 @@ function initHeaderSearch(icon) {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
     const index = await loadSearchIndex();
     const matches = index
+      .filter((row) => rowInScope(row, scope))
       .map((row) => ({ row, score: scoreRow(row, terms) }))
       .filter((m) => m.score > 0)
       .sort((x, y) => y.score - x.score)
