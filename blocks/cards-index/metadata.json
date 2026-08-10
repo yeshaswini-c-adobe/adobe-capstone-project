@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-index",
+  "baseBlock": "cards-teaser",
+  "version": "1.0.0",
+  "created": "2026-08-10T12:00:00Z",
+  "sourceContext": {
+    "originUrl": "https://wknd.site/us/en/magazine.html",
+    "originPage": "WKND Magazine index (section landing page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "dynamic grid built from query-index.json (image + linked title + description per indexed page)",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "section listing grids that should update automatically as pages are added/removed (magazine 'All Articles', article feeds, catalog listings)",
+      "any flat grid of a section's child pages driven by the query index"
+    ],
+    "notSuitableFor": [
+      "hand-curated grids where the author picks specific cards (use cards-teaser)",
+      "grids requiring per-item category filtering not present in the query index (e.g. the adventures category tabs)",
+      "single feature with side-by-side layout (use columns-featured)"
+    ]
+  },
+  "notes": "Data-driven variant of cards-teaser. Reads query-index.json (built by helix-query.yaml), filters rows to a section prefix (authored cell, or auto-detected from the current path when empty), and delegates rendering to cards-teaser for full style/behaviour reuse. DA project, so no _cards-index.json model file. Add/remove a page in the section and the grid updates once the index rebuilds.",
+  "usage": {
+    "pagesUsing": [],
+    "reuseCount": 0,
+    "lastUsed": "2026-08-10T12:00:00Z"
+  }
+}

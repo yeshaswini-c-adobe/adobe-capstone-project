@@ -1,0 +1,16 @@
+/*
+ * Cards (index) block.
+ *
+ * The block reuses the cards-teaser layout by adding the `cards-teaser` class
+ * to itself in JS, so the grid, card, image and description styling all come
+ * from cards-teaser.css. Only the states unique to a dynamic list live here.
+ */
+
+/* empty state — shown when no pages are indexed under the section prefix */
+.cards-index-empty {
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--muted-text-color);
+  font-family: var(--body-font-family);
+  text-align: center;
+}
