@@ -138,6 +138,16 @@ export default async function decorate(block) {
     const slide = createSlide(row, idx, carouselId);
     slidesWrapper.append(slide);
 
+    // The first slide's image is the page's LCP element: load it eagerly and
+    // hint high priority so the browser fetches it before lazy resources.
+    if (idx === 0) {
+      const lcpImg = slide.querySelector('img');
+      if (lcpImg) {
+        lcpImg.setAttribute('loading', 'eager');
+        lcpImg.setAttribute('fetchpriority', 'high');
+      }
+    }
+
     if (slideIndicators) {
       const indicator = document.createElement('li');
       indicator.classList.add('carousel-hero-slide-indicator');
