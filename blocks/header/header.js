@@ -345,9 +345,10 @@ function initHeaderSearch(icon) {
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') { close(); icon.focus(); }
   });
-  // close when focus/click leaves the search control
+  // close when focus/click leaves the search control (icon.contains covers the
+  // icon's inner <img>/<span>, whose click bubbles up as the real event target)
   document.addEventListener('click', (e) => {
-    if (!panel.hidden && !panel.contains(e.target) && e.target !== icon) close();
+    if (!panel.hidden && !panel.contains(e.target) && !icon.contains(e.target)) close();
   });
 }
 
