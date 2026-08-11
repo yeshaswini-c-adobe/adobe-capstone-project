@@ -11,10 +11,28 @@ This is the same query-index mechanism the header search uses.
 
 | # | Location | Lists | Config | Implemented by |
 |---|----------|-------|--------|----------------|
-| 1 | **Magazine → "All Articles"** | all magazine articles | prefix `/us/en/magazine`, sort `title`, no limit | `cards-index` block |
-| 2 | **Homepage → "Recent Articles"** | magazine articles | `/us/en/magazine`, sort `newest`, limit `4` | `cards-index` block |
-| 3 | **Homepage → "Where do you want to go?"** | adventures | `/us/en/adventures`, sort `newest`, limit `4` | `cards-index` block |
+| 1 | **Magazine → "All Articles"** | curated magazine articles | data sheet `/us/en/magazine/query-index.json` (authored order) | `cards-articles-wknd` → `cards-index` block |
+| 2 | **Homepage → "Recent Articles"** | magazine articles | prefix `/us/en/magazine`, sort `newest`, limit `4` | `cards-index` block |
+| 3 | **Homepage → "Where do you want to go?"** | adventures | prefix `/us/en/adventures`, sort `newest`, limit `4` | `cards-index` block |
 | 4 | **Every article page → "Share this story"** | related articles in the same section | same section, current page excluded, sort `newest`, limit `4` | `scripts.js` |
+
+### Two data-source modes (cards-index)
+
+The `cards-index` block supports two sources, chosen by the authored value:
+
+- **Auto query-index (prefix):** a path/section (e.g. `/us/en/adventures`) →
+  fetches the AEM-generated `/query-index.json`, filters to that section, sorts,
+  and excludes the landing page. New pages appear automatically (locations 2–4).
+- **Hand-authored data sheet (`.json` URL):** a value ending in `.json`
+  (e.g. `/us/en/magazine/query-index.json`) → fetches that DA **sheet** directly
+  and renders its rows in authored order. Full curation control; the author
+  maintains the sheet (location 1). In Document Authoring a "sheet" is created in
+  the DA editor and served as JSON (`:type: sheet`) with column headers
+  (`path`, `title`, `description`, `image`) — there is no `.xlsx` file in DA.
+
+The **`cards-articles-wknd`** block is a thin named wrapper around `cards-index`
+used on the Magazine page so authors see a meaningful block label; all logic and
+styling are delegated (no duplication).
 
 ## How it works
 
