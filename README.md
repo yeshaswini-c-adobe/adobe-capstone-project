@@ -1,6 +1,13 @@
 # Your Project's Title...
 Your project's description...
 
+## Project Documentation
+
+Project-specific docs live in [`docs/`](./docs/):
+- [Migration Report](./docs/migration-report.md) — leadership summary: scope, success, performance, before→after metrics
+- [Dynamic Rendering](./docs/dynamic-rendering.md) — query-index-driven lists (Magazine, homepage grids, article related list)
+- [Block Reusability Audit](./docs/block-reusability-audit.md) — block library review and consolidation
+
 ## Environments
 - Preview: https://main--{repo}--{owner}.aem.page/
 - Live: https://main--{repo}--{owner}.aem.live/
