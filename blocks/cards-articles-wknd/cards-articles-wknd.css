@@ -1,0 +1,7 @@
+/*
+ * Cards (Articles WKND) block.
+ *
+ * Styling is inherited: the block delegates to cards-index, which adds the
+ * `cards-teaser` class and loads cards-teaser.css. No styles are needed here;
+ * this file exists so the block's CSS request resolves (EDS loads it by name).
+ */

@@ -13,15 +13,24 @@ import decorateCardsTeaser from '../cards-teaser/cards-teaser.js';
  * only builds the initial cards-teaser DOM (image + linked title + description
  * per row) and delegates to cards-teaser's decorate().
  *
+ * Two data-source modes, chosen by the authored value:
+ *   1. DATA SHEET (value ends in `.json`) — fetch that file directly and render
+ *      its rows in authored order. Use for hand-curated lists maintained in a
+ *      DA sheet, e.g. `/us/en/magazine/query-index.json`. No prefix filter, no
+ *      sort/self-exclusion (the sheet author controls order and contents).
+ *   2. SECTION PREFIX (a path/section) — fetch the site query-index.json and
+ *      filter to pages under that prefix, excluding the landing page itself.
+ *
  * Content model (block table). All rows optional:
- *   - a single-cell row with just a path       → the section prefix to list,
- *     e.g. `/us/en/magazine` (back-compat shorthand)
+ *   - a single-cell row with a `.json` URL      → data-sheet mode
+ *   - a single-cell row with a path             → section-prefix shorthand
  *   - two-cell key/value rows for options:
+ *       | source | /us/en/magazine/query-index.json |  (a .json data sheet)
  *       | prefix | /us/en/magazine |   (alias: path, section)
- *       | sort   | newest |            (or `title`; default title)
+ *       | sort   | newest |            (prefix mode only; or `title`)
  *       | limit  | 4 |                 (max cards; default all)
- * When no prefix is given, the block derives it from the current page's path
- * (its own section), so the same block is reusable on any section landing page.
+ * When neither is given, the block derives a section prefix from the current
+ * page's path, so it stays reusable on any section landing page.
  */
 
 // cached site index (fetched once, shared across blocks on the page). Only a
@@ -56,27 +65,47 @@ function loadIndex() {
 }
 
 /**
- * Reads the block's config from its table rows. Supports both the single-cell
- * prefix shorthand and two-cell key/value option rows (prefix/sort/limit).
+ * Reads the block's config from its table rows. A single value that ends in
+ * `.json` is treated as a direct data-sheet source; otherwise it's a section
+ * prefix. Two-cell key/value rows set source/prefix/sort/limit explicitly.
  * @param {Element} block The cards-index block element
- * @returns {{ prefix: string, sort: string, limit: number }} parsed config
+ * @returns {{ source: string, prefix: string, sort: string, limit: number }}
  */
 function readConfig(block) {
-  const cfg = { prefix: '', sort: 'title', limit: 0 };
+  const cfg = {
+    source: '', prefix: '', sort: 'title', limit: 0,
+  };
   [...block.children].forEach((row) => {
     const cells = [...row.children];
     if (cells.length >= 2) {
       const key = cells[0].textContent.trim().toLowerCase();
       const value = cells[1].textContent.trim();
-      if (['prefix', 'path', 'section'].includes(key)) cfg.prefix = value;
+      if (key === 'source') cfg.source = value;
+      else if (['prefix', 'path', 'section'].includes(key)) cfg.prefix = value;
       else if (key === 'sort') cfg.sort = value.toLowerCase();
       else if (key === 'limit') cfg.limit = parseInt(value, 10) || 0;
-    } else if (cells.length === 1 && !cfg.prefix) {
-      // single-cell shorthand: the section prefix
-      cfg.prefix = cells[0].textContent.trim();
+    } else if (cells.length === 1) {
+      // single-cell shorthand: a .json URL is a data sheet, else a prefix
+      const value = cells[0].textContent.trim();
+      if (/\.json(\?|$)/i.test(value)) { if (!cfg.source) cfg.source = value; } else if (!cfg.prefix) cfg.prefix = value;
     }
   });
   return cfg;
+}
+
+/**
+ * Fetches a data-sheet JSON by URL (or path), returning its rows in order.
+ * Adds a per-minute cache-buster so edits surface promptly past the CDN.
+ * @param {string} src A `.json` URL or site-absolute path
+ * @returns {Promise<Array>} the sheet rows, or [] on failure
+ */
+function loadSheet(src) {
+  const path = src.startsWith('http') ? new URL(src).pathname : src;
+  const url = `${window.hlx.codeBasePath}${path}?ts=${Math.floor(Date.now() / 60000)}`;
+  return fetch(url)
+    .then((resp) => (resp.ok ? resp.json() : { data: [] }))
+    .then((json) => (Array.isArray(json.data) ? json.data : []))
+    .catch(() => []);
 }
 
 /**
@@ -159,17 +188,26 @@ export default async function decorate(block) {
   //    this block's own CSS, so pull in cards-teaser.css explicitly).
   loadCSS(`${window.hlx.codeBasePath}/blocks/cards-teaser/cards-teaser.css`);
 
-  // 2. Extract configuration (prefix, sort, limit) from the block table
-  const { prefix: authored, sort, limit } = readConfig(block);
-  const prefix = resolvePrefix(authored);
+  // 2. Extract configuration from the block table
+  const {
+    source, prefix: authored, sort, limit,
+  } = readConfig(block);
 
-  // 3. Load the index and select this section's child pages, excluding the
-  //    landing page itself (path === prefix) so it doesn't list itself.
   block.textContent = '';
   block.classList.add('cards-teaser'); // inherit cards-teaser styling
-  let rows = (await loadIndex())
-    .filter((r) => r.path && r.path.startsWith(`${prefix}/`) && r.path !== prefix)
-    .sort(comparator(sort));
+
+  // 3. Load rows from the chosen source:
+  //    - data sheet (source .json): render its rows in authored order as-is
+  //    - section prefix: filter the site index and sort, excluding the landing
+  let rows;
+  if (source) {
+    rows = await loadSheet(source);
+  } else {
+    const prefix = resolvePrefix(authored);
+    rows = (await loadIndex())
+      .filter((r) => r.path && r.path.startsWith(`${prefix}/`) && r.path !== prefix)
+      .sort(comparator(sort));
+  }
   if (limit > 0) rows = rows.slice(0, limit);
 
   // 4. Empty state — nothing indexed under this prefix yet
