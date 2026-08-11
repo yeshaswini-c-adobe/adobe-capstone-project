@@ -68,7 +68,10 @@ export default function decorate(block) {
     }
     ul.append(li);
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  // Responsive widths: cards are ~full-width on mobile/tablet (need 750) but
+  // only ~300px in the 4-up desktop grid, so serve a smaller image ≥900px to
+  // avoid over-fetching (desktop was downloading 750px for a 300px slot).
+  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ media: '(min-width: 900px)', width: '600' }, { width: '750' }])));
   block.replaceChildren(ul);
   if (hasLocked) {
     block.classList.add('cards-teaser-locked');

@@ -28,10 +28,22 @@
   height: 100%;
 }
 
+/* Reserve space from the image's intrinsic ratio so the lazy-loaded featured
+   image doesn't reflow the layout on mobile (fixes the CLS culprit). The
+   source images are 16:9. On desktop the image fills the panel height instead
+   (rule below), so scope the ratio to the mobile stacked layout. */
 .columns-featured img {
   display: block;
   width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
+}
+
+@media (width >= 900px) {
+  .columns-featured img {
+    aspect-ratio: auto;
+  }
 }
 
 /* Text cell — light-grey panel */

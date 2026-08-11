@@ -127,10 +127,13 @@ function comparator(sort) {
 function buildRow(row) {
   const rowEl = document.createElement('div');
 
-  // image cell — optimized <picture>; omitted when the row has no image
+  // image cell — optimized <picture>; omitted when the row has no image.
+  // Responsive widths match cards-teaser (smaller image in the 4-up desktop
+  // grid). NB: cards-teaser.decorate() re-optimizes these too, but keep the
+  // breakpoints here so the builder is correct on its own.
   const imageCell = document.createElement('div');
   if (row.image) {
-    imageCell.append(createOptimizedPicture(row.image, row.title || '', false, [{ width: '750' }]));
+    imageCell.append(createOptimizedPicture(row.image, row.title || '', false, [{ media: '(min-width: 900px)', width: '600' }, { width: '750' }]));
   }
 
   // body cell — linked title followed by the description text
