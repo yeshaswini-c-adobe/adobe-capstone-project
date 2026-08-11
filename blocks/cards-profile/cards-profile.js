@@ -1,4 +1,5 @@
-import { createOptimizedPicture, decorateIcons } from '../../scripts/aem.js';
+import { decorateIcons } from '../../scripts/aem.js';
+import { buildCardList } from '../cards/cards.js';
 
 // WKND brand social accounts, mirrored from the footer (the source cards link
 // to per-person placeholders, so brand accounts are the sensible stand-in).
@@ -32,24 +33,12 @@ function buildSocialRow(name) {
 }
 
 export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
-  [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    while (row.firstElementChild) li.append(row.firstElementChild);
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-profile-card-image';
-      else div.className = 'cards-profile-card-body';
-    });
-    // append the social-icon row to the card body
-    const body = li.querySelector('.cards-profile-card-body');
-    if (body) {
-      const name = body.querySelector('h3')?.textContent.trim();
-      body.append(buildSocialRow(name));
-    }
-    ul.append(li);
+  // Reuse the shared cards skeleton (row → li, image/body cells, optimized
+  // pictures), then add the profile-specific social-icon row per card.
+  const ul = buildCardList(block, 'cards-profile', 400);
+  ul.querySelectorAll('.cards-profile-card-body').forEach((body) => {
+    const name = body.querySelector('h3')?.textContent.trim();
+    body.append(buildSocialRow(name));
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '400' }])));
-  block.replaceChildren(ul);
   decorateIcons(block);
 }
