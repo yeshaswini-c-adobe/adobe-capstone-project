@@ -53,8 +53,30 @@ rolled up into 31 variants across 10 base types (87% reuse). That describes the
   forcing it through the shared helper would add risk for little gain. Flagged
   here as a possible future refactor if that logic simplifies.
 
+## Block dependency chains — do NOT delete base blocks
+
+The sheet-driven blocks are **thin wrappers** that reuse a base block for all
+rendering/styling (import its `decorate`, add its class, load its CSS). The base
+blocks are therefore load-bearing dependencies, not dead code — deleting one
+breaks its wrapper. Current chains:
+
+| Wrapper (sheet-driven) | depends on | which depends on |
+|------------------------|-----------|------------------|
+| `cards-articles-wknd`  | `cards-index` | `cards-teaser` |
+| `cards-adventures-wknd`| `cards-teaser` | — |
+| `faq-wknd`             | `accordion-faq` | — |
+| `profiles-wknd`        | `cards-profile` | `cards` |
+
+Also still used directly in content: `cards-index` (homepage grids),
+`cards-teaser` (magazine featured), `carousel-hero`, `hero-banner`,
+`columns-featured`, `table-facts`, `header`, `footer`, `fragment`, and `widget`
+(auto-blocked in scripts.js). **Every block in `blocks/` is either used on a
+live page or imported by a block that is** — there is no remaining dead block to
+remove (the only dead blocks, `columns`/`table`/`hero`, were already deleted).
+
 ## Verdict
 The block set is well-consolidated: no custom blocks that should be library
 blocks, no duplicate blocks for the same job, and configuration is used instead
 of per-page code. The two cleanups above remove dead code and the one real
-instance of copy-pasted logic.
+instance of copy-pasted logic. New sheet-driven blocks reuse existing bases
+rather than duplicating them.
