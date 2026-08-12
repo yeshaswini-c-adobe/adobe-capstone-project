@@ -6,7 +6,15 @@
  */
 
 .profiles-wknd-group-heading {
-  margin: 2rem 0 1rem;
+  margin: 2rem 0 0.5rem;
+}
+
+/* group intro — italic lead-in under each group heading (matches the source) */
+.profiles-wknd-group-intro {
+  margin: 0 0 1.5rem;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-style: italic;
 }
 
 .profiles-wknd-empty {

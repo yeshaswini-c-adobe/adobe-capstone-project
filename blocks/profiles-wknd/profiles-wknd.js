@@ -91,12 +91,14 @@ export default async function decorate(block) {
     return;
   }
 
-  // split by group, preserving first-seen order; render a heading + grid each
+  // split by group, preserving first-seen order; capture each group's intro
+  // (first non-empty `intro` seen for the group) to show under its heading.
   const groups = [];
   rows.forEach((r) => {
     const g = r.group || 'Team';
     let entry = groups.find((x) => x.name === g);
-    if (!entry) { entry = { name: g, people: [] }; groups.push(entry); }
+    if (!entry) { entry = { name: g, intro: '', people: [] }; groups.push(entry); }
+    if (!entry.intro && r.intro) entry.intro = r.intro;
     entry.people.push(r);
   });
 
@@ -106,6 +108,12 @@ export default async function decorate(block) {
       h.className = 'profiles-wknd-group-heading';
       h.textContent = g.name;
       block.append(h);
+    }
+    if (g.intro) {
+      const p = document.createElement('p');
+      p.className = 'profiles-wknd-group-intro';
+      p.textContent = g.intro;
+      block.append(p);
     }
     block.append(buildProfileGrid(g.people));
   });
