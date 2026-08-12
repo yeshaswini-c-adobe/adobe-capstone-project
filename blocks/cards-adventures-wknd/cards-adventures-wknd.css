@@ -1,0 +1,26 @@
+/*
+ * Cards (Adventures WKND) block.
+ *
+ * Card grid styling is inherited from cards-teaser (the block adds that class),
+ * and the filter bar reuses the site's global .adventure-tabs / .adventure-tab
+ * styles. Only the category show/hide state and empty state live here.
+ */
+
+/* the tab bar spans the full grid width, above the cards */
+.cards-adventures-wknd .adventure-tabs {
+  margin-bottom: 24px;
+}
+
+/* cards hidden by the active category filter */
+.cards-adventures-wknd .cards-adventures-hidden {
+  display: none;
+}
+
+/* empty state — no rows in the sheet */
+.cards-adventures-empty {
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--muted-text-color);
+  font-family: var(--body-font-family);
+  text-align: center;
+}
