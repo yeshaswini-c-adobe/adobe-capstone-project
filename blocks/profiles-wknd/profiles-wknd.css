@@ -1,0 +1,18 @@
+/*
+ * Profiles (WKND) block.
+ *
+ * Profile card styling is inherited from cards-profile (each group is rendered
+ * as a cards-profile grid). Only the group heading and empty state are here.
+ */
+
+.profiles-wknd-group-heading {
+  margin: 2rem 0 1rem;
+}
+
+.profiles-wknd-empty {
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--muted-text-color);
+  font-family: var(--body-font-family);
+  text-align: center;
+}

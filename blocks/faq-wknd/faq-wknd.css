@@ -1,0 +1,14 @@
+/*
+ * FAQ (WKND) block.
+ *
+ * Accordion styling is inherited from accordion-faq (the block adds that class
+ * and loads accordion-faq.css). Only the empty state is block-specific.
+ */
+
+.faq-wknd-empty {
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--muted-text-color);
+  font-family: var(--body-font-family);
+  text-align: center;
+}
