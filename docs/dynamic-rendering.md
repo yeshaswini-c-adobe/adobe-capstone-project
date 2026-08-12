@@ -16,6 +16,8 @@ This is the same query-index mechanism the header search uses.
 | 3 | **Homepage → "Where do you want to go?"** | adventures | prefix `/us/en/adventures`, sort `newest`, limit `4` | `cards-index` block |
 | 4 | **Every article page → "Share this story"** | related articles in the same section | same section, current page excluded, sort `newest`, limit `4` | `scripts.js` |
 | 5 | **Adventures → "Current Adventures"** | curated adventures + category tabs | data sheet `/us/en/adventures/query-index.json` (with `category` column) | `cards-adventures-wknd` block |
+| 6 | **FAQ → questionnaire** | Q&A accordion | data sheet `/us/en/faqs/query-index.json` (`question`, `answer`) | `faq-wknd` block (→ accordion-faq) |
+| 7 | **About Us → contributor/guide profiles** | profile groups | data sheet `/us/en/about-us/query-index.json` (`name`, `role`, `image`, `group`) | `profiles-wknd` block (→ cards-profile) |
 
 ### Sheet-driven listings (Magazine + Adventures)
 
