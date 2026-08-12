@@ -15,6 +15,27 @@ This is the same query-index mechanism the header search uses.
 | 2 | **Homepage → "Recent Articles"** | magazine articles | prefix `/us/en/magazine`, sort `newest`, limit `4` | `cards-index` block |
 | 3 | **Homepage → "Where do you want to go?"** | adventures | prefix `/us/en/adventures`, sort `newest`, limit `4` | `cards-index` block |
 | 4 | **Every article page → "Share this story"** | related articles in the same section | same section, current page excluded, sort `newest`, limit `4` | `scripts.js` |
+| 5 | **Adventures → "Current Adventures"** | curated adventures + category tabs | data sheet `/us/en/adventures/query-index.json` (with `category` column) | `cards-adventures-wknd` block |
+
+### Sheet-driven listings (Magazine + Adventures)
+
+Two listings read hand-authored DA **sheets** rather than the auto query-index,
+giving authors full control (exact items, order, and — for Adventures —
+categories):
+
+- **Magazine "All Articles"** → `cards-articles-wknd` reads
+  `/us/en/magazine/query-index.json` (columns `path/title/description/image`),
+  rendering cards in authored order.
+- **Adventures "Current Adventures"** → `cards-adventures-wknd` reads
+  `/us/en/adventures/query-index.json` (adds a `category` column) and builds the
+  All/Climbing/Cycling/Skiing/Surfing/Travel filter tabs from the distinct
+  categories, filtering cards client-side. This is something the auto
+  query-index could not do — it has no per-page category field.
+
+Both are edited in the da.live sheet grid (no `.xlsx`; served as JSON,
+`:type: sheet`) and reuse `cards-teaser` for card styling. Trade-off: sheet-
+driven lists are curated, so new pages do **not** auto-appear — the author adds
+a row.
 
 ### Two data-source modes (cards-index)
 
