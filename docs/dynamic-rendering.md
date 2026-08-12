@@ -12,6 +12,8 @@ This is the same query-index mechanism the header search uses.
 | # | Location | Lists | Config | Implemented by |
 |---|----------|-------|--------|----------------|
 | 1 | **Magazine → "All Articles"** | curated magazine articles | data sheet `/us/en/magazine/query-index.json` (authored order) | `cards-articles-wknd` → `cards-index` block |
+| 1b | **Homepage → "Recent Articles"** | curated, 4 | data sheet `/us/en/magazine/query-index.json` (`source` + `limit 4`) | `cards-articles-wknd` |
+| 1c | **Homepage → "Where do you want to go?"** | curated, 4 | data sheet `/us/en/adventures/query-index.json` (`source` + `limit 4`) | `cards-articles-wknd` |
 | 2 | **Homepage → "Recent Articles"** | magazine articles | prefix `/us/en/magazine`, sort `newest`, limit `4` | `cards-index` block |
 | 3 | **Homepage → "Where do you want to go?"** | adventures | prefix `/us/en/adventures`, sort `newest`, limit `4` | `cards-index` block |
 | 4 | **Every article page → "Share this story"** | related articles in the same section | same section, current page excluded, sort `newest`, limit `4` | `scripts.js` |
