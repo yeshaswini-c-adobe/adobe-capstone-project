@@ -1,0 +1,36 @@
+{
+  "variantName": "cards-articles-wknd",
+  "baseBlock": "cards-index",
+  "version": "1.0.0",
+  "created": "2026-08-11T00:00:00Z",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "teaser grid built from a hand-authored DA sheet (image + linked title + description per row, authored order)",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "config": {
+    "source": "path to a DA sheet ending in .json, e.g. /us/en/magazine/query-index.json (columns: path, title, description, image)",
+    "limit": "optional max cards"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "curated article/teaser grids driven by a DA sheet (Magazine All Articles; homepage Recent Articles / Where-do-you-want-to-go with limit)",
+      "any grid where authors control exact items and order via a sheet"
+    ],
+    "notSuitableFor": [
+      "auto-syncing lists of all pages in a section (use cards-index with a prefix instead)",
+      "profile bios (use profiles-wknd) or Q&A (use faq-wknd)"
+    ]
+  },
+  "notes": "Thin wrapper: delegates all fetching/rendering to cards-index (sheet-source mode), which reuses cards-teaser for styling. No duplicated logic. DA project, no _model file.",
+  "usage": {
+    "pagesUsing": ["/us/en", "/us/en/magazine"],
+    "reuseCount": 3
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "variantName": "cards-adventures-wknd",
+  "baseBlock": "cards-teaser",
+  "version": "1.0.0",
+  "created": "2026-08-11T00:00:00Z",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "teaser grid from a DA sheet + category filter tabs built from a `category` column",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "config": {
+    "source": "path to a DA sheet ending in .json, e.g. /us/en/adventures/query-index.json (columns: path, title, description, image, category)"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "listing pages needing a card grid plus author-defined category filter tabs (Adventures Current Adventures)"
+    ],
+    "notSuitableFor": [
+      "grids without category filtering (use cards-articles-wknd)",
+      "auto-syncing section lists (use cards-index with a prefix)"
+    ]
+  },
+  "notes": "Reads the sheet, renders cards via cards-teaser, and builds All + per-category tabs from distinct `category` values (client-side show/hide, reusing global .adventure-tabs styles). DA project, no _model file.",
+  "usage": {
+    "pagesUsing": ["/us/en/adventures"],
+    "reuseCount": 1
+  }
+}

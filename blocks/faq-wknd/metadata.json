@@ -1,0 +1,32 @@
+{
+  "variantName": "faq-wknd",
+  "baseBlock": "accordion-faq",
+  "version": "1.0.0",
+  "created": "2026-08-11T00:00:00Z",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "content"
+  },
+  "contentPattern": {
+    "structure": "Q&A accordion built from a DA sheet (question + answer per row)",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "config": {
+    "source": "path to a DA sheet ending in .json, e.g. /us/en/faqs/query-index.json (columns: question, answer)"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ / questionnaire accordions maintained in a DA sheet"
+    ],
+    "notSuitableFor": [
+      "card grids (use cards-* blocks)"
+    ]
+  },
+  "notes": "Reads the sheet, builds question/answer rows and delegates to accordion-faq for the native <details> accordion markup/behaviour. DA project, no _model file.",
+  "usage": {
+    "pagesUsing": ["/us/en/faqs"],
+    "reuseCount": 1
+  }
+}
