@@ -4,15 +4,16 @@ How the block library is organised, standardised, versioned, and extended.
 
 ## Where the library lives
 
-**There is no block-library UI or version indicator inside da.live.** In Edge
-Delivery + Document Authoring, da.live holds **content**; blocks are **code** in
-the GitHub repo under [`/blocks`](../blocks). In a page, a block is just a named
-table (e.g. a table whose first cell says `cards-articles-wknd`) — da.live does
-not show what a block does, its variants, or a version. The library *is* the
-`/blocks` folder; versioning is Git history + each block's `metadata.json`.
+Blocks are **code** in the GitHub repo under [`/blocks`](../blocks); in a page a
+block is just a named table (e.g. a table whose first cell says
+`cards-articles-wknd`). The canonical library *is* the `/blocks` folder, and
+versioning is Git history + each block's `metadata.json`.
 
-Authors can browse/insert approved blocks via the **Sidekick Block Library**
-panel (see below), which is the closest thing to an in-authoring library.
+For authors, the **Sidekick Block Library** panel surfaces this library inside
+the da.live authoring experience: it lists every approved block and lets authors
+preview and insert one without knowing its table markup (see below). da.live
+itself still stores only content — the panel is served from the repo's
+`tools/sidekick/` and rendered by AEM Sidekick on top of da.live.
 
 ## Inventory (17 blocks)
 
@@ -58,9 +59,21 @@ panel (see below), which is the closest thing to an in-authoring library.
 ## Approved blocks (Sidekick Library)
 
 The Sidekick Block Library (`tools/sidekick/`) gives authors an in-editor panel
-to insert approved blocks. Config: `library.html` + `library.json` (a `blocks`
-sheet of name/path rows) + demo pages under `/tools/sidekick/blocks/`, and the
-plugin registered in `tools/sidekick/config.json`.
+to insert approved blocks. It is registered as a `library` edit-mode plugin in
+`tools/sidekick/config.json` (URL `→ /tools/sidekick/library.html`), which loads
+the `sidekick-library` component against `/tools/sidekick/library.json`.
+
+`library.json` is a single-sheet `blocks` list of `name` / `path` rows — one per
+approved block — and covers **all 13 author-insertable blocks** (the 8 base/design
+blocks plus the 4 `-wknd` wrappers, excluding infra blocks `header`, `footer`,
+`fragment`, `widget`). Each `path` points at a demo page under
+`/tools/sidekick/blocks/<name>` that shows the block's expected table structure
+with sample content (variants authored as separate sections). Authors open the
+panel, preview a block, and copy it into their page.
+
+For the panel to be visible in da.live, `library.json` and every demo page must
+be **previewed/published in Document Authoring** (they are served content, not
+just repo code).
 
 > **Note:** authors are **not hard-restricted** to approved blocks — da.live
 > lets any block name be typed, and an unknown name renders as plain content.
