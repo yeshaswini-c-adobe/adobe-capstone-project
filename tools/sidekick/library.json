@@ -1,0 +1,21 @@
+{
+  "total": 13,
+  "offset": 0,
+  "limit": 13,
+  "data": [
+    { "name": "Hero Banner", "path": "/tools/sidekick/blocks/hero-banner" },
+    { "name": "Carousel Hero", "path": "/tools/sidekick/blocks/carousel-hero" },
+    { "name": "Columns Featured", "path": "/tools/sidekick/blocks/columns-featured" },
+    { "name": "Cards", "path": "/tools/sidekick/blocks/cards" },
+    { "name": "Cards Teaser", "path": "/tools/sidekick/blocks/cards-teaser" },
+    { "name": "Cards Profile", "path": "/tools/sidekick/blocks/cards-profile" },
+    { "name": "Cards Index", "path": "/tools/sidekick/blocks/cards-index" },
+    { "name": "Table Facts", "path": "/tools/sidekick/blocks/table-facts" },
+    { "name": "Accordion FAQ", "path": "/tools/sidekick/blocks/accordion-faq" },
+    { "name": "Cards Articles (WKND)", "path": "/tools/sidekick/blocks/cards-articles-wknd" },
+    { "name": "Cards Adventures (WKND)", "path": "/tools/sidekick/blocks/cards-adventures-wknd" },
+    { "name": "FAQ (WKND)", "path": "/tools/sidekick/blocks/faq-wknd" },
+    { "name": "Profiles (WKND)", "path": "/tools/sidekick/blocks/profiles-wknd" }
+  ],
+  ":type": "sheet"
+}
