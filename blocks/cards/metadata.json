@@ -1,0 +1,30 @@
+{
+  "variantName": "cards",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-08-19T00:00:00Z",
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "feature",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + title + description per card, one row per card",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "generic feature/highlight card grids (image, bold title, short description)"
+    ],
+    "notSuitableFor": [
+      "linked article teasers (use cards-teaser) or profile bios (use cards-profile)"
+    ]
+  },
+  "notes": "Shared base card skeleton (buildCardList): each block row becomes a card with an image cell and a body cell. Other card variants reuse this.",
+  "usage": {
+    "pagesUsing": [],
+    "reuseCount": 0
+  }
+}
