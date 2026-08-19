@@ -1,6 +1,7 @@
 {
   "enabledPlugins": {
     "modern-web-guidance@excat-extended": true,
-    "project-management@excat-extended": true
+    "project-management@excat-extended": true,
+    "excat-block-library@excat-extended": true
   }
 }
