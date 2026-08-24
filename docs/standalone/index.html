@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>WKND Migration Reports</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #1f2632;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #f0c000;
+  --link: #4aa3ff;
+  --good: #2ea043;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.report-nav {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.report-nav a { color: var(--link); text-decoration: none; font-size: 14px; }
+.report-nav a:hover { text-decoration: underline; }
+.report-tag {
+  font-size: 12px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+main.report {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+main.report h1 {
+  font-size: 30px; line-height: 1.25; margin: 0 0 8px;
+  border-bottom: 2px solid var(--accent); padding-bottom: 12px;
+}
+main.report h2 {
+  font-size: 21px; margin: 40px 0 12px; color: var(--text);
+  border-bottom: 1px solid var(--border); padding-bottom: 6px;
+}
+main.report h3 { font-size: 17px; margin: 28px 0 8px; }
+main.report p { margin: 12px 0; }
+main.report a { color: var(--link); }
+main.report ul, main.report ol { padding-left: 22px; }
+main.report li { margin: 6px 0; }
+main.report strong { color: #fff; }
+main.report code {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px; font-size: 0.88em;
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+main.report pre {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; overflow: auto;
+}
+main.report pre code { background: none; border: 0; padding: 0; color: var(--text); }
+main.report blockquote {
+  margin: 16px 0; padding: 8px 16px;
+  border-left: 3px solid var(--accent); background: var(--panel);
+  color: var(--muted);
+}
+main.report table {
+  width: 100%; border-collapse: collapse; margin: 18px 0;
+  font-size: 14px; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+main.report th, main.report td {
+  text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+main.report thead th {
+  background: var(--panel-2); color: var(--text);
+  font-weight: 600; border-bottom: 2px solid var(--border);
+}
+main.report tbody tr:last-child td { border-bottom: 0; }
+main.report tbody tr:hover { background: var(--panel-2); }
+.report-footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 24px; text-align: center;
+  color: var(--muted); font-size: 13px;
+}
+.report-footer p { margin: 0; }
+
+/* hub index cards */
+.report-index { display: grid; gap: 14px; margin: 20px 0; }
+.report-index .card {
+  display: block; padding: 16px 18px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; text-decoration: none; color: var(--text);
+  transition: border-color .15s, background .15s;
+}
+.report-index .card:hover { border-color: var(--accent); background: var(--panel-2); }
+.report-index .card h3 { margin: 0 0 4px; color: var(--accent); font-size: 16px; }
+.report-index .card p { margin: 0; color: var(--muted); font-size: 14px; }
+.report-index .phase {
+  margin: 28px 0 4px; font-size: 13px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+}
+
+</style>
+</head>
+<body>
+<nav class="report-nav">
+  <span>WKND Migration Reports</span>
+  <span class="report-tag">Internal</span>
+</nav>
+<main class="report">
+  <h1>WKND Migration Reports</h1>
+  <p>Analysis and outcome reports for the WKND → Adobe Experience Manager Edge Delivery Services migration, grouped by phase.</p>
+
+  <p class="phase">Pre-migration analysis</p>
+  <div class="report-index">
+    <a class="card" href="wknd-migration-assessment.html">
+      <h3>Discovery &amp; Migration Assessment</h3>
+      <p>28-section discovery: sitemap, inventories, header/footer analysis, SEO, AEM→EDS mapping, risks, effort estimate, phase plan, go-live checklist.</p>
+    </a>
+  </div>
+
+  <p class="phase">Post-migration analysis</p>
+  <div class="report-index">
+    <a class="card" href="wknd-migration-report.html">
+      <h3>Migration Report — Leadership Summary</h3>
+      <p>Scope, success, issues resolved, dynamic implementations, block library, SEO, performance, reusability, QA/UAT, and before→after metrics.</p>
+    </a>
+    <a class="card" href="block-reusability-audit.html">
+      <h3>Block Reusability Audit</h3>
+      <p>Blocks shipped, reuse/dependency chains, cleanups applied, and the verdict on duplication.</p>
+    </a>
+    <a class="card" href="dynamic-rendering.html">
+      <h3>Dynamic Rendering</h3>
+      <p>Data-driven content: source modes, sheet-driven wrapper blocks, DA sheet format, and the related-articles list.</p>
+    </a>
+  </div>
+</main>
+<footer class="report-footer">
+  <p>WKND → Adobe Experience Manager Edge Delivery Services migration · Internal report</p>
+</footer>
+</body>
+</html>

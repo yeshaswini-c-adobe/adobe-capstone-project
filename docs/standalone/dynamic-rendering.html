@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Dynamic Rendering</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --panel: #161b22;
+  --panel-2: #1f2632;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #f0c000;
+  --link: #4aa3ff;
+  --good: #2ea043;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.report-nav {
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.report-nav a { color: var(--link); text-decoration: none; font-size: 14px; }
+.report-nav a:hover { text-decoration: underline; }
+.report-tag {
+  font-size: 12px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+main.report {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+main.report h1 {
+  font-size: 30px; line-height: 1.25; margin: 0 0 8px;
+  border-bottom: 2px solid var(--accent); padding-bottom: 12px;
+}
+main.report h2 {
+  font-size: 21px; margin: 40px 0 12px; color: var(--text);
+  border-bottom: 1px solid var(--border); padding-bottom: 6px;
+}
+main.report h3 { font-size: 17px; margin: 28px 0 8px; }
+main.report p { margin: 12px 0; }
+main.report a { color: var(--link); }
+main.report ul, main.report ol { padding-left: 22px; }
+main.report li { margin: 6px 0; }
+main.report strong { color: #fff; }
+main.report code {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1px 6px; font-size: 0.88em;
+  color: var(--accent);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+main.report pre {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; overflow: auto;
+}
+main.report pre code { background: none; border: 0; padding: 0; color: var(--text); }
+main.report blockquote {
+  margin: 16px 0; padding: 8px 16px;
+  border-left: 3px solid var(--accent); background: var(--panel);
+  color: var(--muted);
+}
+main.report table {
+  width: 100%; border-collapse: collapse; margin: 18px 0;
+  font-size: 14px; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+}
+main.report th, main.report td {
+  text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+main.report thead th {
+  background: var(--panel-2); color: var(--text);
+  font-weight: 600; border-bottom: 2px solid var(--border);
+}
+main.report tbody tr:last-child td { border-bottom: 0; }
+main.report tbody tr:hover { background: var(--panel-2); }
+.report-footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 24px; text-align: center;
+  color: var(--muted); font-size: 13px;
+}
+.report-footer p { margin: 0; }
+
+/* hub index cards */
+.report-index { display: grid; gap: 14px; margin: 20px 0; }
+.report-index .card {
+  display: block; padding: 16px 18px;
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: 10px; text-decoration: none; color: var(--text);
+  transition: border-color .15s, background .15s;
+}
+.report-index .card:hover { border-color: var(--accent); background: var(--panel-2); }
+.report-index .card h3 { margin: 0 0 4px; color: var(--accent); font-size: 16px; }
+.report-index .card p { margin: 0; color: var(--muted); font-size: 14px; }
+.report-index .phase {
+  margin: 28px 0 4px; font-size: 13px; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted);
+}
+
+</style>
+</head>
+<body>
+<nav class="report-nav">
+  <a href="index.html">‹ All reports</a>
+  <span class="report-tag">WKND Migration</span>
+</nav>
+<main class="report">
+<h1>Dynamic Rendering (Data-Driven Content)</h1>
+<p>Most content lists on this site are <strong>data-driven</strong> rather than hand-placed:
+blocks fetch a JSON data source and render from it, so the lists stay current
+without editing the page markup. There are <strong>two data-source models</strong>:</p>
+<ol>
+<li><strong>Auto query-index</strong> — AEM auto-generates <code>/query-index.json</code> from published
+pages (per <code>helix-query.yaml</code>). Lists auto-update as pages are added/removed.
+Same mechanism the header search uses.</li>
+<li><strong>Hand-authored DA sheet</strong> — an author maintains a spreadsheet (&quot;sheet&quot;) in
+da.live, served as JSON (<code>:type: sheet</code>, no <code>.xlsx</code>). Full curation control
+over items/order/grouping; lists do <strong>not</strong> auto-update (author edits a row).</li>
+</ol>
+<h2>Where it&#39;s used</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Location</th>
+<th>Model</th>
+<th>Source</th>
+<th>Block</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td><strong>Magazine → All Articles</strong></td>
+<td>sheet</td>
+<td><code>/us/en/magazine/query-index.json</code></td>
+<td><code>cards-articles-wknd</code> → <code>cards-index</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Homepage → Recent Articles</strong></td>
+<td>sheet</td>
+<td><code>/us/en/magazine/query-index.json</code> (<code>limit 4</code>)</td>
+<td><code>cards-articles-wknd</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Homepage → Where do you want to go?</strong></td>
+<td>sheet</td>
+<td><code>/us/en/adventures/query-index.json</code> (<code>limit 4</code>)</td>
+<td><code>cards-articles-wknd</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Adventures → Current Adventures</strong> (+ category tabs)</td>
+<td>sheet</td>
+<td><code>/us/en/adventures/query-index.json</code> (<code>category</code> col)</td>
+<td><code>cards-adventures-wknd</code> → <code>cards-teaser</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>FAQ → questionnaire accordion</strong></td>
+<td>sheet</td>
+<td><code>/us/en/faqs/query-index.json</code> (<code>question</code>, <code>answer</code>)</td>
+<td><code>faq-wknd</code> → <code>accordion-faq</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>About Us → contributor/guide profiles</strong></td>
+<td>sheet</td>
+<td><code>/us/en/about-us/query-index.json</code> (<code>name</code>, <code>role</code>, <code>image</code>, <code>group</code>, <code>intro</code>)</td>
+<td><code>profiles-wknd</code> → <code>cards-profile</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Every article → &quot;Share this story&quot; related list</strong></td>
+<td>auto index</td>
+<td><code>/query-index.json</code> (same section, exclude self, newest, 4)</td>
+<td><code>scripts.js</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Header search</strong> (all pages)</td>
+<td>auto index</td>
+<td><code>/query-index.json</code> (section-scoped)</td>
+<td><code>header.js</code></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Homepage grids (2, 3) were originally auto-index (newest 4) and later switched
+to the curated sheets. The related list (7) and search (8) remain auto-index.</p>
+</blockquote>
+<h2>The two source modes in <code>cards-index</code></h2>
+<p><code>cards-index</code> chooses its source from the authored value:</p>
+<ul>
+<li><strong>Section prefix</strong> (e.g. <code>/us/en/adventures</code>) → fetches the auto
+<code>/query-index.json</code>, filters to that section, sorts, excludes the landing
+page. Auto-syncs.</li>
+<li><strong>Data sheet</strong> (a value ending in <code>.json</code>, or a <code>source</code> key) → fetches that
+DA sheet directly and renders its rows in authored order. Curated.</li>
+</ul>
+<p>Block-table config (all rows optional): <code>source</code> (a <code>.json</code> sheet) <strong>or</strong>
+<code>prefix</code>/<code>path</code>/<code>section</code>; plus <code>sort</code> (<code>title</code> | <code>newest</code>, prefix mode) and
+<code>limit</code> (max cards). A single cell is shorthand: a <code>.json</code> value = sheet, else a
+prefix.</p>
+<h2>Sheet-driven blocks (thin wrappers)</h2>
+<p>Each <code>*-wknd</code> block is a small wrapper that fetches its sheet and <strong>delegates
+rendering to a base block</strong> (reusing its markup, CSS and behaviour — no
+duplication):</p>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>Sheet columns</th>
+<th>Delegates to</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cards-articles-wknd</code></td>
+<td>path, title, description, image</td>
+<td><code>cards-index</code> (→ <code>cards-teaser</code>)</td>
+</tr>
+<tr>
+<td><code>cards-adventures-wknd</code></td>
+<td>path, title, description, image, <strong>category</strong></td>
+<td><code>cards-teaser</code> + builds category tabs</td>
+</tr>
+<tr>
+<td><code>faq-wknd</code></td>
+<td>question, answer</td>
+<td><code>accordion-faq</code></td>
+</tr>
+<tr>
+<td><code>profiles-wknd</code></td>
+<td>name, role, image, group, intro</td>
+<td><code>cards-profile</code>, one grid per group</td>
+</tr>
+</tbody></table>
+<p>The base blocks are therefore load-bearing dependencies — see
+<a href="block-reusability-audit.html"><code>block-reusability-audit.md</code></a>.</p>
+<h2>DA sheet format</h2>
+<p>A DA &quot;sheet&quot; is created in the da.live editor as an editable grid with column
+headers in row 1 (there is <strong>no <code>.xlsx</code></strong> in Document Authoring). On publish it
+is served as JSON in the standard envelope: <code>{ total, offset, limit, data: [ … ], &quot;:type&quot;: &quot;sheet&quot; }</code>. To edit content, open the sheet in da.live and add/edit
+rows — no code change.</p>
+<h2><code>scripts.js</code> — article related list (location 7)</h2>
+<p><code>decorateArticleTeasers()</code> detects the article sidebar&#39;s related list and calls
+<code>populateRelatedArticles()</code>, which refills it from the auto index (same section,
+current page excluded, newest, limit 4) — fixing the source&#39;s self-linking bug.
+The authored list is kept as a fallback if the index can&#39;t be loaded.</p>
+<h2>Not applied (by design)</h2>
+<ul>
+<li><strong>Article / adventure detail pages</strong> — no card/list grid to convert (hero +
+body + facts + related list only).</li>
+</ul>
+<h2>Dates &amp; newest-first (auto-index mode)</h2>
+<p><code>sort=newest</code> and related-list dates use the index&#39;s <code>lastModified</code>, populated in
+<a href="https://github.com/yeshaswini-c-adobe/adobe-capstone-project/blob/main/helix-query.yaml"><code>helix-query.yaml</code></a> via
+<code>parseTimestamp(headers[&quot;last-modified&quot;], &quot;ddd, DD MMM YYYY hh:mm:ss GMT&quot;)</code>.
+Note the <strong>square-bracket</strong> header accessor (<code>headers[...]</code>) — the function-call
+form <code>headers(...)</code> silently returns nothing. <code>lastModified</code> is the page&#39;s last
+<strong>publish</strong> time (UNIX seconds); pages published together share a value, so
+<code>sort=newest</code> tiebreaks to title order and spreads out as pages are edited
+individually. When absent, the code degrades gracefully (date omitted, sort
+falls back to title).</p>
+<h2>Robustness</h2>
+<p>The sheet/index fetches use a per-minute cache-buster so author edits surface
+promptly past the CDN, and an <strong>empty</strong> result is not cached (a transient
+stale-CDN response won&#39;t blank a grid).</p>
+
+</main>
+<footer class="report-footer">
+  <p>WKND → Adobe Experience Manager Edge Delivery Services migration · Internal report</p>
+</footer>
+</body>
+</html>
