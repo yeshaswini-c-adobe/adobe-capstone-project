@@ -1,0 +1,1157 @@
+<body>
+  <header></header>
+  <main>
+    <div>
+      <h1>WKND — Website Discovery &amp; Migration Assessment</h1>
+      <p>Migration planning report for <strong>wknd.site</strong> → Adobe Edge Delivery Services (EDS)</p>
+      <ul>
+        <li>Analysis date: 2026-08-06</li>
+        <li>Source: https://wknd.site/us/en.html</li>
+        <li>64 pages · 1 document</li>
+        <li>6 templates · 31 block variants</li>
+        <li>11 locales</li>
+        <li>Discovery: crawl · 100% analyzed</li>
+      </ul>
+    </div>
+    <div>
+      <h2>01 · Executive Summary</h2>
+      <p>WKND is a well-structured Adobe Experience Manager (AEM) Sites reference site built on Core Components, Experience Fragments, and a DAM-backed asset model. It is an excellent candidate for migration to Edge Delivery Services: content is template-driven, block boundaries are clean, and there are no transactional or personalization dependencies in scope.</p>
+      <div class="cards">
+        <div>
+          <div>64</div>
+          <div>Pages discovered &amp; analyzed (100%)</div>
+        </div>
+        <div>
+          <div>6</div>
+          <div>Distinct page templates</div>
+        </div>
+        <div>
+          <div>31</div>
+          <div>Block variants (10 base blocks)</div>
+        </div>
+        <div>
+          <div>11</div>
+          <div>Locales (multi-region)</div>
+        </div>
+        <div>
+          <div>~77+</div>
+          <div>Unique DAM assets referenced</div>
+        </div>
+        <div>
+          <div>Medium</div>
+          <div>Overall complexity</div>
+        </div>
+      </div>
+      <p><strong>Headline findings:</strong></p>
+      <ul>
+        <li><strong>Clean template structure.</strong> Six templates cover all 64 pages; the two content-heavy types (adventure-detail at 32 pages, article-detail at 12 pages) account for the bulk of content and are highly repetitive — ideal for template-based bulk import.</li>
+        <li><strong>Standard block palette.</strong> 24 of 31 variants map to standard EDS blocks (hero, cards, carousel, tabs, accordion, quote, breadcrumbs). Only 7 variants are "unknown" and need custom block work — all are simple heading/image/CTA compositions.</li>
+        <li><strong>Header is the single biggest effort item</strong> (advanced nav with dropdowns, search, language picker → 16–32h). Footer is trivial (~1h).</li>
+        <li><strong>Multi-locale via hreflang.</strong> 11 locales are declared; only US-EN and CA-EN are fully built out (26 + 29 pages). The other 9 locales are single landing pages.</li>
+        <li><strong>No blocking risks.</strong> No login walls, no client-side-only rendering, no anti-bot protection encountered; crawl succeeded at 100% with zero failures.</li>
+      </ul>
+      <p><em>This report was produced from an automated crawl + per-page structural analysis of the live site. Where noted, SEO/asset metrics are sampled from representative pages of each template and extrapolated.</em></p>
+    </div>
+    <div>
+      <h2>02 · Complete Sitemap</h2>
+      <p>No sitemap.xml was published (404); the sitemap below was reconstructed by crawling. The site follows a strict /{country}/{language}/{section}/{page}.html pattern.</p>
+      <h3>US · English (primary — 26 pages)</h3>
+      <div class="table">
+        <div>
+          <div>Section</div>
+          <div>Pages</div>
+        </div>
+        <div>
+          <div>Home</div>
+          <div>/us/en.html</div>
+        </div>
+        <div>
+          <div>About</div>
+          <div>/us/en/about-us.html</div>
+        </div>
+        <div>
+          <div>FAQs</div>
+          <div>/us/en/faqs.html</div>
+        </div>
+        <div>
+          <div>Adventures (listing + 16 details)</div>
+          <div>/us/en/adventures.html → bali-surf-camp, beervana-portland, climbing-new-zealand, colorado-rock-climbing, cycling-southern-utah, cycling-tuscany, downhill-skiing-wyoming, gastronomic-marais-tour, napa-wine-tasting, riverside-camping-australia, ski-touring-mont-blanc, surf-camp-costa-rica, tahoe-skiing, west-coast-cycling, whistler-mountain-biking, yosemite-backpacking</div>
+        </div>
+        <div>
+          <div>Magazine (index + articles)</div>
+          <div>/us/en/magazine.html → arctic-surfing, guide-la-skateparks, san-diego-surf, ski-touring, western-australia</div>
+        </div>
+        <div>
+          <div>Spanish landing</div>
+          <div>/us/es.html</div>
+        </div>
+      </div>
+      <h3>CA · English (fully mirrored — 29 pages)</h3>
+      <p>Same structure as US-EN plus a <strong>members-only</strong> sub-section: /ca/en/magazine/members-only.html, …/members-only/alaskan-adventure.html, …/members-only/fly-fishing-the-amazon.html, and /ca/fr.html.</p>
+      <h3>Other locale landing pages (1 page each)</h3>
+      <p>/ch/de · /ch/fr · /ch/it · /de/de · /fr/fr · /es/es · /it/it</p>
+      <h3>Documents</h3>
+      <p>1 PDF: /content/dam/wknd-shared/en/magazine/la-skateparks/ultimateguidetolaskateparks.pdf</p>
+    </div>
+    <div>
+      <h2>03 · Page Inventory</h2>
+      <div class="table">
+        <div>
+          <div>Template</div>
+          <div>Pages</div>
+          <div>Share</div>
+          <div>Representative URL</div>
+        </div>
+        <div>
+          <div>adventure-detail</div>
+          <div>32</div>
+          <div>50%</div>
+          <div>/us/en/adventures/bali-surf-camp.html</div>
+        </div>
+        <div>
+          <div>article-detail</div>
+          <div>12</div>
+          <div>19%</div>
+          <div>/us/en/magazine/arctic-surfing.html</div>
+        </div>
+        <div>
+          <div>homepage</div>
+          <div>11</div>
+          <div>17%</div>
+          <div>/us/en.html (+ all locale homes)</div>
+        </div>
+        <div>
+          <div>section-landing</div>
+          <div>5</div>
+          <div>8%</div>
+          <div>/us/en/magazine.html, /about-us.html</div>
+        </div>
+        <div>
+          <div>adventures-listing</div>
+          <div>2</div>
+          <div>3%</div>
+          <div>/us/en/adventures.html</div>
+        </div>
+        <div>
+          <div>faq-page</div>
+          <div>2</div>
+          <div>3%</div>
+          <div>/us/en/faqs.html</div>
+        </div>
+        <div>
+          <div>Total</div>
+          <div>64</div>
+          <div>100%</div>
+          <div>—</div>
+        </div>
+      </div>
+      <p><em>Analysis coverage: 64/64 pages analyzed, 0 pending, 0 failed, 0 block-detection crashes.</em></p>
+    </div>
+    <div>
+      <h2>04 · Page Hierarchy</h2>
+      <pre><code>/{country}/{lang}                         &larr; homepage (locale root)
+&#9500;&#9472;&#9472; about-us                              &larr; section-landing
+&#9500;&#9472;&#9472; faqs                                  &larr; faq-page
+&#9500;&#9472;&#9472; adventures                            &larr; adventures-listing
+&#9474;   &#9492;&#9472;&#9472; {adventure-slug} &times; 16             &larr; adventure-detail
+&#9492;&#9472;&#9472; magazine                              &larr; section-landing
+    &#9500;&#9472;&#9472; {article-slug} &times; 5                &larr; article-detail
+    &#9492;&#9472;&#9472; members-only          (CA only)   &larr; section-landing
+        &#9492;&#9472;&#9472; {article-slug} &times; 2            &larr; article-detail</code></pre>
+      <p>Maximum depth is 4 levels (/ca/en/magazine/members-only/alaskan-adventure.html). The tree is shallow and symmetric between US-EN and CA-EN, which simplifies locale replication.</p>
+    </div>
+    <div>
+      <h2>05 · URL Inventory</h2>
+      <div class="table">
+        <div>
+          <div>Metric</div>
+          <div>Value</div>
+        </div>
+        <div>
+          <div>Discovery method</div>
+          <div>Crawl (no sitemap.xml present)</div>
+        </div>
+        <div>
+          <div>Confidence</div>
+          <div>85%</div>
+        </div>
+        <div>
+          <div>Total content URLs</div>
+          <div>64</div>
+        </div>
+        <div>
+          <div>Documents (PDF)</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>HTTP 200 / 3xx / 4xx / 5xx</div>
+          <div>64 / 0 / 0 / 0</div>
+        </div>
+        <div>
+          <div>URL groups</div>
+          <div>6</div>
+        </div>
+        <div>
+          <div>File extension</div>
+          <div>All pages use explicit .html extension</div>
+        </div>
+      </div>
+      <h3>Locale distribution</h3>
+      <div class="table">
+        <div>
+          <div>Locale</div>
+          <div>Pages</div>
+        </div>
+        <div>
+          <div>ca-en</div>
+          <div>29</div>
+        </div>
+        <div>
+          <div>us-en</div>
+          <div>26</div>
+        </div>
+        <div>
+          <div>us-es</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>ca-fr</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>ch-de</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>ch-fr</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>ch-it</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>de-de</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>fr-fr</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>es-es</div>
+          <div>1</div>
+        </div>
+        <div>
+          <div>it-it</div>
+          <div>1</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>06 · Template Inventory</h2>
+      <div class="table">
+        <div>
+          <div>Template</div>
+          <div>Pages</div>
+          <div>Structure</div>
+        </div>
+        <div>
+          <div>homepage</div>
+          <div>11</div>
+          <div>Full-width hero image, headline, and a grid of featured teasers linking into adventures/magazine content</div>
+        </div>
+        <div>
+          <div>section-landing</div>
+          <div>5</div>
+          <div>Hero banner, intro copy, and a list/grid of card teasers (about-us, magazine index, members-only)</div>
+        </div>
+        <div>
+          <div>adventures-listing</div>
+          <div>2</div>
+          <div>Filterable grid of adventure teaser cards with title, image, metadata</div>
+        </div>
+        <div>
+          <div>adventure-detail</div>
+          <div>32</div>
+          <div>Hero image, title, structured metadata (activity, duration, price, difficulty), long-form body, related links</div>
+        </div>
+        <div>
+          <div>article-detail</div>
+          <div>12</div>
+          <div>Hero image, byline/metadata, rich text body with inline images, related-article teasers</div>
+        </div>
+        <div>
+          <div>faq-page</div>
+          <div>2</div>
+          <div>Heading + stacked accordion of question/answer blocks</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>07 · Component / Block Inventory</h2>
+      <p>225 block instances rolled up into 31 variants across 10 base block types. 196 instances reused existing variants (high consistency); 29 new variants created. Similarity threshold: 80%.</p>
+      <div class="table">
+        <div>
+          <div>Base block</div>
+          <div>Variants</div>
+          <div>Peak reuse</div>
+          <div>EDS mapping</div>
+        </div>
+        <div>
+          <div>hero</div>
+          <div>5</div>
+          <div>14 pages</div>
+          <div>standard — hero</div>
+        </div>
+        <div>
+          <div>tabs</div>
+          <div>7</div>
+          <div>16 pages</div>
+          <div>standard — tabs</div>
+        </div>
+        <div>
+          <div>carousel</div>
+          <div>4</div>
+          <div>14 pages</div>
+          <div>standard — carousel</div>
+        </div>
+        <div>
+          <div>cards</div>
+          <div>2</div>
+          <div>2 pages</div>
+          <div>standard — cards</div>
+        </div>
+        <div>
+          <div>quote</div>
+          <div>2</div>
+          <div>2 pages</div>
+          <div>standard — quote</div>
+        </div>
+        <div>
+          <div>accordion</div>
+          <div>1</div>
+          <div>2 pages</div>
+          <div>standard — accordion</div>
+        </div>
+        <div>
+          <div>breadcrumbs</div>
+          <div>1</div>
+          <div>44 pages</div>
+          <div>standard — breadcrumbs / auto-block</div>
+        </div>
+        <div>
+          <div>header</div>
+          <div>1</div>
+          <div>global</div>
+          <div>nav — header (custom)</div>
+        </div>
+        <div>
+          <div>footer</div>
+          <div>1</div>
+          <div>global</div>
+          <div>nav — footer</div>
+        </div>
+        <div>
+          <div>unknown</div>
+          <div>7</div>
+          <div>12 pages</div>
+          <div>custom — heading/image/CTA compositions</div>
+        </div>
+      </div>
+      <h3>"Unknown" variants requiring custom work</h3>
+      <div class="table">
+        <div>
+          <div>Variant signature</div>
+          <div>Pages</div>
+          <div>Likely intent</div>
+        </div>
+        <div>
+          <div>1 heading + 1 image + 3 CTAs + 1 paragraph</div>
+          <div>12</div>
+          <div>Feature / promo teaser row</div>
+        </div>
+        <div>
+          <div>1 image</div>
+          <div>10</div>
+          <div>Standalone image / banner</div>
+        </div>
+        <div>
+          <div>1 heading + 1 image</div>
+          <div>9</div>
+          <div>Section header with image</div>
+        </div>
+        <div>
+          <div>1 heading + 1 image + 1 paragraph</div>
+          <div>4</div>
+          <div>Text-and-image feature</div>
+        </div>
+        <div>
+          <div>1 CTA</div>
+          <div>2</div>
+          <div>Standalone button</div>
+        </div>
+        <div>
+          <div>1 heading + 4 images + 1 CTA + 1 list</div>
+          <div>2</div>
+          <div>Gallery / grid feature</div>
+        </div>
+        <div>
+          <div>2 headings + 1 image + 3 CTAs</div>
+          <div>2</div>
+          <div>Split hero / CTA panel</div>
+        </div>
+      </div>
+      <p><em>All 7 unknown variants are simple compositions of default-content primitives (heading, image, paragraph, button). Most can be handled as <strong>default content</strong> (no custom block code) or folded into <strong>columns</strong>. A realistic net-new custom block count is <strong>1–2</strong>.</em></p>
+    </div>
+    <div>
+      <h2>08 · Header / Footer Analysis</h2>
+      <h3>Header — advanced</h3>
+      <div class="table">
+        <div>
+          <div>Detected</div>
+          <div>Yes (AEM Experience Fragment)</div>
+        </div>
+        <div>
+          <div>Selector</div>
+          <div>header.experiencefragment.cmp-experiencefragment--header</div>
+        </div>
+        <div>
+          <div>Link count</div>
+          <div>20</div>
+        </div>
+        <div>
+          <div>Effort</div>
+          <div>very-high · 16–32h</div>
+        </div>
+      </div>
+      <p>Features detected: dropdowns · search · language-picker · user-account · mobile-toggle · sticky · secondary-nav · utility-bar</p>
+      <h3>Footer — simple</h3>
+      <div class="table">
+        <div>
+          <div>Detected</div>
+          <div>Yes (AEM Experience Fragment)</div>
+        </div>
+        <div>
+          <div>Selector</div>
+          <div>footer.experiencefragment.cmp-experiencefragment--footer</div>
+        </div>
+        <div>
+          <div>Columns / links</div>
+          <div>1 / 14</div>
+        </div>
+        <div>
+          <div>Effort</div>
+          <div>low · ~1h</div>
+        </div>
+      </div>
+      <p>Features detected: social-icons · contact-info</p>
+      <p><em>Both header and footer are authored as AEM <strong>Experience Fragments</strong> today — a direct conceptual match for EDS's shared nav and footer documents. The header's language-picker maps to EDS's multi-locale document strategy.</em></p>
+    </div>
+    <div>
+      <h2>09 · Content Type Inventory</h2>
+      <div class="table">
+        <div>
+          <div>Content type</div>
+          <div>Count</div>
+          <div>Structured?</div>
+          <div>Notes</div>
+        </div>
+        <div>
+          <div>Adventure</div>
+          <div>16 × locales</div>
+          <div>High</div>
+          <div>Repeatable fields: activity, group size, duration, difficulty, price, itinerary, gallery</div>
+        </div>
+        <div>
+          <div>Magazine article</div>
+          <div>7 × locales</div>
+          <div>Medium</div>
+          <div>Title, hero, author byline, publish date, rich body, related articles</div>
+        </div>
+        <div>
+          <div>Landing / section page</div>
+          <div>18</div>
+          <div>Low</div>
+          <div>Composed of teaser blocks; free-form layout</div>
+        </div>
+        <div>
+          <div>FAQ</div>
+          <div>2</div>
+          <div>Medium</div>
+          <div>Q/A pairs (accordion)</div>
+        </div>
+        <div>
+          <div>Static informational</div>
+          <div>about-us</div>
+          <div>Low</div>
+          <div>Editorial free-form</div>
+        </div>
+        <div>
+          <div>Document (PDF)</div>
+          <div>1</div>
+          <div>—</div>
+          <div>Downloadable guide</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>10 · Content Modeling Recommendations</h2>
+      <ul>
+        <li><strong>Adventure &amp; Article metadata → block or metadata table.</strong> The structured metadata on adventure pages (activity, duration, price, difficulty) should be modeled as a dedicated metadata/fact-sheet block so authors edit named fields rather than free text.</li>
+        <li><strong>Teasers → cards.</strong> The recurring "featured teaser grid" on homepage/section-landing should standardize on a single cards block content model (image + title + description + link) rather than the 7 ad-hoc "unknown" compositions.</li>
+        <li><strong>Related content → auto-block.</strong> "Related adventures / related articles" should be an auto-block driven by an index (query-index.json) rather than hand-authored links, to keep them fresh.</li>
+        <li><strong>FAQ → accordion.</strong> Direct map; one row per Q/A.</li>
+        <li><strong>Consistent section styling</strong> via Section Metadata (e.g. Style: highlight) instead of bespoke block variants.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>11 · Content Fragment Opportunities</h2>
+      <p>In the current AEM site these are page components, but the following are strong candidates for structured, reusable content (in EDS, realized as spreadsheet-backed data + query-index auto-blocks):</p>
+      <div class="table">
+        <div>
+          <div>Candidate</div>
+          <div>Why</div>
+          <div>EDS realization</div>
+        </div>
+        <div>
+          <div>Adventure record</div>
+          <div>Highly structured, 16 instances, reused in listings &amp; related widgets</div>
+          <div>Per-page metadata + published query-index.json feeding cards/listing auto-blocks</div>
+        </div>
+        <div>
+          <div>Article record</div>
+          <div>Byline, date, category reused across teasers</div>
+          <div>Page metadata + index-driven article cards</div>
+        </div>
+        <div>
+          <div>Author / contributor</div>
+          <div>Bylines repeat across articles</div>
+          <div>Small authors sheet referenced by name</div>
+        </div>
+        <div>
+          <div>FAQ entry</div>
+          <div>Q/A reusable across pages</div>
+          <div>Accordion block or shared fragment document</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>12 · Experience Fragment Opportunities</h2>
+      <div class="table">
+        <div>
+          <div>Fragment</div>
+          <div>Current</div>
+          <div>EDS target</div>
+        </div>
+        <div>
+          <div>Global header / nav</div>
+          <div>AEM XF (cmp-experiencefragment--header)</div>
+          <div>Shared nav document + header block, one per locale</div>
+        </div>
+        <div>
+          <div>Global footer</div>
+          <div>AEM XF (cmp-experiencefragment--footer)</div>
+          <div>Shared footer document + footer block</div>
+        </div>
+        <div>
+          <div>Members-only promo</div>
+          <div>Reused CTA panel</div>
+          <div>Fragment document embedded via fragment block</div>
+        </div>
+        <div>
+          <div>Newsletter / social CTA</div>
+          <div>Repeated across footers/sections</div>
+          <div>Reusable fragment document</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>13 · Digital Asset Inventory</h2>
+      <p>Assets are served from AEM DAM under /content/dam/wknd-shared/… and rendered through the Core Image Component's responsive renditions (.coreimg.*).</p>
+      <div class="table">
+        <div>
+          <div>Format</div>
+          <div>Observed use</div>
+          <div>Migration action</div>
+        </div>
+        <div>
+          <div>JPG / JPEG</div>
+          <div>Dominant — hero &amp; teaser photography</div>
+          <div>Re-upload to EDS media; auto-optimized (avif/webp) on delivery</div>
+        </div>
+        <div>
+          <div>SVG</div>
+          <div>Logos &amp; icons (~20 refs/page)</div>
+          <div>Commit to /icons or reference as inline SVG</div>
+        </div>
+        <div>
+          <div>PNG</div>
+          <div>Occasional</div>
+          <div>Re-upload; convert where beneficial</div>
+        </div>
+        <div>
+          <div>PDF</div>
+          <div>1 downloadable guide</div>
+          <div>Host as static asset or DA document</div>
+        </div>
+      </div>
+      <p>Approx. <strong>77+ unique DAM assets</strong> referenced across the sampled template set; full site (with locale duplication of shared assets) is expected to reuse the same wknd-shared pool. Per-page image counts range from 4 (detail) to 15 (homepage).</p>
+    </div>
+    <div>
+      <h2>14 · DAM Recommendations</h2>
+      <ul>
+        <li><strong>De-duplicate on the shared pool.</strong> Assets live under wknd-shared and are reused across locales — migrate the pool once, reference everywhere; do not copy per-locale.</li>
+        <li><strong>Let EDS handle renditions.</strong> Drop AEM's manual .coreimg rendition chain; EDS generates responsive/next-gen formats automatically. Upload highest-quality originals.</li>
+        <li><strong>Optimize before commit.</strong> Any asset committed to git (icons, logos) must be compressed and size-checked per EDS performance guidance.</li>
+        <li><strong>Preserve alt text.</strong> Capture existing alt attributes during import for accessibility and SEO parity.</li>
+        <li><strong>SVG logos → /icons.</strong> Standardize icon usage via the EDS icon convention.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>15 · SEO Inventory</h2>
+      <div class="table">
+        <div>
+          <div>Signal</div>
+          <div>Status</div>
+          <div>Notes</div>
+        </div>
+        <div>
+          <div>&lt;title&gt;</div>
+          <div>present</div>
+          <div>Unique, descriptive per page (e.g. "Bali Surf Camp")</div>
+        </div>
+        <div>
+          <div>meta description</div>
+          <div>present</div>
+          <div>Populated on all sampled pages</div>
+        </div>
+        <div>
+          <div>Canonical</div>
+          <div>present</div>
+          <div>Self-referencing, path-relative</div>
+        </div>
+        <div>
+          <div>hreflang</div>
+          <div>present</div>
+          <div>11 alternates per page — must be preserved</div>
+        </div>
+        <div>
+          <div>Open Graph</div>
+          <div>partial</div>
+          <div>og:title empty on sampled pages — improvement opportunity</div>
+        </div>
+        <div>
+          <div>Structured data (JSON-LD)</div>
+          <div>absent</div>
+          <div>No schema.org markup — opportunity to add Article/TouristAttraction</div>
+        </div>
+        <div>
+          <div>sitemap.xml</div>
+          <div>missing</div>
+          <div>Not published — generate one in EDS</div>
+        </div>
+        <div>
+          <div>URL extensions</div>
+          <div>.html</div>
+          <div>EDS serves extensionless — see Redirects</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>16 · Metadata Inventory</h2>
+      <p>Per-page metadata to carry over into EDS page metadata (front-matter / metadata block or a bulk metadata sheet):</p>
+      <div class="table">
+        <div>
+          <div>Field</div>
+          <div>Source</div>
+          <div>EDS home</div>
+        </div>
+        <div>
+          <div>Title</div>
+          <div>&lt;title&gt;</div>
+          <div>Metadata: Title</div>
+        </div>
+        <div>
+          <div>Description</div>
+          <div>meta description</div>
+          <div>Metadata: Description</div>
+        </div>
+        <div>
+          <div>Canonical</div>
+          <div>&lt;link canonical&gt;</div>
+          <div>Auto / metadata</div>
+        </div>
+        <div>
+          <div>hreflang set</div>
+          <div>alternate links</div>
+          <div>Locale doc structure + metadata sheet</div>
+        </div>
+        <div>
+          <div>AEM template name</div>
+          <div>meta[name=template]</div>
+          <div>Informational (maps to EDS template)</div>
+        </div>
+        <div>
+          <div>Publish date / author</div>
+          <div>article byline</div>
+          <div>Metadata (article-detail)</div>
+        </div>
+        <div>
+          <div>OG image / social</div>
+          <div>partial</div>
+          <div>Metadata: Image — populate</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>17 · Internal Linking Analysis</h2>
+      <ul>
+        <li><strong>Header nav</strong> exposes ~20 links: top adventures, magazine articles, about, faqs — a curated set, not the full catalog.</li>
+        <li><strong>Detail pages</strong> carry ~13 internal links each (breadcrumbs + related content + nav), plus ~9 external links (social/partners).</li>
+        <li><strong>Breadcrumbs</strong> appear on 44 pages — the deepest-reused block; must resolve correctly against new extensionless paths.</li>
+        <li><strong>All internal links are locale-scoped</strong> (/us/en/…), so link rewriting during import can be done per-locale with a simple prefix map.</li>
+        <li><strong>Action:</strong> rewrite .html links to extensionless and validate no orphan pages after import (every page should be reachable from nav or a listing).</li>
+      </ul>
+    </div>
+    <div>
+      <h2>18 · Redirect Mapping Recommendations</h2>
+      <p>EDS serves clean, extensionless URLs. Every existing .html URL should 301 to its extensionless equivalent to preserve SEO and inbound links.</p>
+      <div class="table">
+        <div>
+          <div>From (current)</div>
+          <div>To (EDS)</div>
+          <div>Type</div>
+        </div>
+        <div>
+          <div>/us/en.html</div>
+          <div>/us/en</div>
+          <div>301</div>
+        </div>
+        <div>
+          <div>/us/en/adventures.html</div>
+          <div>/us/en/adventures</div>
+          <div>301</div>
+        </div>
+        <div>
+          <div>/us/en/adventures/{slug}.html</div>
+          <div>/us/en/adventures/{slug}</div>
+          <div>301 (pattern, ×16)</div>
+        </div>
+        <div>
+          <div>/us/en/magazine/{slug}.html</div>
+          <div>/us/en/magazine/{slug}</div>
+          <div>301 (pattern)</div>
+        </div>
+        <div>
+          <div>(repeat for /ca/en/* and all locale homes)</div>
+          <div>extensionless</div>
+          <div>301</div>
+        </div>
+        <div>
+          <div>PDF .coredownload.pdf</div>
+          <div>clean asset path</div>
+          <div>301</div>
+        </div>
+      </div>
+      <p><em>Implement via the EDS redirects spreadsheet. A single wildcard/pattern rule per section covers the ~64 mappings; consider a catch-all "strip .html" rule.</em></p>
+    </div>
+    <div>
+      <h2>19 · AEM → EDS Template Mapping</h2>
+      <div class="table">
+        <div>
+          <div>AEM template (cq:template)</div>
+          <div>Discovered type</div>
+          <div>EDS approach</div>
+        </div>
+        <div>
+          <div>landing-page-template</div>
+          <div>homepage / section-landing / adventures-listing</div>
+          <div>Default content + hero + cards; section metadata for styling</div>
+        </div>
+        <div>
+          <div>adventure-page-template</div>
+          <div>adventure-detail (32)</div>
+          <div>hero + metadata/fact-sheet block + rich text + related auto-block</div>
+        </div>
+        <div>
+          <div>article-page-template</div>
+          <div>article-detail (12)</div>
+          <div>hero + byline metadata + rich text + related auto-block</div>
+        </div>
+        <div>
+          <div>content-page-template</div>
+          <div>faq-page / about-us</div>
+          <div>Default content + accordion</div>
+        </div>
+      </div>
+      <p><em>Note: AEM's landing-page-template is used for 3 of our structural types; EDS differentiates them purely by authored block composition, not by a rigid template — so no separate template code is needed.</em></p>
+    </div>
+    <div>
+      <h2>20 · AEM → EDS Component Mapping</h2>
+      <div class="table">
+        <div>
+          <div>AEM Core Component</div>
+          <div>EDS block</div>
+          <div>Type</div>
+          <div>Effort</div>
+        </div>
+        <div>
+          <div>Carousel</div>
+          <div>carousel</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Tabs</div>
+          <div>tabs</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Accordion</div>
+          <div>accordion</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Teaser / Teaser list</div>
+          <div>cards</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Image + Title (hero)</div>
+          <div>hero</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Quote</div>
+          <div>quote</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Breadcrumb</div>
+          <div>breadcrumbs / auto-block</div>
+          <div>standard</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>Text / Image / Button</div>
+          <div>default content</div>
+          <div>native</div>
+          <div>none</div>
+        </div>
+        <div>
+          <div>Experience Fragment (header)</div>
+          <div>header + nav doc</div>
+          <div>custom nav</div>
+          <div>very-high</div>
+        </div>
+        <div>
+          <div>Experience Fragment (footer)</div>
+          <div>footer</div>
+          <div>custom nav</div>
+          <div>low</div>
+        </div>
+        <div>
+          <div>"Unknown" compositions (×7)</div>
+          <div>columns / default / 1–2 custom</div>
+          <div>custom</div>
+          <div>medium</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>21 · Authoring Model Recommendations</h2>
+      <ul>
+        <li><strong>Document-based authoring</strong> (Google Docs / Word or Document Authoring) fits WKND's editorial content (adventures, articles) best.</li>
+        <li><strong>One document per page, mirrored per locale</strong> under /{country}/{lang}/… — matches the existing structure exactly.</li>
+        <li><strong>Structured fields as block tables</strong> so non-technical authors fill named cells (activity, price, difficulty) instead of formatting prose.</li>
+        <li><strong>Shared nav &amp; footer documents per locale</strong>; a language-picker driven by the locale path.</li>
+        <li><strong>Spreadsheet for redirects and for any index-driven listings.</strong></li>
+      </ul>
+    </div>
+    <div>
+      <h2>22 · Migration Risks</h2>
+      <div class="table">
+        <div>
+          <div>Risk</div>
+          <div>Likelihood</div>
+          <div>Impact</div>
+          <div>Mitigation</div>
+        </div>
+        <div>
+          <div>Header/nav complexity (dropdowns, search, language-picker) underestimated</div>
+          <div>med</div>
+          <div>high</div>
+          <div>Treat header as its own workstream; prototype early; use nav orchestration tooling</div>
+        </div>
+        <div>
+          <div>Loss of hreflang / locale SEO equity</div>
+          <div>med</div>
+          <div>high</div>
+          <div>Preserve all 11 alternates; validate before go-live</div>
+        </div>
+        <div>
+          <div>Broken links from .html→extensionless change</div>
+          <div>high</div>
+          <div>med</div>
+          <div>Comprehensive 301 map + link rewrite during import</div>
+        </div>
+        <div>
+          <div>7 "unknown" block compositions need bespoke handling</div>
+          <div>high</div>
+          <div>low</div>
+          <div>Fold into default content / columns; only build custom where reused</div>
+        </div>
+        <div>
+          <div>Structured adventure metadata flattened to prose</div>
+          <div>med</div>
+          <div>med</div>
+          <div>Define metadata block before bulk import</div>
+        </div>
+        <div>
+          <div>DAM rendition URLs hard-coded in content</div>
+          <div>med</div>
+          <div>low</div>
+          <div>Strip .coreimg chain; re-host originals</div>
+        </div>
+        <div>
+          <div>Search feature has no EDS equivalent out-of-box</div>
+          <div>low</div>
+          <div>med</div>
+          <div>Plan client-side index search or defer</div>
+        </div>
+        <div>
+          <div>Partial-build locales (9 single-page)</div>
+          <div>low</div>
+          <div>low</div>
+          <div>Confirm scope: migrate as-is or expand</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>23 · Complexity Assessment</h2>
+      <div class="cards">
+        <div>
+          <div>Low</div>
+          <div>Content structure — clean, repetitive, template-driven</div>
+        </div>
+        <div>
+          <div>Low</div>
+          <div>Block palette — 24/31 map to standard EDS blocks</div>
+        </div>
+        <div>
+          <div>High</div>
+          <div>Header / navigation — advanced feature set</div>
+        </div>
+        <div>
+          <div>Med</div>
+          <div>Multi-locale — 11 locales, hreflang preservation</div>
+        </div>
+        <div>
+          <div>Med</div>
+          <div>Overall project complexity</div>
+        </div>
+      </div>
+      <p>The content migration itself is low-complexity thanks to strong templating and block reuse (196/225 instances reused). Project complexity is driven up almost entirely by the <strong>navigation header</strong> and <strong>multi-locale management</strong>, not by page volume.</p>
+    </div>
+    <div>
+      <h2>24 · Effort Estimation</h2>
+      <div class="table">
+        <div>
+          <div>Workstream</div>
+          <div>Estimate</div>
+          <div>Basis</div>
+        </div>
+        <div>
+          <div>Project setup (repo, EDS boilerplate, DA/content source, fstab)</div>
+          <div>4–8h</div>
+          <div>Standard</div>
+        </div>
+        <div>
+          <div>Standard blocks (hero, cards, carousel, tabs, accordion, quote, breadcrumbs)</div>
+          <div>16–28h</div>
+          <div>~7 blocks × styling to match</div>
+        </div>
+        <div>
+          <div>Custom / "unknown" blocks (1–2 net-new)</div>
+          <div>8–16h</div>
+          <div>Simple compositions</div>
+        </div>
+        <div>
+          <div>Header / navigation</div>
+          <div>16–32h</div>
+          <div>Analyzer: advanced, very-high</div>
+        </div>
+        <div>
+          <div>Footer</div>
+          <div>~1–2h</div>
+          <div>Analyzer: simple, low</div>
+        </div>
+        <div>
+          <div>Content import — US-EN + CA-EN (55 pages)</div>
+          <div>16–24h</div>
+          <div>Template-based bulk import + QA</div>
+        </div>
+        <div>
+          <div>Locale landing pages (9)</div>
+          <div>4–8h</div>
+          <div>Single pages</div>
+        </div>
+        <div>
+          <div>DAM / asset migration</div>
+          <div>8–12h</div>
+          <div>~77+ shared assets</div>
+        </div>
+        <div>
+          <div>SEO: redirects, metadata, hreflang, sitemap</div>
+          <div>8–16h</div>
+          <div>301 map + validation</div>
+        </div>
+        <div>
+          <div>QA, visual parity, performance (target 100 PSI)</div>
+          <div>16–24h</div>
+          <div>Across templates</div>
+        </div>
+        <div>
+          <div>Total (indicative)</div>
+          <div>~100–170h</div>
+          <div>≈ 3–5 weeks, 1–2 devs</div>
+        </div>
+      </div>
+      <p><em>Estimates assume US-EN + CA-EN full build and the other 9 locales migrated as single landing pages. Expanding all locales to full parity would multiply the content-import line accordingly.</em></p>
+    </div>
+    <div>
+      <h2>25 · Phase-wise Migration Plan</h2>
+      <h3>Phase 0 — Foundation (Week 1)</h3>
+      <p>Provision EDS project (boilerplate), configure content source (Document Authoring), fstab/mountpoint, CI code-sync, baseline styles &amp; fonts. Set up preview/live environments.</p>
+      <h3>Phase 1 — Global chrome &amp; core blocks (Week 1–2)</h3>
+      <p>Build header (nav, dropdowns, language-picker, mobile, search plan) + footer. Implement standard blocks: hero, cards, carousel, tabs, accordion, quote, breadcrumbs. Validate each with a representative page.</p>
+      <h3>Phase 2 — High-volume content import (Week 2–3)</h3>
+      <p>Generate import infrastructure for adventure-detail (32) and article-detail (12); define metadata blocks; bulk-import US-EN then CA-EN. Migrate DAM assets. Rewrite links extensionless.</p>
+      <h3>Phase 3 — Landing pages &amp; locales (Week 3–4)</h3>
+      <p>Import homepage, section-landing, adventures-listing, faq pages. Add 9 locale landing pages. Wire related-content auto-blocks and listings.</p>
+      <h3>Phase 4 — SEO, QA &amp; hardening (Week 4–5)</h3>
+      <p>301 redirect map, hreflang parity, sitemap generation, metadata sweep. Visual parity QA across all 6 templates. PageSpeed tuning toward 100. Accessibility (WCAG 2.1 AA) pass.</p>
+      <h3>Phase 5 — Go-live (Week 5)</h3>
+      <p>Stakeholder sign-off, DNS/publish, redirect activation, post-launch monitoring.</p>
+    </div>
+    <div>
+      <h2>26 · Dependencies</h2>
+      <ul>
+        <li>Access to source DAM originals (or ability to re-download high-res assets from wknd-shared).</li>
+        <li>Confirmed content source decision (Document Authoring vs Google Drive/SharePoint) and org/site provisioning.</li>
+        <li>GitHub repo + AEM Code Sync (Helix Bot) installed and authorized.</li>
+        <li>DNS / hosting cutover ownership and redirect deployment authority.</li>
+        <li>Stakeholder decision on locale scope (full parity vs landing-only for the 9 minor locales).</li>
+        <li>Header/nav design sign-off (search behavior, language-picker UX) before Phase 1.</li>
+        <li>Final URL strategy sign-off (extensionless + country/lang prefix retained).</li>
+      </ul>
+    </div>
+    <div>
+      <h2>27 · Assumptions</h2>
+      <ul>
+        <li>Scope = the 64 crawled pages + 1 PDF; no gated/authenticated content beyond the public members-only articles that returned 200.</li>
+        <li>US-EN and CA-EN are the primary build; other 9 locales migrate as single landing pages unless expanded.</li>
+        <li>No e-commerce, forms-processing, or personalization is in scope (none detected).</li>
+        <li>Search may be delivered as client-side index search or deferred post-launch.</li>
+        <li>Structured data (JSON-LD) is currently absent and treated as an enhancement, not a parity requirement.</li>
+        <li>SEO metrics for non-sampled pages are extrapolated from representative pages of each template.</li>
+        <li>Effort assumes 1–2 experienced EDS developers and available design references.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>28 · Go-Live Checklist</h2>
+      <div class="table">
+        <div>
+          <div>#</div>
+          <div>Item</div>
+          <div>Owner</div>
+        </div>
+        <div>
+          <div>1</div>
+          <div>All 6 templates render with visual parity to source</div>
+          <div>Dev / QA</div>
+        </div>
+        <div>
+          <div>2</div>
+          <div>US-EN &amp; CA-EN pages imported, spot-checked, links rewritten</div>
+          <div>Dev</div>
+        </div>
+        <div>
+          <div>3</div>
+          <div>Header, footer, language-picker verified on desktop &amp; mobile</div>
+          <div>Dev / QA</div>
+        </div>
+        <div>
+          <div>4</div>
+          <div>301 redirect map deployed &amp; tested (all .html → extensionless)</div>
+          <div>Dev / SEO</div>
+        </div>
+        <div>
+          <div>5</div>
+          <div>hreflang alternates present &amp; correct on every page (11 each)</div>
+          <div>SEO</div>
+        </div>
+        <div>
+          <div>6</div>
+          <div>Titles, descriptions, canonical, OG image populated</div>
+          <div>SEO / Content</div>
+        </div>
+        <div>
+          <div>7</div>
+          <div>sitemap.xml generated &amp; submitted</div>
+          <div>SEO</div>
+        </div>
+        <div>
+          <div>8</div>
+          <div>DAM assets migrated, optimized, alt text preserved</div>
+          <div>Dev / Content</div>
+        </div>
+        <div>
+          <div>9</div>
+          <div>PageSpeed Insights ≈100 on representative pages of each template</div>
+          <div>Dev</div>
+        </div>
+        <div>
+          <div>10</div>
+          <div>Accessibility (WCAG 2.1 AA) pass — headings, alt, contrast, keyboard nav</div>
+          <div>QA</div>
+        </div>
+        <div>
+          <div>11</div>
+          <div>No orphan pages; every page reachable from nav/listing</div>
+          <div>QA</div>
+        </div>
+        <div>
+          <div>12</div>
+          <div>404 page &amp; error handling in place</div>
+          <div>Dev</div>
+        </div>
+        <div>
+          <div>13</div>
+          <div>Analytics / RUM wired up</div>
+          <div>Dev / Marketing</div>
+        </div>
+        <div>
+          <div>14</div>
+          <div>Stakeholder sign-off &amp; rollback plan documented</div>
+          <div>PM</div>
+        </div>
+        <div>
+          <div>15</div>
+          <div>DNS cutover &amp; post-launch monitoring window</div>
+          <div>Ops</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p><strong>WKND Website Discovery &amp; Migration Assessment</strong> · Generated 2026-08-06 · Source: automated crawl (64 pages, 100% analyzed) + per-page structural analysis + representative-page SEO/asset sampling · Discovery confidence 85% (crawl) · Prepared for Adobe Edge Delivery Services migration planning.</p>
+    </div>
+  </main>
+  <footer></footer>
+</body>

@@ -25,8 +25,8 @@ itself still stores only content — the panel is served from the repo's
 - **Sheet-driven wrappers (WKND):** `cards-articles-wknd`,
   `cards-adventures-wknd`, `faq-wknd`, `profiles-wknd` — thin wrappers that read
   a DA sheet and delegate to a base block (see
-  [dynamic-rendering.md](./dynamic-rendering.md) and
-  [block-reusability-audit.md](./block-reusability-audit.md)).
+  [dynamic-rendering.md](./post-migration-analysis/dynamic-rendering.md) and
+  [block-reusability-audit.md](./post-migration-analysis/block-reusability-audit.md)).
 
 ## Naming conventions
 

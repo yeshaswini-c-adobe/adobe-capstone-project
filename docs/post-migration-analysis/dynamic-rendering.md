@@ -81,7 +81,7 @@ The authored list is kept as a fallback if the index can't be loaded.
 ## Dates & newest-first (auto-index mode)
 
 `sort=newest` and related-list dates use the index's `lastModified`, populated in
-[`helix-query.yaml`](../helix-query.yaml) via
+[`helix-query.yaml`](../../helix-query.yaml) via
 `parseTimestamp(headers["last-modified"], "ddd, DD MMM YYYY hh:mm:ss GMT")`.
 Note the **square-bracket** header accessor (`headers[...]`) — the function-call
 form `headers(...)` silently returns nothing. `lastModified` is the page's last
