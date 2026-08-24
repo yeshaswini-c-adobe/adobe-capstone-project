@@ -6,302 +6,370 @@
 <meta name="robots" content="noindex, nofollow">
 <title>WKND Migration Report — Leadership Summary</title>
 <style>
-:root {
-  --bg: #0d1117;
-  --panel: #161b22;
-  --panel-2: #1f2632;
-  --border: #30363d;
-  --text: #e6edf3;
-  --muted: #8b949e;
-  --accent: #f0c000;
-  --link: #4aa3ff;
-  --good: #2ea043;
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel-2:#1f2632; --border:#30363d;
+  --text:#e6edf3; --muted:#8b949e; --accent:#f0c000; --link:#4aa3ff;
+  --good:#2ea043; --warn:#d29922; --bad:#d73a49; --sidebar:264px;
 }
-* { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-}
-.report-nav {
-  position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 20px;
-  background: var(--panel);
-  border-bottom: 1px solid var(--border);
-}
-.report-nav a { color: var(--link); text-decoration: none; font-size: 14px; }
-.report-nav a:hover { text-decoration: underline; }
-.report-tag {
-  font-size: 12px; color: var(--muted); text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-main.report {
-  max-width: 880px;
-  margin: 0 auto;
-  padding: 32px 24px 64px;
-}
-main.report h1 {
-  font-size: 30px; line-height: 1.25; margin: 0 0 8px;
-  border-bottom: 2px solid var(--accent); padding-bottom: 12px;
-}
-main.report h2 {
-  font-size: 21px; margin: 40px 0 12px; color: var(--text);
-  border-bottom: 1px solid var(--border); padding-bottom: 6px;
-}
-main.report h3 { font-size: 17px; margin: 28px 0 8px; }
-main.report p { margin: 12px 0; }
-main.report a { color: var(--link); }
-main.report ul, main.report ol { padding-left: 22px; }
-main.report li { margin: 6px 0; }
-main.report strong { color: #fff; }
-main.report code {
-  background: var(--bg); border: 1px solid var(--border);
-  border-radius: 4px; padding: 1px 6px; font-size: 0.88em;
-  color: var(--accent);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
-main.report pre {
-  background: var(--panel); border: 1px solid var(--border);
-  border-radius: 8px; padding: 14px 16px; overflow: auto;
-}
-main.report pre code { background: none; border: 0; padding: 0; color: var(--text); }
-main.report blockquote {
-  margin: 16px 0; padding: 8px 16px;
-  border-left: 3px solid var(--accent); background: var(--panel);
-  color: var(--muted);
-}
-main.report table {
-  width: 100%; border-collapse: collapse; margin: 18px 0;
-  font-size: 14px; background: var(--panel);
-  border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
-}
-main.report th, main.report td {
-  text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
-main.report thead th {
-  background: var(--panel-2); color: var(--text);
-  font-weight: 600; border-bottom: 2px solid var(--border);
-}
-main.report tbody tr:last-child td { border-bottom: 0; }
-main.report tbody tr:hover { background: var(--panel-2); }
-.report-footer {
-  border-top: 1px solid var(--border);
-  padding: 20px 24px; text-align: center;
-  color: var(--muted); font-size: 13px;
-}
-.report-footer p { margin: 0; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.6}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+code{background:var(--bg);border:1px solid var(--border);border-radius:4px;
+  padding:1px 6px;font-size:.85em;color:var(--accent);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 
-/* hub index cards */
-.report-index { display: grid; gap: 14px; margin: 20px 0; }
-.report-index .card {
-  display: block; padding: 16px 18px;
-  background: var(--panel); border: 1px solid var(--border);
-  border-radius: 10px; text-decoration: none; color: var(--text);
-  transition: border-color .15s, background .15s;
-}
-.report-index .card:hover { border-color: var(--accent); background: var(--panel-2); }
-.report-index .card h3 { margin: 0 0 4px; color: var(--accent); font-size: 16px; }
-.report-index .card p { margin: 0; color: var(--muted); font-size: 14px; }
-.report-index .phase {
-  margin: 28px 0 4px; font-size: 13px; text-transform: uppercase;
-  letter-spacing: 0.08em; color: var(--muted);
-}
+/* top bar */
+header.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:16px;
+  padding:12px 24px;background:var(--panel);border-bottom:1px solid var(--border)}
+header.topbar .badge{width:40px;height:40px;border-radius:10px;background:var(--panel-2);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-weight:700;color:var(--accent);font-size:18px;flex:0 0 auto}
+header.topbar h1{font-size:17px;margin:0;line-height:1.2}
+header.topbar .sub{font-size:12px;color:var(--muted);margin-top:2px}
+header.topbar .ver{margin-left:auto;font-size:11px;color:var(--accent);
+  border:1px solid var(--border);background:var(--bg);border-radius:20px;padding:5px 12px;white-space:nowrap}
 
+/* layout */
+.layout{display:flex;align-items:flex-start}
+nav.side{position:sticky;top:65px;align-self:flex-start;width:var(--sidebar);flex:0 0 var(--sidebar);
+  height:calc(100vh - 65px);overflow-y:auto;padding:20px 14px;border-right:1px solid var(--border);
+  background:var(--panel)}
+nav.side .group{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+  margin:18px 8px 6px}
+nav.side a{display:block;padding:7px 12px;border-radius:8px;color:var(--muted);font-size:13px;
+  border-left:2px solid transparent}
+nav.side a:hover{background:var(--panel-2);color:var(--text);text-decoration:none}
+nav.side a.active{background:var(--panel-2);color:var(--text);border-left-color:var(--accent)}
+main.doc{flex:1 1 auto;min-width:0;max-width:1000px;padding:28px 40px 80px}
+
+/* stat cards */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 26px}
+.stat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+.stat .num{font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.stat .lbl{color:var(--muted);font-size:12.5px;margin-top:6px}
+
+/* sections */
+section.block{scroll-margin-top:80px;margin:0 0 34px}
+section.block>h2{font-size:20px;margin:28px 0 6px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+section.block>h2 .kicker{color:var(--muted);font-weight:400;font-size:13px;margin-left:8px}
+section.block h3{font-size:15.5px;margin:20px 0 6px}
+section.block p{margin:10px 0}
+section.block ul,section.block ol{padding-left:20px}
+section.block li{margin:5px 0}
+strong{color:#fff}
+
+/* callout panels */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:16px 0}
+.panel.accent{border-left:3px solid var(--accent)}
+.panel.good{border-left:3px solid var(--good)}
+.panel .ptitle{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
+
+/* chips / pill flow */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0}
+.chip{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:7px 13px;
+  font-size:13px;white-space:nowrap}
+.chip .n{color:var(--accent);font-weight:700;margin-right:6px}
+.chip.step{background:var(--panel-2)}
+.arrow{color:var(--muted)}
+
+/* tables */
+table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;background:var(--panel);
+  border:1px solid var(--border);border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:var(--panel-2);font-weight:600;border-bottom:2px solid var(--border);
+  position:sticky;top:0}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover{background:var(--panel-2)}
+td .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--border)}
+.tag.good{color:var(--good);border-color:#1c5b2b}
+.tag.warn{color:var(--warn);border-color:#6b5320}
+.tag.mut{color:var(--muted)}
+
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);
+  background:var(--panel);color:var(--muted)}
+hr{border:0;border-top:1px solid var(--border);margin:26px 0}
+footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(var(--sidebar) + 40px);
+  color:var(--muted);font-size:12.5px}
+
+@media(max-width:860px){
+  nav.side{display:none}
+  main.doc{padding:22px 18px 60px}
+  footer.docfoot{padding-left:18px}
+}
 </style>
 </head>
 <body>
-<nav class="report-nav">
-  <a href="index.html">‹ All reports</a>
-  <span class="report-tag">WKND Migration</span>
-</nav>
-<main class="report">
-<h1>WKND Migration Report — Leadership Summary</h1>
-<p><strong>Project:</strong> WKND site → Adobe Experience Manager Edge Delivery Services (EDS)
-<strong>Status:</strong> ✅ Migrated, optimized, and live · <strong>Date:</strong> Aug 2026</p>
-<h2>1. Scope migrated</h2>
-<ul>
-<li><strong>27 pages</strong> live and indexed across <strong>6 template types</strong>: homepage, section landing, article detail, adventure detail, adventures listing, FAQ.</li>
-<li><strong>13 blocks (components)</strong> in the library covering all page types.</li>
-<li>Source analysis: 225 block instances consolidated to a lean, reusable set.</li>
-</ul>
-<h2>2. Migration success</h2>
-<ul>
-<li><strong>100% of in-scope pages migrated and published</strong> — all 27 render correctly on the live site.</li>
-<li><strong>0 open defects.</strong> Every issue found during QA was resolved.</li>
-</ul>
-<h2>3. Issues identified &amp; resolved</h2>
-<table>
-<thead>
-<tr>
-<th>Issue</th>
-<th>Resolution</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Header search returned nothing</td>
-<td>Root cause: search index held only 1 page → published all pages; index now complete</td>
-</tr>
-<tr>
-<td>Search dropdown closed instantly on click</td>
-<td>Fixed event-target bug in header.js</td>
-</tr>
-<tr>
-<td>Live header/footer missing</td>
-<td>Published <code>/nav</code> + <code>/footer</code> on the serving branch</td>
-</tr>
-<tr>
-<td>Article lists linked to themselves / went stale</td>
-<td>Made related lists index-driven, self-excluding</td>
-</tr>
-<tr>
-<td><code>lastModified</code> always empty (dates/sort broken)</td>
-<td>Fixed <code>helix-query.yaml</code> header-accessor syntax</td>
-</tr>
-<tr>
-<td>Oversized card images / layout shift</td>
-<td>Responsive images + reserved image space</td>
-</tr>
-</tbody></table>
-<h2>4. Dynamic implementations introduced</h2>
-<p>Static, hand-maintained content replaced with <strong>query-index-driven</strong> rendering (auto-updates as authors add/remove pages, no code changes):</p>
-<ul>
-<li>Magazine &quot;All Articles&quot; grid</li>
-<li>Homepage &quot;Recent Articles&quot; + &quot;Where do you want to go?&quot;</li>
-<li>Article &quot;Share this story&quot; related list</li>
-<li>Header inline search, <strong>section-scoped</strong> (Magazine / Adventures / site-wide)</li>
-</ul>
-<h2>5. Block library — created / updated</h2>
-<ul>
-<li><strong>New:</strong> <code>cards-index</code> (dynamic, config-driven grid).</li>
-<li><strong>Updated / consolidated:</strong> <code>cards</code> (now a shared base helper), <code>cards-profile</code>, <code>cards-teaser</code>, <code>columns-featured</code>, <code>header</code>, <code>carousel-hero</code>, <code>table-facts</code>.</li>
-<li><strong>Removed:</strong> 3 dead base blocks (<code>columns</code>, <code>table</code>, <code>hero</code>) — unused.</li>
-</ul>
-<h2>6. Variants &amp; business use cases</h2>
-<table>
-<thead>
-<tr>
-<th>Variant</th>
-<th>Business use</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>carousel-hero</code></td>
-<td>Homepage rotating hero — merchandising top adventures</td>
-</tr>
-<tr>
-<td><code>cards-teaser</code></td>
-<td>Article/adventure teaser grids — content discovery</td>
-</tr>
-<tr>
-<td><code>cards-index</code></td>
-<td>Auto-updating listings — zero-maintenance content ops</td>
-</tr>
-<tr>
-<td><code>cards-profile</code></td>
-<td>Contributor/guide bios — brand trust</td>
-</tr>
-<tr>
-<td><code>columns-featured</code></td>
-<td>Featured article spotlight — editorial promotion</td>
-</tr>
-<tr>
-<td><code>table-facts</code></td>
-<td>Adventure fact sheet — bookable trip details</td>
-</tr>
-<tr>
-<td><code>accordion-faq</code></td>
-<td>FAQ — self-service support</td>
-</tr>
-</tbody></table>
-<h2>7. Page indexing &amp; SEO</h2>
-<ul>
-<li><code>query-index.json</code> fully populated (27 pages); <code>helix-query.yaml</code> extracts title / description / image / lastModified.</li>
-<li>Powers search, dynamic lists, and newest-first ordering.</li>
-<li><em>Note:</em> SEO score 69 is solely the automatic <code>noindex</code> on preview hosts — expected, not a defect; the live production domain indexes normally.</li>
-</ul>
-<h2>8. Performance improvements</h2>
-<ul>
-<li>Self-hosted fonts; removed render-blocking Google Fonts + CSS <code>@import</code>.</li>
-<li>LCP image prioritization (<code>fetchpriority</code>).</li>
-<li>Responsive card images (stopped desktop over-fetching ~240–375 KiB).</li>
-<li>Reserved image space (CLS fix).</li>
-</ul>
-<h2>9. Reusability &amp; standardization</h2>
-<ul>
-<li><strong>Base + variant</strong> architecture; shared logic centralized (e.g. <code>buildCardList</code>).</li>
-<li><strong>Config over code:</strong> new adventure/article pages need <strong>no developer</strong> — proven by a content-only test.</li>
-<li>Formal <strong>block-reusability audit</strong> documented (<code>docs/block-reusability-audit.md</code>).</li>
-</ul>
-<h2>10. QA / UAT validation</h2>
-<ul>
-<li>Every dynamic feature verified in-browser on the <strong>live</strong> site.</li>
-<li>Content-only page-creation test passed (template reusability proven).</li>
-<li><code>npm run lint</code> green on all changes; all work committed and pushed to <code>main</code> + serving branch.</li>
-</ul>
-<h2>11. Key business benefits</h2>
-<ul>
-<li><strong>Lower content-ops cost:</strong> listings &amp; related content self-maintain.</li>
-<li><strong>Faster authoring:</strong> new pages = content only, no code.</li>
-<li><strong>Better UX &amp; SEO:</strong> near-instant loads, working search, consistent design.</li>
-<li><strong>Maintainable codebase:</strong> lean, deduplicated, documented for handover.</li>
-</ul>
-<h2>12. Before → After metrics (PageSpeed, verified)</h2>
-<table>
-<thead>
-<tr>
-<th>Metric</th>
-<th>Before</th>
-<th>After</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>Performance — Mobile</strong></td>
-<td>92</td>
-<td><strong>100</strong></td>
-</tr>
-<tr>
-<td><strong>Performance — Desktop</strong></td>
-<td>98</td>
-<td><strong>100</strong></td>
-</tr>
-<tr>
-<td>Mobile FCP</td>
-<td>2.6 s</td>
-<td>1.0 s</td>
-</tr>
-<tr>
-<td>Mobile LCP</td>
-<td>2.6 s</td>
-<td>1.4 s</td>
-</tr>
-<tr>
-<td>Mobile Speed Index</td>
-<td>4.0 s</td>
-<td>2.5 s</td>
-</tr>
-<tr>
-<td>Accessibility / Best Practices</td>
-<td>100</td>
-<td>100</td>
-</tr>
-<tr>
-<td>Search index coverage</td>
-<td>1 page</td>
-<td>27 pages</td>
-</tr>
-</tbody></table>
-<hr>
-<p><em>Reference docs: <a href="dynamic-rendering.html"><code>dynamic-rendering.md</code></a> · <a href="block-reusability-audit.html"><code>block-reusability-audit.md</code></a></em></p>
+<header class="topbar">
+  <div class="badge">W</div>
+  <div>
+    <h1>WKND Migration Report — Leadership Summary</h1>
+    <div class="sub">Outcome summary · scope, success, performance & benefits</div>
+  </div>
+  <div class="ver">Aug 2026</div>
+</header>
+<div class="layout">
+  <nav class="side">
+      <a href="index.html" style="color:var(--link)">‹ All reports</a>
+      <div class="group">Report</div>
+      <a href="#intro">Overview</a>
+      <a href="#1-scope-migrated">1. Scope migrated</a>
+      <a href="#2-migration-success">2. Migration success</a>
+      <a href="#3-issues-identified-resolved">3. Issues identified & resolved</a>
+      <a href="#4-dynamic-implementations-introduced">4. Dynamic implementations introduced</a>
+      <a href="#5-block-library-created-updated">5. Block library — created / updated</a>
+      <a href="#6-variants-business-use-cases">6. Variants & business use cases</a>
+      <a href="#7-page-indexing-seo">7. Page indexing & SEO</a>
+      <a href="#8-performance-improvements">8. Performance improvements</a>
+      <a href="#9-reusability-standardization">9. Reusability & standardization</a>
+      <a href="#10-qa-uat-validation">10. QA / UAT validation</a>
+      <a href="#11-key-business-benefits">11. Key business benefits</a>
+      <a href="#12-before-after-metrics-pagespeed-verifi">12. Before → After metrics (PageSpeed, verified)</a>
+  </nav>
+  <main class="doc">
+      <div class="stat-grid">
+        <div class="stat"><div class="num">27</div><div class="lbl">Pages live & indexed</div></div>
+        <div class="stat"><div class="num">13</div><div class="lbl">Blocks</div></div>
+        <div class="stat"><div class="num">0</div><div class="lbl">Open defects</div></div>
+        <div class="stat"><div class="num">100</div><div class="lbl">PageSpeed mobile</div></div>
+        <div class="stat"><div class="num">100</div><div class="lbl">PageSpeed desktop</div></div>
+        <div class="stat"><div class="num">27</div><div class="lbl">Search coverage (was 1)</div></div>
+      </div>
+      <section class="block" id="intro">
+        <h2>Overview</h2>
+        <p><strong>Project:</strong> WKND site → Adobe Experience Manager Edge Delivery Services (EDS)
+        <strong>Status:</strong> ✅ Migrated, optimized, and live · <strong>Date:</strong> Aug 2026</p>
 
-</main>
-<footer class="report-footer">
-  <p>WKND → Adobe Experience Manager Edge Delivery Services migration · Internal report</p>
-</footer>
+      </section>
+      <section class="block" id="1-scope-migrated">
+        <h2>1. Scope migrated</h2>
+        <ul>
+        <li><strong>27 pages</strong> live and indexed across <strong>6 template types</strong>: homepage, section landing, article detail, adventure detail, adventures listing, FAQ.</li>
+        <li><strong>13 blocks (components)</strong> in the library covering all page types.</li>
+        <li>Source analysis: 225 block instances consolidated to a lean, reusable set.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="2-migration-success">
+        <h2>2. Migration success</h2>
+        <ul>
+        <li><strong>100% of in-scope pages migrated and published</strong> — all 27 render correctly on the live site.</li>
+        <li><strong>0 open defects.</strong> Every issue found during QA was resolved.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="3-issues-identified-resolved">
+        <h2>3. Issues identified & resolved</h2>
+        <table>
+        <thead>
+        <tr>
+        <th>Issue</th>
+        <th>Resolution</th>
+        </tr>
+        </thead>
+        <tbody><tr>
+        <td>Header search returned nothing</td>
+        <td>Root cause: search index held only 1 page → published all pages; index now complete</td>
+        </tr>
+        <tr>
+        <td>Search dropdown closed instantly on click</td>
+        <td>Fixed event-target bug in header.js</td>
+        </tr>
+        <tr>
+        <td>Live header/footer missing</td>
+        <td>Published <code>/nav</code> + <code>/footer</code> on the serving branch</td>
+        </tr>
+        <tr>
+        <td>Article lists linked to themselves / went stale</td>
+        <td>Made related lists index-driven, self-excluding</td>
+        </tr>
+        <tr>
+        <td><code>lastModified</code> always empty (dates/sort broken)</td>
+        <td>Fixed <code>helix-query.yaml</code> header-accessor syntax</td>
+        </tr>
+        <tr>
+        <td>Oversized card images / layout shift</td>
+        <td>Responsive images + reserved image space</td>
+        </tr>
+        </tbody></table>
+
+      </section>
+      <section class="block" id="4-dynamic-implementations-introduced">
+        <h2>4. Dynamic implementations introduced</h2>
+        <p>Static, hand-maintained content replaced with <strong>query-index-driven</strong> rendering (auto-updates as authors add/remove pages, no code changes):</p>
+        <ul>
+        <li>Magazine &quot;All Articles&quot; grid</li>
+        <li>Homepage &quot;Recent Articles&quot; + &quot;Where do you want to go?&quot;</li>
+        <li>Article &quot;Share this story&quot; related list</li>
+        <li>Header inline search, <strong>section-scoped</strong> (Magazine / Adventures / site-wide)</li>
+        </ul>
+
+      </section>
+      <section class="block" id="5-block-library-created-updated">
+        <h2>5. Block library — created / updated</h2>
+        <ul>
+        <li><strong>New:</strong> <code>cards-index</code> (dynamic, config-driven grid).</li>
+        <li><strong>Updated / consolidated:</strong> <code>cards</code> (now a shared base helper), <code>cards-profile</code>, <code>cards-teaser</code>, <code>columns-featured</code>, <code>header</code>, <code>carousel-hero</code>, <code>table-facts</code>.</li>
+        <li><strong>Removed:</strong> 3 dead base blocks (<code>columns</code>, <code>table</code>, <code>hero</code>) — unused.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="6-variants-business-use-cases">
+        <h2>6. Variants & business use cases</h2>
+        <table>
+        <thead>
+        <tr>
+        <th>Variant</th>
+        <th>Business use</th>
+        </tr>
+        </thead>
+        <tbody><tr>
+        <td><code>carousel-hero</code></td>
+        <td>Homepage rotating hero — merchandising top adventures</td>
+        </tr>
+        <tr>
+        <td><code>cards-teaser</code></td>
+        <td>Article/adventure teaser grids — content discovery</td>
+        </tr>
+        <tr>
+        <td><code>cards-index</code></td>
+        <td>Auto-updating listings — zero-maintenance content ops</td>
+        </tr>
+        <tr>
+        <td><code>cards-profile</code></td>
+        <td>Contributor/guide bios — brand trust</td>
+        </tr>
+        <tr>
+        <td><code>columns-featured</code></td>
+        <td>Featured article spotlight — editorial promotion</td>
+        </tr>
+        <tr>
+        <td><code>table-facts</code></td>
+        <td>Adventure fact sheet — bookable trip details</td>
+        </tr>
+        <tr>
+        <td><code>accordion-faq</code></td>
+        <td>FAQ — self-service support</td>
+        </tr>
+        </tbody></table>
+
+      </section>
+      <section class="block" id="7-page-indexing-seo">
+        <h2>7. Page indexing & SEO</h2>
+        <ul>
+        <li><code>query-index.json</code> fully populated (27 pages); <code>helix-query.yaml</code> extracts title / description / image / lastModified.</li>
+        <li>Powers search, dynamic lists, and newest-first ordering.</li>
+        <li><em>Note:</em> SEO score 69 is solely the automatic <code>noindex</code> on preview hosts — expected, not a defect; the live production domain indexes normally.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="8-performance-improvements">
+        <h2>8. Performance improvements</h2>
+        <ul>
+        <li>Self-hosted fonts; removed render-blocking Google Fonts + CSS <code>@import</code>.</li>
+        <li>LCP image prioritization (<code>fetchpriority</code>).</li>
+        <li>Responsive card images (stopped desktop over-fetching ~240–375 KiB).</li>
+        <li>Reserved image space (CLS fix).</li>
+        </ul>
+
+      </section>
+      <section class="block" id="9-reusability-standardization">
+        <h2>9. Reusability & standardization</h2>
+        <ul>
+        <li><strong>Base + variant</strong> architecture; shared logic centralized (e.g. <code>buildCardList</code>).</li>
+        <li><strong>Config over code:</strong> new adventure/article pages need <strong>no developer</strong> — proven by a content-only test.</li>
+        <li>Formal <strong>block-reusability audit</strong> documented (<code>docs/block-reusability-audit.md</code>).</li>
+        </ul>
+
+      </section>
+      <section class="block" id="10-qa-uat-validation">
+        <h2>10. QA / UAT validation</h2>
+        <ul>
+        <li>Every dynamic feature verified in-browser on the <strong>live</strong> site.</li>
+        <li>Content-only page-creation test passed (template reusability proven).</li>
+        <li><code>npm run lint</code> green on all changes; all work committed and pushed to <code>main</code> + serving branch.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="11-key-business-benefits">
+        <h2>11. Key business benefits</h2>
+        <ul>
+        <li><strong>Lower content-ops cost:</strong> listings &amp; related content self-maintain.</li>
+        <li><strong>Faster authoring:</strong> new pages = content only, no code.</li>
+        <li><strong>Better UX &amp; SEO:</strong> near-instant loads, working search, consistent design.</li>
+        <li><strong>Maintainable codebase:</strong> lean, deduplicated, documented for handover.</li>
+        </ul>
+
+      </section>
+      <section class="block" id="12-before-after-metrics-pagespeed-verifi">
+        <h2>12. Before → After metrics (PageSpeed, verified)</h2>
+        <table>
+        <thead>
+        <tr>
+        <th>Metric</th>
+        <th>Before</th>
+        <th>After</th>
+        </tr>
+        </thead>
+        <tbody><tr>
+        <td><strong>Performance — Mobile</strong></td>
+        <td>92</td>
+        <td><strong>100</strong></td>
+        </tr>
+        <tr>
+        <td><strong>Performance — Desktop</strong></td>
+        <td>98</td>
+        <td><strong>100</strong></td>
+        </tr>
+        <tr>
+        <td>Mobile FCP</td>
+        <td>2.6 s</td>
+        <td>1.0 s</td>
+        </tr>
+        <tr>
+        <td>Mobile LCP</td>
+        <td>2.6 s</td>
+        <td>1.4 s</td>
+        </tr>
+        <tr>
+        <td>Mobile Speed Index</td>
+        <td>4.0 s</td>
+        <td>2.5 s</td>
+        </tr>
+        <tr>
+        <td>Accessibility / Best Practices</td>
+        <td>100</td>
+        <td>100</td>
+        </tr>
+        <tr>
+        <td>Search index coverage</td>
+        <td>1 page</td>
+        <td>27 pages</td>
+        </tr>
+        </tbody></table>
+        <hr>
+        <p><em>Reference docs: <a href="dynamic-rendering.html"><code>dynamic-rendering.md</code></a> · <a href="block-reusability-audit.html"><code>block-reusability-audit.md</code></a></em></p>
+
+      </section>
+  </main>
+</div>
+<footer class="docfoot">WKND → Adobe Experience Manager Edge Delivery Services migration · Internal report</footer>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.side a[href^="#"]'));
+  var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var secs=[].slice.call(document.querySelectorAll('section.block[id]'));
+  function onScroll(){
+    var top=window.scrollY+90,cur=null;
+    secs.forEach(function(s){if(s.offsetTop<=top)cur=s.id;});
+    links.forEach(function(a){a.classList.remove('active');});
+    if(cur&&map[cur])map[cur].classList.add('active');
+  }
+  document.addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
 </body>
 </html>
