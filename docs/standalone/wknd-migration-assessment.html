@@ -21,8 +21,6 @@ a:hover{text-decoration:underline}
 code{background:var(--bg);border:1px solid var(--border);border-radius:4px;
   padding:1px 6px;font-size:.85em;color:var(--accent);
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
-
-/* top bar */
 header.topbar{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:16px;
   padding:12px 24px;background:var(--panel);border-bottom:1px solid var(--border)}
 header.topbar .badge{width:40px;height:40px;border-radius:10px;background:var(--panel-2);
@@ -32,8 +30,6 @@ header.topbar h1{font-size:17px;margin:0;line-height:1.2}
 header.topbar .sub{font-size:12px;color:var(--muted);margin-top:2px}
 header.topbar .ver{margin-left:auto;font-size:11px;color:var(--accent);
   border:1px solid var(--border);background:var(--bg);border-radius:20px;padding:5px 12px;white-space:nowrap}
-
-/* layout */
 .layout{display:flex;align-items:flex-start}
 nav.side{position:sticky;top:65px;align-self:flex-start;width:var(--sidebar);flex:0 0 var(--sidebar);
   height:calc(100vh - 65px);overflow-y:auto;padding:20px 14px;border-right:1px solid var(--border);
@@ -45,56 +41,48 @@ nav.side a{display:block;padding:7px 12px;border-radius:8px;color:var(--muted);f
 nav.side a:hover{background:var(--panel-2);color:var(--text);text-decoration:none}
 nav.side a.active{background:var(--panel-2);color:var(--text);border-left-color:var(--accent)}
 main.doc{flex:1 1 auto;min-width:0;max-width:1000px;padding:28px 40px 80px}
-
-/* stat cards */
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:6px 0 26px}
 .stat{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
 .stat .num{font-size:30px;font-weight:700;color:var(--accent);line-height:1}
 .stat .lbl{color:var(--muted);font-size:12.5px;margin-top:6px}
-
-/* sections */
 section.block{scroll-margin-top:80px;margin:0 0 34px}
 section.block>h2{font-size:20px;margin:28px 0 6px;padding-bottom:8px;border-bottom:1px solid var(--border)}
 section.block>h2 .kicker{color:var(--muted);font-weight:400;font-size:13px;margin-left:8px}
 section.block h3{font-size:15.5px;margin:20px 0 6px}
+section.block h4{font-size:13.5px;margin:16px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
 section.block p{margin:10px 0}
 section.block ul,section.block ol{padding-left:20px}
 section.block li{margin:5px 0}
 strong{color:#fff}
-
-/* callout panels */
 .panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:16px 0}
 .panel.accent{border-left:3px solid var(--accent)}
 .panel.good{border-left:3px solid var(--good)}
 .panel .ptitle{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px}
-
-/* chips / pill flow */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
 .flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0}
 .chip{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:7px 13px;
   font-size:13px;white-space:nowrap}
 .chip .n{color:var(--accent);font-weight:700;margin-right:6px}
 .chip.step{background:var(--panel-2)}
+.swatch{display:inline-flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);
+  border-radius:8px;padding:6px 10px;font-size:12.5px;margin:4px 6px 4px 0}
+.swatch .dot{width:16px;height:16px;border-radius:4px;border:1px solid var(--border)}
 .arrow{color:var(--muted)}
-
-/* tables */
 table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13.5px;background:var(--panel);
   border:1px solid var(--border);border-radius:10px;overflow:hidden}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top}
-thead th{background:var(--panel-2);font-weight:600;border-bottom:2px solid var(--border);
-  position:sticky;top:0}
+thead th{background:var(--panel-2);font-weight:600;border-bottom:2px solid var(--border);position:sticky;top:0}
 tbody tr:last-child td{border-bottom:0}
 tbody tr:hover{background:var(--panel-2)}
-td .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--border)}
+td .tag,span.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--border)}
 .tag.good{color:var(--good);border-color:#1c5b2b}
 .tag.warn{color:var(--warn);border-color:#6b5320}
 .tag.mut{color:var(--muted)}
-
-blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);
-  background:var(--panel);color:var(--muted)}
+blockquote{margin:16px 0;padding:8px 16px;border-left:3px solid var(--accent);background:var(--panel);color:var(--muted)}
 hr{border:0;border-top:1px solid var(--border);margin:26px 0}
 footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(var(--sidebar) + 40px);
   color:var(--muted);font-size:12.5px}
-
 @media(max-width:860px){
   nav.side{display:none}
   main.doc{padding:22px 18px 60px}
@@ -105,191 +93,285 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
 <body>
 <header class="topbar">
   <div class="badge">W</div>
-  <div>
-    <h1>WKND Discovery & Migration Assessment</h1>
-    <div class="sub">wknd.site → Adobe Experience Manager Edge Delivery Services · analysis, scope & approach</div>
-  </div>
-  <div class="ver">v2.0 · Aug 2026</div>
+  <div><h1>WKND Discovery & Migration Assessment</h1><div class="sub">wknd.site → Adobe Experience Manager Edge Delivery Services · discovery, design, blocks & execution</div></div>
+  <div class="ver">v3.0 · Aug 2026</div>
 </header>
 <div class="layout">
   <nav class="side">
       <a href="index.html" style="color:var(--link)">‹ All reports</a>
-      <div class="group">Overview</div>
-      <a href="#overview">Executive Summary</a>
-      <div class="group">Analysis</div>
-      <a href="#analysis">Page Analysis</a>
-      <a href="#scope">Migration Scope — What Was Chosen</a>
-      <div class="group">Migration</div>
-      <a href="#start">Where Migration Started</a>
-      <a href="#flow">Migration Flow</a>
-      <div class="group">Deliverables</div>
-      <a href="#templates">Templates → Blocks</a>
-      <a href="#blocks">Blocks & Variants</a>
+      <div class="group">1 · Summary</div>
+      <a href="#summary">Executive Summary</a>
+      <div class="group">2 · Analysis</div>
+      <a href="#page-analysis">Page Analysis</a>
+      <div class="group">3 · Discovery</div>
+      <a href="#discovery">Page & Template Discovery</a>
+      <div class="group">4 · Scope</div>
+      <a href="#scope">Migration Scope</a>
+      <div class="group">5 · Design</div>
+      <a href="#design">Design System Analysis</a>
+      <div class="group">6 · Global</div>
+      <a href="#global">Global Blocks</a>
+      <div class="group">7 · Inventory</div>
+      <a href="#inventory">Block Inventory</a>
+      <div class="group">8 · Deliverables</div>
+      <a href="#deliverables">Deliverables</a>
+      <div class="group">9 · Approach</div>
       <a href="#approach">Migration Approach</a>
-      <div class="group">Outcome</div>
-      <a href="#outcome">Outcome</a>
   </nav>
   <main class="doc">
       <div class="stat-grid">
         <div class="stat"><div class="num">64</div><div class="lbl">Pages analyzed (100%)</div></div>
-        <div class="stat"><div class="num">27</div><div class="lbl">Pages migrated (US/EN + CA/EN)</div></div>
+        <div class="stat"><div class="num">27</div><div class="lbl">Pages migrated</div></div>
         <div class="stat"><div class="num">6</div><div class="lbl">Templates</div></div>
-        <div class="stat"><div class="num">13</div><div class="lbl">EDS blocks delivered</div></div>
-        <div class="stat"><div class="num">7</div><div class="lbl">Block parsers</div></div>
-        <div class="stat"><div class="num">100</div><div class="lbl">PageSpeed (mobile & desktop)</div></div>
+        <div class="stat"><div class="num">13</div><div class="lbl">EDS blocks</div></div>
+        <div class="stat"><div class="num">2</div><div class="lbl">Global blocks (header/footer)</div></div>
+        <div class="stat"><div class="num">100</div><div class="lbl">PageSpeed</div></div>
       </div>
-      <section class="block" id="overview">
-        <h2>Executive Summary <span class="kicker">what & why</span></h2>
+      <section class="block" id="summary">
+        <h2>Executive Summary <span class="kicker">purpose, objectives, scope</span></h2>
 
-        <p>WKND is a template-driven Adobe Experience Manager Sites reference site (Core Components, Experience Fragments, DAM assets). It was migrated to <strong>Edge Delivery Services (EDS)</strong> with content authored in <strong>Document Authoring (da.live)</strong>. Clean block boundaries and repetitive templates made it an ideal candidate — no transactional or personalization dependencies were in scope.</p>
-        <div class="panel accent"><div class="ptitle">Headline</div>
-        <p style="margin:0"><strong>64 pages</strong> analyzed across the live site → <strong>27 US/EN + CA/EN pages</strong> chosen for the build, covering <strong>6 templates</strong> and delivered with <strong>13 EDS blocks</strong>. Migration ran template-by-template through a repeatable parser → transformer → import pipeline. Result: 100% of in-scope pages live, 0 open defects, PageSpeed 100.</p></div>
-      </section>
-      <section class="block" id="analysis">
-        <h2>Page Analysis <span class="kicker">discovery</span></h2>
-
-        <p>A full crawl of <code>wknd.site</code> discovered and structurally analyzed <strong>64 pages</strong> (100% success — no login walls, client-only rendering, or anti-bot). Each page was decomposed into sections and blocks, then grouped by structural signature into templates.</p>
-        <h3>What the crawl found</h3>
-        <table>
-          <thead><tr><th>Dimension</th><th>Finding</th></tr></thead>
-          <tbody>
-            <tr><td>Pages</td><td>64 discovered &amp; analyzed (100%)</td></tr>
-            <tr><td>Templates</td><td>6 distinct structural types</td></tr>
-            <tr><td>Block variants</td><td>31 variants across 10 base block types</td></tr>
-            <tr><td>Locales</td><td>11 declared via hreflang; only US/EN &amp; CA/EN fully built</td></tr>
-            <tr><td>Assets</td><td>~77+ unique DAM images referenced</td></tr>
-            <tr><td>Complexity</td><td><span class="tag warn">Medium</span> — header nav is the single biggest effort item</td></tr>
-          </tbody>
-        </table>
-        <div class="panel"><div class="ptitle">Key insight</div>
-        <p style="margin:0">24 of 31 variants mapped directly to standard EDS blocks (hero, cards, carousel, tabs, accordion). Only 7 were "unknown" custom compositions — all simple heading/image/CTA layouts that were absorbed into <code>hero-banner</code> / <code>columns-featured</code> rather than becoming bespoke blocks.</p></div>
-      </section>
-      <section class="block" id="scope">
-        <h2>Migration Scope — What Was Chosen <span class="kicker">decision</span></h2>
-
-        <p>Of 64 discovered pages, the build targeted the <strong>fully-authored English trees (US/EN + CA/EN)</strong> — 27 pages that carry real content. The 9 minor locales are single "coming soon" stubs and were deliberately deferred.</p>
-        <table>
-          <thead><tr><th>Template</th><th>Source pages</th><th>In scope</th><th>Decision</th></tr></thead>
-          <tbody>
-            <tr><td>adventure-detail</td><td>32</td><td>US/EN + CA/EN</td><td><span class="tag good">Migrate</span> highest-volume, most repetitive</td></tr>
-            <tr><td>article-detail</td><td>12</td><td>US/EN + CA/EN</td><td><span class="tag good">Migrate</span> editorial magazine</td></tr>
-            <tr><td>homepage</td><td>11</td><td>US/EN (full)</td><td><span class="tag good">Migrate</span> full; minor locales = stub</td></tr>
-            <tr><td>section-landing</td><td>5</td><td>US/EN + CA/EN</td><td><span class="tag good">Migrate</span> about-us, magazine, members-only</td></tr>
-            <tr><td>adventures-listing</td><td>2</td><td>US/EN + CA/EN</td><td><span class="tag good">Migrate</span></td></tr>
-            <tr><td>faq-page</td><td>2</td><td>US/EN + CA/EN</td><td><span class="tag good">Migrate</span></td></tr>
-            <tr><td>minor-locale stubs</td><td>9</td><td>—</td><td><span class="tag mut">Defer</span> single hero teaser only</td></tr>
-          </tbody>
-        </table>
-      </section>
-      <section class="block" id="start">
-        <h2>Where Migration Started <span class="kicker">entry point</span></h2>
-
-        <p>Migration began with the <strong>most repetitive, highest-volume template first — <code>adventure-detail</code> (32 pages)</strong>. Nailing the biggest, most uniform type early validated the whole pipeline (parser → transformer → import) against the most content, so the remaining five templates reused a proven engine.</p>
-        <div class="panel accent"><div class="ptitle">Why start here</div>
-        <p style="margin:0">A single adventure-detail structure (hero + fact sheet + body + related) repeats across 32 pages. Getting one parser right immediately covered half the content and de-risked every later template.</p></div>
-        <h3>Foundations laid before page migration</h3>
+        <h3>Purpose of the site</h3>
+        <p>WKND is Adobe's reference travel &amp; adventure brand — an editorial + listings site (adventures, magazine articles, FAQs, contributor profiles). It is a template-driven AEM Sites site (Core Components, Experience Fragments, DAM assets) with no transactional or personalization dependencies.</p>
+        <h3>Migration objectives</h3>
         <ul>
-          <li><strong>Design system</strong> — fonts, color tokens, spacing extracted from the source into <code>styles.css</code>.</li>
-          <li><strong>Global header &amp; footer</strong> — nav (dropdowns, search, language picker) and footer built and published on the serving branch.</li>
-          <li><strong>Content source</strong> — da.live mounted via <code>fstab.yaml</code>; <code>helix-query.yaml</code> set up to index pages.</li>
+          <li>Move WKND onto <strong>Edge Delivery Services</strong> with content authored in <strong>Document Authoring (da.live)</strong>.</li>
+          <li>Reach <strong>PageSpeed 100</strong> (Core Web Vitals) on mobile &amp; desktop.</li>
+          <li>Deliver a <strong>lean, reusable block library</strong> — reuse over custom, config over code.</li>
+          <li>Make listings <strong>self-maintaining</strong> (query-index-driven) so content ops need no developer.</li>
+        </ul>
+        <h3>Scope of migration</h3>
+        <div class="panel accent"><p style="margin:0"><strong>64 pages</strong> analyzed → <strong>27 US/EN + CA/EN pages</strong> migrated across <strong>6 templates</strong>, delivered with <strong>13 EDS blocks</strong> + global header/footer. Nine minor-locale "coming soon" stubs deferred. Result: 100% of in-scope pages live, 0 open defects.</p></div>
+      </section>
+      <section class="block" id="page-analysis">
+        <h2>Page Analysis <span class="kicker">structure & hierarchy</span></h2>
+
+        <h3>Homepage structure</h3>
+        <p>The US/EN homepage stacks: <strong>rotating hero carousel</strong> → <strong>featured-article split</strong> → <strong>recent-articles card grid</strong> → <strong>adventure teaser</strong> → <strong>adventures card grid</strong>. Minor-locale homepages are a single hero "coming soon" stub.</p>
+        <div class="flow">
+          <span class="chip">Header (global)</span><span class="arrow">▸</span>
+          <span class="chip">Carousel hero</span><span class="arrow">▸</span>
+          <span class="chip">Featured columns</span><span class="arrow">▸</span>
+          <span class="chip">Recent articles</span><span class="arrow">▸</span>
+          <span class="chip">Adventures grid</span><span class="arrow">▸</span>
+          <span class="chip">Footer (global)</span>
+        </div>
+        <h3>Main sections</h3>
+        <table>
+          <thead><tr><th>Section</th><th>Path</th><th>Contains</th></tr></thead>
+          <tbody>
+            <tr><td>Adventures</td><td><code>/adventures</code></td><td>Filterable listing + 16 detail pages per locale</td></tr>
+            <tr><td>Magazine</td><td><code>/magazine</code></td><td>Article index + editorial articles (incl. members-only)</td></tr>
+            <tr><td>About Us</td><td><code>/about-us</code></td><td>Contributor &amp; guide profile groups</td></tr>
+            <tr><td>FAQs</td><td><code>/faqs</code></td><td>Question/answer accordion</td></tr>
+          </tbody>
+        </table>
+        <h3>Content hierarchy</h3>
+        <blockquote>Home → Section landing (Adventures / Magazine / About / FAQ) → Detail page (adventure / article). Two locale trees fully built: <code>/us/en</code>, <code>/ca/en</code>.</blockquote>
+        <h3>Navigation structure</h3>
+        <p>Global top bar (Sign In + language/region picker) above a primary nav with brand logo, section links, and inline search. Desktop breakpoint at <strong>900px</strong>; below that the nav collapses to a hamburger.</p>
+      </section>
+      <section class="block" id="discovery">
+        <h2>Page & Template Discovery <span class="kicker">URLs & templates</span></h2>
+
+        <p>A full crawl discovered and structurally analyzed <strong>64 pages</strong> (100% success — no login walls, client-only rendering, or anti-bot), grouped by structural signature into 6 templates.</p>
+        <h3>Template inventory</h3>
+        <table>
+          <thead><tr><th>Template</th><th>Pages</th><th>Representative URL</th></tr></thead>
+          <tbody>
+            <tr><td><strong>adventure-detail</strong></td><td>32</td><td><code>/us/en/adventures/bali-surf-camp</code></td></tr>
+            <tr><td><strong>article-detail</strong></td><td>12</td><td><code>/us/en/magazine/arctic-surfing</code></td></tr>
+            <tr><td><strong>homepage</strong></td><td>11</td><td><code>/us/en</code></td></tr>
+            <tr><td><strong>section-landing</strong></td><td>5</td><td><code>/us/en/magazine</code></td></tr>
+            <tr><td><strong>adventures-listing</strong></td><td>2</td><td><code>/us/en/adventures</code></td></tr>
+            <tr><td><strong>faq-page</strong></td><td>2</td><td><code>/us/en/faqs</code></td></tr>
+          </tbody>
+        </table>
+        <h3>Discovered URLs (representative set)</h3>
+        <p>Full US/EN tree (CA/EN mirrors it; 9 minor locales are homepage stubs):</p>
+        <ul>
+          <li><code>/us/en</code> · <code>/us/en/adventures</code> · <code>/us/en/magazine</code> · <code>/us/en/about-us</code> · <code>/us/en/faqs</code></li>
+          <li><strong>Adventures (16):</strong> bali-surf-camp, beervana-portland, climbing-new-zealand, colorado-rock-climbing, cycling-southern-utah, cycling-tuscany, downhill-skiing-wyoming, gastronomic-marais-tour, napa-wine-tasting, riverside-camping-australia, ski-touring-mont-blanc, surf-camp-costa-rica, tahoe-skiing, west-coast-cycling, whistler-mountain-biking, yosemite-backpacking</li>
+          <li><strong>Magazine:</strong> arctic-surfing, guide-la-skateparks, san-diego-surf, ski-touring, western-australia, members-only/*</li>
         </ul>
       </section>
-      <section class="block" id="flow">
-        <h2>Migration Flow <span class="kicker">the pipeline</span></h2>
+      <section class="block" id="scope">
+        <h2>Migration Scope <span class="kicker">pilot & rationale</span></h2>
 
-        <p>Every template ran through the same repeatable pipeline. The flow below is the actual sequence followed for each of the 6 templates:</p>
+        <p>Migrate the fully-authored English trees (US/EN + CA/EN, 27 pages) first; defer the 9 minor-locale stubs. Sequence <strong>highest-volume, most-repetitive template first</strong> so one parser covers the most content and de-risks the pipeline.</p>
+        <h3>Pilot page per template</h3>
+        <table>
+          <thead><tr><th>#</th><th>Template</th><th>Pilot page</th><th>Rationale</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>adventure-detail</td><td><code>/us/en/adventures/bali-surf-camp</code></td><td><span class="tag good">First</span> 32 pages — biggest, most uniform; validates the whole engine</td></tr>
+            <tr><td>2</td><td>article-detail</td><td><code>/us/en/magazine/arctic-surfing</code></td><td>12 pages; rich-text body + related list</td></tr>
+            <tr><td>3</td><td>section-landing</td><td><code>/us/en/magazine</code></td><td>Reusable card-grid pattern across sections</td></tr>
+            <tr><td>4</td><td>adventures-listing</td><td><code>/us/en/adventures</code></td><td>Category-filtered grid</td></tr>
+            <tr><td>5</td><td>faq-page</td><td><code>/us/en/faqs</code></td><td>Simplest; single accordion block</td></tr>
+            <tr><td>6</td><td>homepage</td><td><code>/us/en</code></td><td>Last — composes blocks proven by 1–5</td></tr>
+          </tbody>
+        </table>
+        <div class="panel accent"><div class="ptitle">Rationale</div><p style="margin:0">Starting with adventure-detail means one parser immediately covers ~half the site. The homepage is built last because it reuses blocks (carousel, cards, columns, hero) already proven on the other five templates.</p></div>
+      </section>
+      <section class="block" id="design">
+        <h2>Design System Analysis <span class="kicker">tokens & CSS</span></h2>
+
+        <h3>Colors</h3>
+        <div>
+          <span class="swatch"><span class="dot" style="background:#ffea00"></span> Brand accent <code>#ffea00</code></span>
+          <span class="swatch"><span class="dot" style="background:#202020"></span> Dark / text <code>#202020</code></span>
+          <span class="swatch"><span class="dot" style="background:#696969"></span> Muted <code>#696969</code></span>
+          <span class="swatch"><span class="dot" style="background:#f5f5f5"></span> Light <code>#f5f5f5</code></span>
+          <span class="swatch"><span class="dot" style="background:#ebebeb"></span> Border <code>#ebebeb</code></span>
+          <span class="swatch"><span class="dot" style="background:#fff"></span> Background <code>#fff</code></span>
+        </div>
+        <div class="grid2">
+          <div>
+            <h3>Typography</h3>
+            <ul>
+              <li><strong>Headings:</strong> <code>asar</code> (serif), self-hosted woff2</li>
+              <li><strong>Body:</strong> <code>Source Sans Pro</code> (300/400/600 + italics)</li>
+              <li>Heading scale: 36 / 28 / 22 / 16 / 14 / 12px (mobile-first)</li>
+              <li>Body scale: 18 / 16 / 14px</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Buttons</h3>
+            <ul>
+              <li><strong>Square</strong> CTAs (<code>border-radius:0</code>), uppercase, 14×35px padding, 600 weight</li>
+              <li>Primary = brand-yellow fill on dark text</li>
+              <li>2px transparent border → accent border on primary</li>
+            </ul>
+          </div>
+        </div>
+        <h3>Grid / Layout, Spacing & Responsive</h3>
+        <table>
+          <thead><tr><th>Aspect</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Content width</td><td>Centered, section-constrained; full-bleed heroes break out</td></tr>
+            <tr><td>Breakpoints</td><td><span class="tag">600px</span> tablet · <span class="tag">900px</span> desktop (mobile-first <code>min-width</code>)</td></tr>
+            <tr><td>Nav height</td><td>88px nav + 40px top bar</td></tr>
+            <tr><td>Responsive behavior</td><td>Nav collapses to hamburger &lt; 900px; card grids reflow 1→2→N columns</td></tr>
+          </tbody>
+        </table>
+        <h4>Global CSS patterns</h4>
+        <p>All tokens live in <code>styles.css</code> <code>:root</code>; blocks are scoped (<code>.block .block-part</code>); fonts self-hosted in <code>fonts.css</code> (no render-blocking Google Fonts).</p>
+      </section>
+      <section class="block" id="global">
+        <h2>Global Blocks <span class="kicker">header & footer</span></h2>
+
+        <div class="grid2">
+          <div>
+            <h3>Header analysis</h3>
+            <ul>
+              <li>Top bar: Sign In + language/region picker (11 locales)</li>
+              <li>Primary nav: brand logo, section links, inline search dropdown</li>
+              <li>Section-scoped search (Magazine / Adventures / site-wide)</li>
+              <li>Responsive hamburger &lt; 900px</li>
+            </ul>
+            <div class="panel good"><div class="ptitle">Recommended EDS header block</div><p style="margin:0"><code>header</code> block loading a <code>/nav</code> fragment via <code>loadFragment</code>; nav path overridable by page <code>nav</code> metadata.</p></div>
+          </div>
+          <div>
+            <h3>Footer analysis</h3>
+            <ul>
+              <li>Dark band, light WKND logo</li>
+              <li>Horizontal section nav</li>
+              <li>Brand-yellow "Follow Us" + social links</li>
+              <li>Copyright + attribution</li>
+            </ul>
+            <div class="panel good"><div class="ptitle">Recommended EDS footer block</div><p style="margin:0"><code>footer</code> block loading a <code>/footer</code> fragment via <code>loadFragment</code>; path overridable by <code>footer</code> metadata.</p></div>
+          </div>
+        </div>
+        <h3>Navigation structure</h3>
+        <p>Both header and footer are authored once as <strong>fragments</strong> (<code>/nav</code>, <code>/footer</code>) and reused across every page — the EDS-idiomatic global-content pattern.</p>
+      </section>
+      <section class="block" id="inventory">
+        <h2>Block Inventory <span class="kicker">per-block detail</span></h2>
+
+        <p>Every author-insertable block, with purpose, fields, variants, reuse, and its Block-Collection base (the EDS mapping).</p>
+        <table>
+          <thead><tr><th>Block</th><th>Purpose</th><th>Pages</th><th>Fields</th><th>Reuse / EDS base</th></tr></thead>
+          <tbody>
+            <tr><td><code>hero-banner</code></td><td>Adventure/article/section hero</td><td>5</td><td>image, heading, text, CTA</td><td>base <code>hero</code></td></tr>
+            <tr><td><code>carousel-hero</code></td><td>Homepage rotating hero</td><td>1</td><td>per-slide image + content + CTA</td><td>base <code>carousel</code></td></tr>
+            <tr><td><code>columns-featured</code></td><td>Featured split layout</td><td>2</td><td>text col + image col</td><td>base <code>columns</code></td></tr>
+            <tr><td><code>cards-teaser</code></td><td>Teaser card grid</td><td>3</td><td>image, linked title, desc</td><td>base <code>cards</code></td></tr>
+            <tr><td><code>cards-profile</code></td><td>Contributor bios</td><td>1</td><td>photo, name, role (+social)</td><td>base <code>cards</code></td></tr>
+            <tr><td><code>cards-index</code></td><td>Dynamic teaser grid</td><td>dynamic</td><td>source/prefix, sort, limit</td><td>reuses <code>cards-teaser</code></td></tr>
+            <tr><td><code>table-facts</code></td><td>Adventure fact sheet</td><td>1</td><td>label/value rows</td><td>base <code>table</code></td></tr>
+            <tr><td><code>accordion-faq</code></td><td>FAQ accordion</td><td>1</td><td>question, answer rows</td><td>base <code>accordion</code></td></tr>
+            <tr><td><code>cards-articles-wknd</code></td><td>Sheet-driven articles</td><td>2</td><td>DA sheet path</td><td><span class="tag mut">wrapper</span> → cards-index</td></tr>
+            <tr><td><code>cards-adventures-wknd</code></td><td>Adventures + category tabs</td><td>1</td><td>DA sheet (+category)</td><td><span class="tag mut">wrapper</span> → cards-teaser</td></tr>
+            <tr><td><code>faq-wknd</code></td><td>Sheet-driven FAQ</td><td>1</td><td>DA sheet path</td><td><span class="tag mut">wrapper</span> → accordion-faq</td></tr>
+            <tr><td><code>profiles-wknd</code></td><td>Grouped profiles</td><td>1</td><td>DA sheet (+group)</td><td><span class="tag mut">wrapper</span> → cards-profile</td></tr>
+            <tr><td><code>cards</code></td><td>Shared base skeleton</td><td>shared</td><td>—</td><td>base (buildCardList)</td></tr>
+          </tbody>
+        </table>
+        <div class="panel"><div class="ptitle">Variants &amp; reusability</div><p style="margin:0">The source's <strong>31 variants across 10 bases</strong> were consolidated to 13 blocks. 24/31 mapped to standard EDS blocks; 7 "unknown" custom compositions were absorbed into <code>hero-banner</code>/<code>columns-featured</code>. Three dead bases (<code>columns</code>, <code>table</code>, <code>hero</code>) were removed. Detail: <a href="block-reusability-audit.html">Block Reusability Audit</a>.</p></div>
+      </section>
+      <section class="block" id="deliverables">
+        <h2>Deliverables <span class="kicker">mappings & authoring</span></h2>
+
+        <h3>Templates → Blocks mapping</h3>
+        <table>
+          <thead><tr><th>Template</th><th>EDS blocks</th></tr></thead>
+          <tbody>
+            <tr><td>homepage</td><td><code>carousel-hero</code>, <code>columns-featured</code>, <code>cards-teaser</code>, <code>hero-banner</code></td></tr>
+            <tr><td>adventure-detail</td><td><code>hero-banner</code>, <code>table-facts</code></td></tr>
+            <tr><td>article-detail</td><td><code>hero-banner</code></td></tr>
+            <tr><td>section-landing</td><td><code>columns-featured</code>, <code>cards-teaser</code>, <code>cards-profile</code></td></tr>
+            <tr><td>adventures-listing</td><td><code>hero-banner</code>, <code>cards-teaser</code></td></tr>
+            <tr><td>faq-page</td><td><code>accordion-faq</code></td></tr>
+          </tbody>
+        </table>
+        <h3>Suggested content structure</h3>
+        <ul>
+          <li>Listings (articles, adventures, profiles, FAQ) maintained as <strong>DA sheets</strong> read by <code>-wknd</code> wrapper blocks — add a row, no code.</li>
+          <li>Detail pages authored directly (hero + body + facts/related).</li>
+          <li>Header/footer as <code>/nav</code> &amp; <code>/footer</code> fragments.</li>
+        </ul>
+        <h4>Authoring recommendations</h4>
+        <ul>
+          <li>Insert approved blocks from the <strong>da.live Block Library</strong> panel (13 blocks registered).</li>
+          <li>Prefer sheet-driven wrappers for anything list-like; use <code>cards-index</code> with a section prefix for auto-updating grids.</li>
+          <li>Keep one metadata block per page (title/description/OG) for SEO.</li>
+        </ul>
+      </section>
+      <section class="block" id="approach">
+        <h2>Migration Approach <span class="kicker">execution</span></h2>
+
+        <h3>The pipeline (per template)</h3>
         <div class="flow">
           <span class="chip step"><span class="n">1</span>Scope</span><span class="arrow">→</span>
-          <span class="chip step"><span class="n">2</span>Analyze page</span><span class="arrow">→</span>
-          <span class="chip step"><span class="n">3</span>Template catalog</span><span class="arrow">→</span>
+          <span class="chip step"><span class="n">2</span>Analyze</span><span class="arrow">→</span>
+          <span class="chip step"><span class="n">3</span>Catalog</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">4</span>Map blocks</span><span class="arrow">→</span>
-          <span class="chip step"><span class="n">5</span>Write parser</span><span class="arrow">→</span>
+          <span class="chip step"><span class="n">5</span>Parser</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">6</span>Transform</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">7</span>Bulk import</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">8</span>Preview</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">9</span>Validate</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">10</span>Publish</span>
         </div>
-        <h3>The engine (tools/importer)</h3>
+        <h3>The engine (<code>tools/importer</code>)</h3>
         <table>
-          <thead><tr><th>Stage</th><th>Artifact</th><th>Job</th></tr></thead>
+          <thead><tr><th>Artifact</th><th>Job</th></tr></thead>
           <tbody>
-            <tr><td>Templates</td><td><code>page-templates.json</code></td><td>6 templates → URLs, block map, coverage gaps</td></tr>
-            <tr><td>Parsers</td><td>7 × <code>parsers/*.js</code></td><td>Per-block: source DOM → EDS block table</td></tr>
-            <tr><td>Transformers</td><td><code>wknd-cleanup.js</code>, <code>wknd-sections.js</code></td><td>Strip AEM chrome; build section boundaries</td></tr>
-            <tr><td>Import scripts</td><td>6 × <code>import-&lt;template&gt;.js</code></td><td>Combine template + parsers + transformers, run over a URL list</td></tr>
-            <tr><td>URL lists</td><td>7 × <code>urls-*.txt</code></td><td>The exact pages fed to each import run</td></tr>
-            <tr><td>Reports</td><td><code>reports/*.report.json</code> + <code>.xlsx</code></td><td>Per-page import record</td></tr>
+            <tr><td><code>page-templates.json</code></td><td>6 templates → URLs, block map, coverage gaps</td></tr>
+            <tr><td>7 × <code>parsers/*.js</code></td><td>Per-block: source DOM → EDS block table</td></tr>
+            <tr><td><code>wknd-cleanup.js</code>, <code>wknd-sections.js</code></td><td>Strip AEM chrome; build section boundaries</td></tr>
+            <tr><td>6 × <code>import-&lt;template&gt;.js</code></td><td>Template + parsers + transformers over a URL list</td></tr>
+            <tr><td>7 × <code>urls-*.txt</code></td><td>Exact pages per import run</td></tr>
+            <tr><td><code>reports/*.report.json</code> + <code>.xlsx</code></td><td>Per-page import record</td></tr>
           </tbody>
         </table>
-      </section>
-      <section class="block" id="templates">
-        <h2>Templates → Blocks <span class="kicker">6 templates</span></h2>
-
-        <p>Each template resolves to a fixed set of EDS blocks. This mapping is the contract the import parsers implement:</p>
-        <table>
-          <thead><tr><th>Template</th><th>Pages</th><th>EDS blocks used</th></tr></thead>
-          <tbody>
-            <tr><td><strong>homepage</strong></td><td>11</td><td><code>carousel-hero</code>, <code>columns-featured</code>, <code>cards-teaser</code>, <code>hero-banner</code></td></tr>
-            <tr><td><strong>adventure-detail</strong></td><td>32</td><td><code>hero-banner</code>, <code>table-facts</code></td></tr>
-            <tr><td><strong>article-detail</strong></td><td>12</td><td><code>hero-banner</code></td></tr>
-            <tr><td><strong>section-landing</strong></td><td>5</td><td><code>columns-featured</code>, <code>cards-teaser</code>, <code>cards-profile</code></td></tr>
-            <tr><td><strong>adventures-listing</strong></td><td>2</td><td><code>hero-banner</code>, <code>cards-teaser</code></td></tr>
-            <tr><td><strong>faq-page</strong></td><td>2</td><td><code>accordion-faq</code></td></tr>
-          </tbody>
-        </table>
-      </section>
-      <section class="block" id="blocks">
-        <h2>Blocks & Variants <span class="kicker">13 blocks</span></h2>
-
-        <p>13 author-insertable blocks shipped, each derived from an AEM Block Collection base (recorded in every block's <code>metadata.json</code>). Design variants sit on shared bases; the four <code>-wknd</code> wrappers are thin, sheet-driven blocks that delegate to a base.</p>
-        <h3>Base → variant lineage</h3>
-        <table>
-          <thead><tr><th>Block</th><th>Base</th><th>Pages</th><th>Role</th></tr></thead>
-          <tbody>
-            <tr><td><code>hero-banner</code></td><td>hero</td><td>5</td><td>Adventure/article/section hero</td></tr>
-            <tr><td><code>carousel-hero</code></td><td>carousel</td><td>1</td><td>Homepage rotating hero</td></tr>
-            <tr><td><code>columns-featured</code></td><td>columns</td><td>2</td><td>Featured split layout</td></tr>
-            <tr><td><code>cards-teaser</code></td><td>cards</td><td>3</td><td>Teaser card grid</td></tr>
-            <tr><td><code>cards-profile</code></td><td>cards</td><td>1</td><td>Contributor bios + social row</td></tr>
-            <tr><td><code>cards-index</code></td><td>cards-teaser</td><td>dynamic</td><td>Query-index-driven grid</td></tr>
-            <tr><td><code>table-facts</code></td><td>table</td><td>1</td><td>Adventure fact sheet</td></tr>
-            <tr><td><code>accordion-faq</code></td><td>accordion</td><td>1</td><td>FAQ (native details)</td></tr>
-            <tr><td><code>cards-articles-wknd</code></td><td>cards-index</td><td>2</td><td><span class="tag mut">wrapper</span> sheet-driven articles</td></tr>
-            <tr><td><code>cards-adventures-wknd</code></td><td>cards-teaser</td><td>1</td><td><span class="tag mut">wrapper</span> + category tabs</td></tr>
-            <tr><td><code>faq-wknd</code></td><td>accordion-faq</td><td>1</td><td><span class="tag mut">wrapper</span> sheet-driven FAQ</td></tr>
-            <tr><td><code>profiles-wknd</code></td><td>cards-profile</td><td>1</td><td><span class="tag mut">wrapper</span> grouped profiles</td></tr>
-            <tr><td><code>cards</code></td><td>—</td><td>shared</td><td>Base skeleton (buildCardList)</td></tr>
-          </tbody>
-        </table>
-        <div class="panel"><div class="ptitle">Consolidation</div>
-        <p style="margin:0">The source's 31 variants were consolidated to this lean set; 3 dead base blocks (<code>columns</code>, <code>table</code>, <code>hero</code>) had zero content instances and were removed. See the <a href="block-reusability-audit.html">Block Reusability Audit</a>.</p></div>
-      </section>
-      <section class="block" id="approach">
-        <h2>Migration Approach <span class="kicker">principles</span></h2>
-
+        <h3>Principles</h3>
         <ul>
-          <li><strong>Template-first, highest-volume-first</strong> — start where one parser covers the most pages (adventure-detail, 32), then reuse the engine.</li>
-          <li><strong>Reuse over custom</strong> — every block derives from a Block Collection base; no bespoke one-off blocks.</li>
-          <li><strong>Config over code</strong> — new adventure/article pages need no developer; listings are query-index-driven (see <a href="dynamic-rendering.html">Dynamic Rendering</a>).</li>
-          <li><strong>Repeatable pipeline</strong> — parser + transformer + import script per template, driven by URL lists, with per-page reports.</li>
-          <li><strong>Verify before publish</strong> — preview → in-browser validation → publish to live.</li>
+          <li><strong>Template-first, highest-volume-first</strong> — one parser covers the most pages.</li>
+          <li><strong>Reuse over custom</strong> — every block from a Block Collection base.</li>
+          <li><strong>Config over code</strong> — sheet/index-driven listings; see <a href="dynamic-rendering.html">Dynamic Rendering</a>.</li>
+          <li><strong>Verify before publish</strong> — preview → in-browser validation → live.</li>
         </ul>
-      </section>
-      <section class="block" id="outcome">
-        <h2>Outcome <span class="kicker">results</span></h2>
-
-        <table>
-          <thead><tr><th>Metric</th><th>Before</th><th>After</th></tr></thead>
-          <tbody>
-            <tr><td>Performance — Mobile</td><td>92</td><td><strong>100</strong></td></tr>
-            <tr><td>Performance — Desktop</td><td>98</td><td><strong>100</strong></td></tr>
-            <tr><td>Mobile LCP</td><td>2.6 s</td><td>1.4 s</td></tr>
-            <tr><td>Search index coverage</td><td>1 page</td><td>27 pages</td></tr>
-            <tr><td>Open defects</td><td>—</td><td>0</td></tr>
-          </tbody>
-        </table>
-        <p>Full outcome detail is in the <a href="wknd-migration-report.html">Migration Report — Leadership Summary</a>.</p>
+        <div class="panel accent"><div class="ptitle">Outcome</div><p style="margin:0">27/27 pages live · 0 defects · PageSpeed 100 (mobile &amp; desktop) · search index 1→27 pages. Full detail: <a href="wknd-migration-report.html">Migration Report — Leadership Summary</a>.</p></div>
       </section>
   </main>
 </div>
