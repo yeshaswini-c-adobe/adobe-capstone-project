@@ -339,7 +339,7 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
       <section class="block" id="approach">
         <h2>Migration Approach <span class="kicker">execution</span></h2>
 
-        <h3>The pipeline (per template)</h3>
+        <p>The migration was executed as a <strong>repeatable, template-driven pipeline</strong> rather than page-by-page hand-conversion. One template is fully solved end-to-end, its parser/transformer set is proven, then the <em>same engine</em> is replayed over every URL in that template. This is what makes 27 pages (and later, the whole locale tree) reproducible and auditable.</p>
         <div class="flow">
           <span class="chip step"><span class="n">1</span>Scope</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">2</span>Analyze</span><span class="arrow">→</span>
@@ -352,25 +352,73 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
           <span class="chip step"><span class="n">9</span>Validate</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">10</span>Publish</span>
         </div>
-        <h3>The engine (<code>tools/importer</code>)</h3>
+
+        <h3>Phase-by-phase — what happens, input → output, tooling</h3>
         <table>
-          <thead><tr><th>Artifact</th><th>Job</th></tr></thead>
+          <thead><tr><th>#</th><th>Phase</th><th>Input</th><th>Output</th><th>Tool / artifact</th></tr></thead>
           <tbody>
-            <tr><td><code>page-templates.json</code></td><td>6 templates → URLs, block map, coverage gaps</td></tr>
-            <tr><td>7 × <code>parsers/*.js</code></td><td>Per-block: source DOM → EDS block table</td></tr>
-            <tr><td><code>wknd-cleanup.js</code>, <code>wknd-sections.js</code></td><td>Strip AEM chrome; build section boundaries</td></tr>
-            <tr><td>6 × <code>import-&lt;template&gt;.js</code></td><td>Template + parsers + transformers over a URL list</td></tr>
-            <tr><td>7 × <code>urls-*.txt</code></td><td>Exact pages per import run</td></tr>
-            <tr><td><code>reports/*.report.json</code> + <code>.xlsx</code></td><td>Per-page import record</td></tr>
+            <tr><td>1</td><td><strong>Scope</strong></td><td>Live site crawl</td><td>In/out-of-scope URL set (27 in, 9 deferred)</td><td>crawl + <code>urls-*.txt</code></td></tr>
+            <tr><td>2</td><td><strong>Analyze page</strong></td><td>One representative page's DOM</td><td>Section boundaries + block instances identified</td><td>page analysis</td></tr>
+            <tr><td>3</td><td><strong>Catalog</strong></td><td>All analyzed pages</td><td>6 templates, each with URLs + description</td><td><code>page-templates.json</code></td></tr>
+            <tr><td>4</td><td><strong>Map blocks</strong></td><td>Template's source markup</td><td>Source selector → EDS block name map</td><td><code>page-templates.json</code> <code>blocks[]</code></td></tr>
+            <tr><td>5</td><td><strong>Write parser</strong></td><td>Source block DOM (e.g. <code>.cmp-teaser--hero</code>)</td><td>EDS block table (rows/cells)</td><td><code>parsers/&lt;block&gt;.js</code></td></tr>
+            <tr><td>6</td><td><strong>Transform</strong></td><td>Whole-page DOM</td><td>Cleaned DOM + section breaks</td><td><code>wknd-cleanup.js</code>, <code>wknd-sections.js</code></td></tr>
+            <tr><td>7</td><td><strong>Bulk import</strong></td><td>URL list + parsers + transformers</td><td>One <code>.docx</code>/DA doc per page</td><td><code>import-&lt;template&gt;.js</code></td></tr>
+            <tr><td>8</td><td><strong>Preview</strong></td><td>Imported docs</td><td>Rendered pages on <code>*.aem.page</code></td><td>Admin preview API</td></tr>
+            <tr><td>9</td><td><strong>Validate</strong></td><td>Preview vs. source</td><td>Per-page pass/fix list</td><td><code>reports/*.report.json</code> + visual check</td></tr>
+            <tr><td>10</td><td><strong>Publish</strong></td><td>Validated pages</td><td>Live on <code>*.aem.live</code></td><td>Admin live API</td></tr>
           </tbody>
         </table>
-        <h3>Principles</h3>
+
+        <h3>How the engine works (steps 5–7 in detail)</h3>
+        <p>Each <code>import-&lt;template&gt;.js</code> is self-contained: it registers the template's <strong>parsers</strong> and the shared <strong>transformers</strong>, embeds the template config, then runs every URL through the same sequence.</p>
+        <div class="grid2">
+          <div><div class="panel"><div class="ptitle">Parser — per block</div>
+            <p style="margin:0 0 6px">Turns a source component's DOM into an EDS <em>block table</em> (row 1 = block name, following rows = cells). Every field is treated as optional so one parser serves structural variants.</p>
+            <p style="margin:0"><em>Example — <code>hero-banner</code>:</em> a single parser serves <strong>both</strong> the homepage teaser (image + heading + optional CTA) <strong>and</strong> the adventure-detail mini-carousel (image only). It probes several selectors (<code>.cmp-teaser__image img</code>, <code>.cmp-carousel__item--active img</code>, …) and emits only the rows that exist.</p>
+          </div></div>
+          <div><div class="panel"><div class="ptitle">Transformers — per page</div>
+            <p style="margin:0"><code>wknd-cleanup.js</code> strips AEM chrome (header/footer/instrumentation, empty wrappers, tracking); <code>wknd-sections.js</code> then inserts the section boundaries EDS uses. They run <strong>in order, site-wide</strong> — the same two on every template — so page structure is consistent.</p>
+          </div></div>
+        </div>
+        <h4>Worked example — adventure-detail (32 pages)</h4>
+        <p>The import registers <code>hero-banner</code> + <code>table-facts</code> parsers and the two transformers, then replays over <code>urls-adventure-detail.txt</code>. Per page: hero image → <code>hero-banner</code>; the AEM fact sheet (Activity, Trip Length, Difficulty, Price…) → <code>table-facts</code>; tabbed body (Overview/Itinerary/What to Bring) flattened to headed default content; a <code>.report.json</code> records what was emitted. One parser set, 32 identical runs.</p>
+
+        <h3>The engine (<code>tools/importer</code>)</h3>
+        <table>
+          <thead><tr><th>Artifact</th><th>Count</th><th>Job</th></tr></thead>
+          <tbody>
+            <tr><td><code>page-templates.json</code></td><td>1</td><td>6 templates → URLs, source→block map, coverage gaps</td></tr>
+            <tr><td><code>parsers/*.js</code></td><td>7</td><td>Per-block: source DOM → EDS block table</td></tr>
+            <tr><td><code>transformers/*.js</code></td><td>2</td><td>Cleanup + section boundaries (site-wide, ordered)</td></tr>
+            <tr><td><code>import-&lt;template&gt;.js</code></td><td>6</td><td>Template + parsers + transformers over a URL list</td></tr>
+            <tr><td><code>urls-*.txt</code></td><td>7</td><td>Exact pages fed to each import run</td></tr>
+            <tr><td><code>reports/*.report.json</code> + <code>.xlsx</code></td><td>per page</td><td>Auditable per-page import record</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Guiding principles</h3>
         <ul>
-          <li><strong>Template-first, highest-volume-first</strong> — one parser covers the most pages.</li>
-          <li><strong>Reuse over custom</strong> — every block from a Block Collection base.</li>
-          <li><strong>Config over code</strong> — sheet/index-driven listings; see <a href="dynamic-rendering.html">Dynamic Rendering</a>.</li>
-          <li><strong>Verify before publish</strong> — preview → in-browser validation → live.</li>
+          <li><strong>Template-first, highest-volume-first</strong> — solve adventure-detail (32) first; one parser set covers ~half the site and de-risks the rest.</li>
+          <li><strong>One parser, many variants</strong> — parsers are defensive (all fields optional) so a single file serves structural variants across templates.</li>
+          <li><strong>Shared transformers</strong> — cleanup + sectioning run identically on every page, so structure never drifts between templates.</li>
+          <li><strong>Reuse over custom</strong> — every block derives from a Block Collection base; no bespoke one-off blocks.</li>
+          <li><strong>Config over code</strong> — listings are sheet/index-driven (see <a href="dynamic-rendering.html">Dynamic Rendering</a>), so new content needs no developer.</li>
+          <li><strong>Verify before publish</strong> — preview → in-browser validation against source → publish; nothing goes live unverified.</li>
         </ul>
+
+        <h3>Quality gates, risk & rollback</h3>
+        <table>
+          <thead><tr><th>Concern</th><th>Control</th></tr></thead>
+          <tbody>
+            <tr><td>Content fidelity</td><td>Per-page <code>.report.json</code> + visual diff vs. source at preview before publish</td></tr>
+            <tr><td>Repeatability</td><td>Deterministic parsers/transformers — re-running an import reproduces the same docs</td></tr>
+            <tr><td>Blast radius</td><td>Preview (<code>*.aem.page</code>) is separate from live (<code>*.aem.live</code>); publish is an explicit, per-page step</td></tr>
+            <tr><td>Rollback</td><td>Re-import a fixed parser and re-publish; Git history is the code audit trail</td></tr>
+            <tr><td>Biggest risk item</td><td>Header nav (dropdowns, search, language picker) — built once as a fragment, highest effort</td></tr>
+          </tbody>
+        </table>
+
         <div class="panel accent"><div class="ptitle">Outcome</div><p style="margin:0">27/27 pages live · 0 defects · PageSpeed 100 (mobile &amp; desktop) · search index 1→27 pages. Full detail: <a href="wknd-migration-report.html">Migration Report — Leadership Summary</a>.</p></div>
       </section>
   </main>
