@@ -175,15 +175,16 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
 
         <p>A full crawl discovered and structurally analyzed <strong>64 pages</strong> (100% success — no login walls, client-only rendering, or anti-bot), grouped by structural signature into 6 templates.</p>
         <h3>Template inventory</h3>
+        <p class="s" style="color:var(--muted);font-size:12.5px;margin:0 0 -6px"><strong>Discovered</strong> = pages found across all locales in the source crawl. <strong>Migrated</strong> = distinct content pages actually fed to the importer (US/EN full tree). Total migrated = <strong>27</strong>.</p>
         <table>
-          <thead><tr><th>Template</th><th>Pages</th><th>Representative URL</th></tr></thead>
+          <thead><tr><th>Template</th><th>Discovered</th><th>Migrated</th><th>Representative URL</th></tr></thead>
           <tbody>
-            <tr><td><strong>adventure-detail</strong></td><td>32</td><td><code>/us/en/adventures/bali-surf-camp</code></td></tr>
-            <tr><td><strong>article-detail</strong></td><td>12</td><td><code>/us/en/magazine/arctic-surfing</code></td></tr>
-            <tr><td><strong>homepage</strong></td><td>11</td><td><code>/us/en</code></td></tr>
-            <tr><td><strong>section-landing</strong></td><td>5</td><td><code>/us/en/magazine</code></td></tr>
-            <tr><td><strong>adventures-listing</strong></td><td>2</td><td><code>/us/en/adventures</code></td></tr>
-            <tr><td><strong>faq-page</strong></td><td>2</td><td><code>/us/en/faqs</code></td></tr>
+            <tr><td><strong>adventure-detail</strong></td><td>32</td><td>16</td><td><code>/us/en/adventures/bali-surf-camp</code></td></tr>
+            <tr><td><strong>article-detail</strong></td><td>12</td><td>5</td><td><code>/us/en/magazine/arctic-surfing</code></td></tr>
+            <tr><td><strong>homepage</strong></td><td>11</td><td>2 <span class="tag mut">+9 stubs deferred</span></td><td><code>/us/en</code></td></tr>
+            <tr><td><strong>section-landing</strong></td><td>5</td><td>2</td><td><code>/us/en/magazine</code></td></tr>
+            <tr><td><strong>adventures-listing</strong></td><td>2</td><td>1</td><td><code>/us/en/adventures</code></td></tr>
+            <tr><td><strong>faq-page</strong></td><td>2</td><td>1</td><td><code>/us/en/faqs</code></td></tr>
           </tbody>
         </table>
         <h3>Discovered URLs (representative set)</h3>
@@ -202,7 +203,7 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
         <table>
           <thead><tr><th>#</th><th>Template</th><th>Pilot page</th><th>Rationale</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>adventure-detail</td><td><code>/us/en/adventures/bali-surf-camp</code></td><td><span class="tag good">First</span> 32 pages — biggest, most uniform; validates the whole engine</td></tr>
+            <tr><td>1</td><td>adventure-detail</td><td><code>/us/en/adventures/bali-surf-camp</code></td><td><span class="tag good">First</span> largest template (32 discovered / 16 migrated) — most uniform; validates the whole engine</td></tr>
             <tr><td>2</td><td>article-detail</td><td><code>/us/en/magazine/arctic-surfing</code></td><td>12 pages; rich-text body + related list</td></tr>
             <tr><td>3</td><td>section-landing</td><td><code>/us/en/magazine</code></td><td>Reusable card-grid pattern across sections</td></tr>
             <tr><td>4</td><td>adventures-listing</td><td><code>/us/en/adventures</code></td><td>Category-filtered grid</td></tr>
@@ -467,8 +468,8 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
             <p style="margin:0"><code>wknd-cleanup.js</code> strips AEM chrome (header/footer/instrumentation, empty wrappers, tracking); <code>wknd-sections.js</code> then inserts the section boundaries EDS uses. They run <strong>in order, site-wide</strong> — the same two on every template — so page structure is consistent.</p>
           </div></div>
         </div>
-        <h4>Worked example — adventure-detail (32 pages)</h4>
-        <p>The import registers <code>hero-banner</code> + <code>table-facts</code> parsers and the two transformers, then replays over <code>urls-adventure-detail.txt</code>. Per page: hero image → <code>hero-banner</code>; the AEM fact sheet (Activity, Trip Length, Difficulty, Price…) → <code>table-facts</code>; tabbed body (Overview/Itinerary/What to Bring) flattened to headed default content; a <code>.report.json</code> records what was emitted. One parser set, 32 identical runs.</p>
+        <h4>Worked example — adventure-detail (16 pages imported)</h4>
+        <p>The import registers <code>hero-banner</code> + <code>table-facts</code> parsers and the two transformers, then replays over <code>urls-adventure-detail.txt</code> (16 US/EN pages; the 16 CA/EN equivalents reuse the same set). Per page: hero image → <code>hero-banner</code>; the AEM fact sheet (Activity, Trip Length, Difficulty, Price…) → <code>table-facts</code>; tabbed body (Overview/Itinerary/What to Bring) flattened to headed default content; a <code>.report.json</code> records what was emitted. One parser set, identical runs per page.</p>
 
         <h3>The engine (<code>tools/importer</code>)</h3>
         <table>
@@ -485,7 +486,7 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
 
         <h3>Guiding principles</h3>
         <ul>
-          <li><strong>Template-first, highest-volume-first</strong> — solve adventure-detail (32) first; one parser set covers ~half the site and de-risks the rest.</li>
+          <li><strong>Template-first, highest-volume-first</strong> — solve adventure-detail (largest template) first; one parser set covers ~half the migrated pages and de-risks the rest.</li>
           <li><strong>One parser, many variants</strong> — parsers are defensive (all fields optional) so a single file serves structural variants across templates.</li>
           <li><strong>Shared transformers</strong> — cleanup + sectioning run identically on every page, so structure never drifts between templates.</li>
           <li><strong>Reuse over custom</strong> — every block derives from a Block Collection base; no bespoke one-off blocks.</li>
