@@ -340,6 +340,92 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
         <h2>Migration Approach <span class="kicker">execution</span></h2>
 
         <p>The migration was executed as a <strong>repeatable, template-driven pipeline</strong> rather than page-by-page hand-conversion. One template is fully solved end-to-end, its parser/transformer set is proven, then the <em>same engine</em> is replayed over every URL in that template. This is what makes 27 pages (and later, the whole locale tree) reproducible and auditable.</p>
+
+        <figure style="margin:18px 0">
+        <svg viewBox="0 0 960 430" role="img" aria-label="WKND migration pipeline: source AEM site through the tools/importer engine to Edge Delivery preview and live" style="width:100%;height:auto;background:#0d1117;border:1px solid #30363d;border-radius:12px">
+          <defs>
+            <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#8b949e"/></marker>
+            <style>
+              .lane{fill:#0f141b;stroke:#30363d;stroke-width:1;rx:10}
+              .lanelbl{fill:#8b949e;font:600 11px -apple-system,Segoe UI,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+              .node{fill:#161b22;stroke:#30363d;stroke-width:1;rx:8}
+              .node.acc{stroke:#f0c000}
+              .t{fill:#e6edf3;font:600 12.5px -apple-system,Segoe UI,sans-serif}
+              .s{fill:#8b949e;font:400 10.5px ui-monospace,Menlo,monospace}
+              .flowline{stroke:#8b949e;stroke-width:1.5;fill:none}
+              .yn{fill:#f0c000;font:700 11px -apple-system,Segoe UI,sans-serif}
+            </style>
+          </defs>
+
+          <!-- Lane 1: Source -->
+          <rect class="lane" x="16" y="16" width="928" height="96" rx="10"/>
+          <text class="lanelbl" x="30" y="38">Source — AEM (wknd.site)</text>
+          <rect class="node" x="30" y="48" width="150" height="48" rx="8"/>
+          <text class="t" x="46" y="70">Crawl 64 pages</text>
+          <text class="s" x="46" y="86">100% analyzed</text>
+          <rect class="node" x="210" y="48" width="180" height="48" rx="8"/>
+          <text class="t" x="226" y="70">Catalog templates</text>
+          <text class="s" x="226" y="86">page-templates.json · 6</text>
+          <rect class="node" x="420" y="48" width="180" height="48" rx="8"/>
+          <text class="t" x="436" y="70">Map source → block</text>
+          <text class="s" x="436" y="86">selectors → EDS names</text>
+          <rect class="node" x="630" y="48" width="170" height="48" rx="8"/>
+          <text class="t" x="646" y="70">Scope &amp; URL lists</text>
+          <text class="s" x="646" y="86">urls-*.txt · 27 in</text>
+          <path class="flowline" d="M180,72 H208" marker-end="url(#ar)"/>
+          <path class="flowline" d="M390,72 H418" marker-end="url(#ar)"/>
+          <path class="flowline" d="M600,72 H628" marker-end="url(#ar)"/>
+
+          <!-- down connector -->
+          <path class="flowline" d="M715,96 V128" marker-end="url(#ar)"/>
+
+          <!-- Lane 2: Engine -->
+          <rect class="lane" x="16" y="144" width="928" height="120" rx="10"/>
+          <text class="lanelbl" x="30" y="166">Engine — tools/importer (per template, replayed over each URL)</text>
+          <rect class="node acc" x="30" y="178" width="200" height="66" rx="8"/>
+          <text class="t" x="46" y="204">Parsers ×7</text>
+          <text class="s" x="46" y="222">source DOM → block table</text>
+          <text class="s" x="46" y="236">1 parser, many variants</text>
+          <rect class="node acc" x="260" y="178" width="220" height="66" rx="8"/>
+          <text class="t" x="276" y="204">Transformers ×2</text>
+          <text class="s" x="276" y="222">wknd-cleanup → sections</text>
+          <text class="s" x="276" y="236">site-wide, ordered</text>
+          <rect class="node acc" x="510" y="178" width="200" height="66" rx="8"/>
+          <text class="t" x="526" y="204">import-&lt;template&gt;.js</text>
+          <text class="s" x="526" y="222">×6 · run over URL list</text>
+          <text class="s" x="526" y="236">→ one DA doc / page</text>
+          <rect class="node" x="740" y="178" width="180" height="66" rx="8"/>
+          <text class="t" x="756" y="204">Reports</text>
+          <text class="s" x="756" y="222">*.report.json + xlsx</text>
+          <text class="s" x="756" y="236">per-page audit</text>
+          <path class="flowline" d="M230,211 H258" marker-end="url(#ar)"/>
+          <path class="flowline" d="M480,211 H508" marker-end="url(#ar)"/>
+          <path class="flowline" d="M710,211 H738" marker-end="url(#ar)"/>
+
+          <!-- down connector -->
+          <path class="flowline" d="M610,244 V280" marker-end="url(#ar)"/>
+
+          <!-- Lane 3: EDS -->
+          <rect class="lane" x="16" y="296" width="928" height="118" rx="10"/>
+          <text class="lanelbl" x="30" y="318">Edge Delivery — Document Authoring</text>
+          <rect class="node" x="30" y="330" width="180" height="60" rx="8"/>
+          <text class="t" x="46" y="356">Preview</text>
+          <text class="s" x="46" y="374">*.aem.page</text>
+          <rect class="node" x="300" y="330" width="200" height="60" rx="8"/>
+          <text class="t" x="316" y="356">Validate vs source</text>
+          <text class="s" x="316" y="374">report + visual diff</text>
+          <rect class="node acc" x="590" y="330" width="180" height="60" rx="8"/>
+          <text class="t" x="606" y="356">Publish → Live</text>
+          <text class="s" x="606" y="374">*.aem.live · 27/27</text>
+          <path class="flowline" d="M210,360 H298" marker-end="url(#ar)"/>
+          <path class="flowline" d="M500,360 H588" marker-end="url(#ar)"/>
+          <!-- fail loop back to engine -->
+          <path class="flowline" d="M400,330 V312 H150 V246" marker-end="url(#ar)" stroke-dasharray="4 3"/>
+          <text class="yn" x="150" y="308">fix &amp; re-import</text>
+        </svg>
+        <figcaption class="s" style="color:#8b949e;font-size:12px;margin-top:6px">Three lanes: the AEM source is crawled &amp; cataloged, the <code>tools/importer</code> engine converts each page deterministically, and Edge Delivery previews → validates → publishes. A failed validation loops back to fix the parser and re-import.</figcaption>
+        </figure>
+
         <div class="flow">
           <span class="chip step"><span class="n">1</span>Scope</span><span class="arrow">→</span>
           <span class="chip step"><span class="n">2</span>Analyze</span><span class="arrow">→</span>
