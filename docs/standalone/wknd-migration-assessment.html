@@ -117,7 +117,9 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
       <a href="#principles">↳ Principles check</a>
       <div class="group">8 · Deliverables</div>
       <a href="#deliverables">Deliverables</a>
-      <div class="group">9 · Approach</div>
+      <div class="group">9 · Site config</div>
+      <a href="#site-config">Additional Site Configs</a>
+      <div class="group">10 · Approach</div>
       <a href="#approach">Migration Approach</a>
       <a href="#autoblocking">↳ Auto-blocking</a>
   </nav>
@@ -371,6 +373,25 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
           <li>Prefer sheet-driven wrappers for anything list-like; use <code>cards-index</code> with a section prefix for auto-updating grids.</li>
           <li>Keep one metadata block per page (title/description/OG) for SEO.</li>
         </ul>
+      </section>
+      <section class="block" id="site-config">
+        <h2>Additional Site Configurations <span class="kicker">EDS standards audit</span></h2>
+        <p>Edge Delivery Services offers several site-level configurations to optimize and manage a site. Below is an honest audit of each against the WKND project — what is in place, what is partial, and the EDS-standard recommendation. None of the gaps are defects; they are optional optimizations.</p>
+        <table>
+          <thead><tr><th>Configuration</th><th>Status</th><th>In WKND / recommendation</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Spreadsheets</strong></td><td><span class="tag good">In use</span></td><td>DA sheets drive the 4 <code>-wknd</code> wrapper blocks and the <code>blocks.json</code> library index (served as <code>:type: sheet</code> JSON).</td></tr>
+            <tr><td><strong>Query Index</strong></td><td><span class="tag good">In use</span></td><td><code>helix-query.yaml</code> indexes title / description / image and excludes nav/footer/fragments → <code>/query-index.json</code>; powers search &amp; dynamic listings.</td></tr>
+            <tr><td><strong>404 Page</strong></td><td><span class="tag good">In use</span></td><td><code>404.html</code> at the repo root, served for unknown paths.</td></tr>
+            <tr><td><strong>Favicon</strong></td><td><span class="tag good">In use</span></td><td><code>favicon.ico</code> at the repo root, committed &amp; pushed; verified serving <code>200 image/vnd.microsoft.icon</code> on preview &amp; live (EDS auto-serves the root favicon).</td></tr>
+            <tr><td><strong>Metadata</strong></td><td><span class="tag warn">Partial</span></td><td>Per-page <code>metadata</code> blocks (title/description/OG) exist and feed the query-index. <em>Recommendation:</em> add site-wide default metadata + a canonical link in <code>head.html</code> as a fallback for pages missing per-page values.</td></tr>
+            <tr><td><strong>Custom HTTP response headers</strong></td><td><span class="tag warn">Partial</span></td><td><code>head.html</code> promotes a CSP via <code>move-to-http-header="true"</code>. <em>Recommendation:</em> add cache-control / security headers config only if hosting standards require it.</td></tr>
+            <tr><td><strong>Placeholders</strong></td><td><span class="tag mut">Not used</span></td><td>No <code>placeholders.json</code>; <code>fetchPlaceholders</code> was intentionally removed (labels inlined). <em>Recommendation:</em> introduce a placeholders sheet only if/when localized UI strings are needed.</td></tr>
+            <tr><td><strong>Redirects</strong></td><td><span class="tag mut">Not present</span></td><td>No <code>redirects</code> sheet. <em>Recommendation:</em> add one when legacy source URLs must map to new EDS paths (needs a source→target list).</td></tr>
+            <tr><td><strong>Sitemaps</strong></td><td><span class="tag mut">Not configured</span></td><td>No <code>sitemap</code> index yet. <em>Recommendation:</em> add a <code>sitemap</code> block to <code>helix-query.yaml</code> to generate <code>sitemap.xml</code> for SEO.</td></tr>
+          </tbody>
+        </table>
+        <div class="panel accent"><div class="ptitle">Summary</div><p style="margin:0"><strong>3 in place</strong> (spreadsheets, query-index, 404) + favicon verified · <strong>2 partial</strong> (metadata defaults, custom headers) · <strong>3 optional-not-yet</strong> (placeholders, redirects, sitemap). Highest-value next steps for an EDS-standard site: <strong>sitemap</strong>, <strong>default metadata + canonical</strong>. Config references: <a href="https://github.com/yeshaswini-c-adobe/adobe-capstone-project/blob/main/helix-query.yaml">helix-query.yaml</a> · <a href="https://github.com/yeshaswini-c-adobe/adobe-capstone-project/blob/main/head.html">head.html</a> · <a href="https://github.com/yeshaswini-c-adobe/adobe-capstone-project/blob/main/404.html">404.html</a>.</p></div>
       </section>
       <section class="block" id="approach">
         <h2>Migration Approach <span class="kicker">execution</span></h2>
