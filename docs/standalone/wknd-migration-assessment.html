@@ -119,6 +119,7 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
       <a href="#deliverables">Deliverables</a>
       <div class="group">9 · Approach</div>
       <a href="#approach">Migration Approach</a>
+      <a href="#autoblocking">↳ Auto-blocking</a>
   </nav>
   <main class="doc">
       <div class="stat-grid">
@@ -517,6 +518,17 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
             <tr><td><code>reports/*.report.json</code> + <code>.xlsx</code></td><td>per page</td><td>Auditable per-page import record</td></tr>
           </tbody>
         </table>
+
+        <h3 id="autoblocking">Auto-blocking</h3>
+        <p><strong>Auto-blocking</strong> creates blocks that authors never explicitly place — <code>buildAutoBlocks()</code> in <code>scripts.js</code> runs during eager page decoration and turns content patterns into blocks automatically. This project uses <strong>two</strong> auto-blockers, so authors just paste a link and the right block appears.</p>
+        <table>
+          <thead><tr><th>Auto-block</th><th>Trigger</th><th>Behavior</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fragment</strong></td><td>A link whose href contains <code>/fragments/</code> (not already inside a <code>.fragment</code>)</td><td>Loads the fragment via <code>loadFragment()</code> and replaces the link with its content — reusable content (e.g. shared promos) without authoring a block</td></tr>
+            <tr><td><strong>Widget</strong></td><td>A link whose href contains <code>/widgets/</code></td><td>Wraps the link in a <code>widget</code> block (via <code>buildBlock</code>); a standalone link-in-paragraph is replaced by the block, otherwise the link is swapped in place</td></tr>
+          </tbody>
+        </table>
+        <div class="panel accent"><div class="ptitle">Why it matters</div><p style="margin:0">Auto-blocking keeps authoring simple: no table markup for fragments or widgets — a plain link is enough. It runs inside the eager phase and fails safe (wrapped in try/catch), so a bad reference logs an error rather than breaking the page. The global <strong>header</strong> and <strong>footer</strong> are loaded by the same fragment mechanism.</p></div>
 
         <h3>Guiding principles</h3>
         <ul>
