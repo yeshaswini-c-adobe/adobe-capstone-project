@@ -82,7 +82,15 @@ export default async function decorate(block) {
 
   block.textContent = '';
 
+  // Placeholder: reserved-space skeleton profile cards while the sheet loads.
+  const skeleton = document.createElement('div');
+  skeleton.className = 'profiles-wknd-skeleton';
+  skeleton.setAttribute('aria-hidden', 'true');
+  skeleton.innerHTML = '<span></span><span></span><span></span>';
+  block.append(skeleton);
+
   const rows = await loadSheet(source);
+  skeleton.remove();
   if (!rows.length) {
     const empty = document.createElement('p');
     empty.className = 'profiles-wknd-empty';

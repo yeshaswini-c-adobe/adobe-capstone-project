@@ -180,6 +180,28 @@ function buildRow(row) {
 }
 
 /**
+ * Renders reserved-space skeleton cards while the data source loads, so the
+ * block occupies its final footprint immediately (no layout shift when the real
+ * cards arrive) and authors/users see a loading placeholder rather than a blank
+ * gap. Cleared and replaced once the fetch resolves.
+ * @param {Element} block The block element
+ * @param {number} count How many placeholder cards to show
+ * @returns {HTMLUListElement} the skeleton list (so callers can remove it)
+ */
+export function renderSkeleton(block, count = 4) {
+  const ul = document.createElement('ul');
+  ul.className = 'cards-skeleton';
+  ul.setAttribute('aria-hidden', 'true');
+  for (let i = 0; i < count; i += 1) {
+    const li = document.createElement('li');
+    li.innerHTML = '<div class="cards-skeleton-image"></div><div class="cards-skeleton-body"><span class="cards-skeleton-line"></span><span class="cards-skeleton-line short"></span></div>';
+    ul.append(li);
+  }
+  block.append(ul);
+  return ul;
+}
+
+/**
  * loads and decorates the dynamic cards index
  * @param {Element} block The cards-index block element
  */
@@ -196,6 +218,9 @@ export default async function decorate(block) {
   block.textContent = '';
   block.classList.add('cards-teaser'); // inherit cards-teaser styling
 
+  // Placeholder: show reserved-space skeleton cards while the source loads.
+  const skeleton = renderSkeleton(block, limit > 0 ? limit : 4);
+
   // 3. Load rows from the chosen source:
   //    - data sheet (source .json): render its rows in authored order as-is
   //    - section prefix: filter the site index and sort, excluding the landing
@@ -209,6 +234,9 @@ export default async function decorate(block) {
       .sort(comparator(sort));
   }
   if (limit > 0) rows = rows.slice(0, limit);
+
+  // Data resolved — remove the loading skeleton before rendering real content.
+  skeleton.remove();
 
   // 4. Empty state — nothing indexed under this prefix yet
   if (!rows.length) {

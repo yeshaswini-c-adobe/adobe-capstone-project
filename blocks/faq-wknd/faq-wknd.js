@@ -44,7 +44,15 @@ export default async function decorate(block) {
   block.textContent = '';
   block.classList.add('accordion-faq'); // inherit accordion styling
 
+  // Placeholder: reserved-space skeleton rows while the sheet loads.
+  const skeleton = document.createElement('div');
+  skeleton.className = 'faq-wknd-skeleton';
+  skeleton.setAttribute('aria-hidden', 'true');
+  skeleton.innerHTML = '<span></span><span></span><span></span><span></span>';
+  block.append(skeleton);
+
   const rows = await loadSheet(source);
+  skeleton.remove();
   if (!rows.length) {
     const empty = document.createElement('p');
     empty.className = 'faq-wknd-empty';

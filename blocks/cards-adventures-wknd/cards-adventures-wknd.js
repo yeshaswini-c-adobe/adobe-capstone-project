@@ -1,5 +1,6 @@
 import { loadCSS, createOptimizedPicture } from '../../scripts/aem.js';
 import decorateCardsTeaser from '../cards-teaser/cards-teaser.js';
+import { renderSkeleton } from '../cards-index/cards-index.js';
 
 /*
  * Cards (Adventures WKND) block.
@@ -115,7 +116,11 @@ export default async function decorate(block) {
   block.textContent = '';
   block.classList.add('cards-teaser');
 
+  // Placeholder: reserved-space skeleton cards while the sheet loads.
+  const skeleton = renderSkeleton(block, 8);
+
   const rows = await loadSheet(source);
+  skeleton.remove();
   if (!rows.length) {
     const empty = document.createElement('p');
     empty.className = 'cards-adventures-empty';

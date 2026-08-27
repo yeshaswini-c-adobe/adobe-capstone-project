@@ -24,3 +24,22 @@
   font-family: var(--body-font-family);
   text-align: center;
 }
+
+/* Loading skeleton — reserved-space placeholder cards while the sheet loads. */
+.profiles-wknd-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.profiles-wknd-skeleton span {
+  display: block;
+  aspect-ratio: 3 / 4;
+  background: var(--light-color);
+  animation: profiles-wknd-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes profiles-wknd-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

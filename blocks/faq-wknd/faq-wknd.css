@@ -12,3 +12,17 @@
   font-family: var(--body-font-family);
   text-align: center;
 }
+
+/* Loading skeleton — reserved-space placeholder rows while the sheet loads. */
+.faq-wknd-skeleton span {
+  display: block;
+  height: 48px;
+  margin-bottom: 8px;
+  background: var(--light-color);
+  animation: faq-wknd-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes faq-wknd-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

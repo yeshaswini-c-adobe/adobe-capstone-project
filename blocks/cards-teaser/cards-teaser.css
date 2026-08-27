@@ -172,3 +172,56 @@
   text-transform: uppercase;
   cursor: default;
 }
+
+/*
+ * Loading skeleton — reserved-space placeholder cards shown while a dynamic
+ * source (query-index / DA sheet) loads, so the block occupies its final
+ * footprint immediately (no layout shift) and shows placeholder content rather
+ * than a blank gap. Same grid + image aspect-ratio as the real cards.
+ */
+.cards-teaser > ul.cards-skeleton {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px 14px;
+}
+
+.cards-skeleton .cards-skeleton-image {
+  width: 100%;
+  aspect-ratio: 13 / 10;
+  background: var(--light-color);
+}
+
+.cards-skeleton .cards-skeleton-body {
+  margin-top: 12px;
+}
+
+.cards-skeleton .cards-skeleton-line {
+  display: block;
+  height: 14px;
+  margin-bottom: 10px;
+  background: var(--light-color);
+}
+
+.cards-skeleton .cards-skeleton-line.short {
+  width: 60%;
+}
+
+.cards-skeleton [class^="cards-skeleton"] {
+  animation: cards-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes cards-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (width >= 600px) {
+  .cards-teaser > ul.cards-skeleton { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (width >= 900px) {
+  .cards-teaser > ul.cards-skeleton { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
