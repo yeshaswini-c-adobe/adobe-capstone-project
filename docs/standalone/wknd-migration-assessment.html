@@ -115,6 +115,7 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
       <a href="#inventory">Block Inventory</a>
       <a href="#provenance">↳ Collection provenance</a>
       <a href="#principles">↳ Principles check</a>
+      <a href="#code-standards">↳ JS/CSS standards</a>
       <div class="group">8 · Deliverables</div>
       <a href="#deliverables">Deliverables</a>
       <div class="group">9 · Site config</div>
@@ -345,6 +346,36 @@ footer.docfoot{border-top:1px solid var(--border);padding:18px 40px 18px calc(va
             <tr><td>Optimized for SEO &amp; accessibility</td><td><span class="tag good">Pass</span></td><td>Semantic markup, ARIA labels, alt text, native <code>&lt;details&gt;</code>; per-page metadata; Lighthouse a11y 100</td></tr>
           </tbody>
         </table>
+
+        <h3 id="code-standards">JS &amp; CSS optimization standards</h3>
+        <p>Beyond the block principles, the project follows a set of JavaScript and CSS optimization rules — verified against the codebase and enforced going forward via lint + governance. All pass today.</p>
+        <h4>JavaScript</h4>
+        <table>
+          <thead><tr><th>Rule</th><th>Status</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Minimize large JS files</td><td><span class="tag good">Pass</span></td><td>Blocks are lean (144–253 lines); only <code>header.js</code>/<code>scripts.js</code> are larger by necessity</td></tr>
+            <tr><td>Minimize framework usage</td><td><span class="tag good">Pass</span></td><td>Zero frameworks — no react/vue/jquery/lodash; pure vanilla ES modules</td></tr>
+            <tr><td>Reduce complexity in development</td><td><span class="tag good">Pass</span></td><td>Shared bases (<code>buildCardList</code>), wrapper delegation; no duplicated logic</td></tr>
+            <tr><td>Prioritize evergreen browser compatibility</td><td><span class="tag good">Pass</span></td><td>Modern ES6+ / native APIs; no transpiler (no babel/webpack)</td></tr>
+            <tr><td>Optimize script loading</td><td><span class="tag good">Pass</span></td><td><code>type="module"</code> (deferred) + eager / lazy / delayed three-phase loading</td></tr>
+            <tr><td>Separate project-specific extensions</td><td><span class="tag good">Pass</span></td><td>Project code in <code>/blocks</code> + <code>scripts.js</code>; core <code>aem.js</code> untouched</td></tr>
+            <tr><td>Avoid extra complexity in builds</td><td><span class="tag good">Pass</span></td><td>No build step — only lint scripts in <code>package.json</code> (EDS no-build model)</td></tr>
+          </tbody>
+        </table>
+        <h4>CSS</h4>
+        <table>
+          <thead><tr><th>Rule</th><th>Status</th><th>Evidence</th></tr></thead>
+          <tbody>
+            <tr><td>Maintain block-specific styling</td><td><span class="tag good">Pass</span></td><td>Each block's CSS scoped to <code>.blockname</code> (e.g. hero-banner 13/13, table-facts 6/6 rules scoped)</td></tr>
+            <tr><td>Avoid naming conflicts in CSS</td><td><span class="tag good">Pass</span></td><td>All selectors namespaced by block; no cross-block collisions</td></tr>
+            <tr><td>Simplify CSS with additional elements</td><td><span class="tag good">Pass</span></td><td>Semantic wrappers (<code>&lt;dl&gt;</code>, <code>&lt;details&gt;</code>) over heavy selectors</td></tr>
+            <tr><td>Keep class names simple</td><td><span class="tag good">Pass</span></td><td>Flat, readable names (<code>.cards-teaser-card-body</code>); no deep BEM chains</td></tr>
+            <tr><td>Avoid redundant semantic definitions</td><td><span class="tag good">Pass</span></td><td>Tokens defined once in <code>:root</code>; blocks consume via <code>var(--…)</code></td></tr>
+            <tr><td>Optimize for mobile before desktop</td><td><span class="tag good">Pass</span></td><td>Mobile-first — zero <code>max-width</code> queries</td></tr>
+            <tr><td>Use consistent min-width breakpoints</td><td><span class="tag good">Pass</span></td><td>Exactly two breakpoints everywhere: <code>600px</code> &amp; <code>900px</code>, same range syntax</td></tr>
+          </tbody>
+        </table>
+        <div class="panel accent"><div class="ptitle">Going forward</div><p style="margin:0">These 14 rules are the project's enforced coding standard, not aspirational — checked by <code>npm run lint</code> (ESLint + Stylelint) on every change and documented in <a href="https://github.com/yeshaswini-c-adobe/adobe-capstone-project/blob/main/docs/block-governance.md">block-governance.md</a>. New blocks must comply.</p></div>
       </section>
       <section class="block" id="deliverables">
         <h2>Deliverables <span class="kicker">mappings & authoring</span></h2>
